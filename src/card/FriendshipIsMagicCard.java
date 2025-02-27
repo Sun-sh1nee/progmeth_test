@@ -38,11 +38,11 @@ public class FriendshipIsMagicCard extends ActivateCard implements Activatable{
 	    
 	    isOnCooldown = true;
 	    
-	    GameLogic.ApplyCompanionBoostCardBoost(companionBoost);
+	    GameLogic.ApplyCompanionCardBoost(companionBoost);
 	    
 	    Timeline buffTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
 	      
-	        GameLogic.CancelCompanionBoostCardBoost(companionBoost);
+	        GameLogic.CancelCompanionCardBoost(companionBoost);
 	        
 	        Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(6), e -> {
 	            

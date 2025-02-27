@@ -48,14 +48,12 @@ public class GameLogic {
 	private static Timeline dpsHomeThread;
 	private static Timeline dpsStoryThread;
 	private static Player player = new Player();
-	private static Companion[] companions = new Companion[6];
-	private static boolean haveCompanion[] = new boolean[6];
 
 	private static double damageCardBoost;
 	private static double gemDropChanceCardBoost;
 	private static double critChanceCardBoost;
 	private static double critDamageCardBoost;
-	private static double companionBoostCardBoost;
+	private static double companionCardBoost;
 	private static double extraDamage;
 
 	private static SimpleBooleanProperty isMusic = new SimpleBooleanProperty(true);
@@ -67,14 +65,13 @@ public class GameLogic {
 	public static void init() {
 		setStage(1);
 		initMonster();
-		initCompanion();
 		monsterHome = monsterStory.get(0);
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		monsterHpStory.set(monsterStory.get(1).getMonsterHp());
 
 
 		croissantCount.set(0);
-		gemCount.set(0);
+		gemCount.set(11110);
 		setAttackPerClick();
 		setDamagePerSec();
 		
@@ -84,7 +81,7 @@ public class GameLogic {
 		gemDropChanceCardBoost = 0;
 		critChanceCardBoost = 0;
 		critDamageCardBoost = 0;
-		companionBoostCardBoost = 0;
+		companionCardBoost = 0;
 		extraDamage = 0;
 		isStoryBattle = false;
 
@@ -229,16 +226,16 @@ public class GameLogic {
 		GameLogic.critDamageCardBoost -= decrease;
 	}
 
-	public static double getCompanionBoostCardBoost() {
-		return companionBoostCardBoost;
+	public static double getCompanionCardBoost() {
+		return companionCardBoost;
 	}
 
-	public static void ApplyCompanionBoostCardBoost(double companionBoostCardBoost) {
-		GameLogic.companionBoostCardBoost += companionBoostCardBoost;
+	public static void ApplyCompanionCardBoost(double companionCardBoost) {
+		GameLogic.companionCardBoost += companionCardBoost;
 	}
 
-	public static void CancelCompanionBoostCardBoost(double decrease) {
-		GameLogic.companionBoostCardBoost -= decrease;
+	public static void CancelCompanionCardBoost(double decrease) {
+		GameLogic.companionCardBoost -= decrease;
 	}
 
 	private static void startTimer() {
@@ -301,33 +298,6 @@ public class GameLogic {
 
 	}
 
-	private static void initCompanion() {
-		for (int i = 0; i < 6; ++i) {
-			int attackBase = (10 + i) * ((int) Math.pow(5, i + 1));
-			int costBase = (1 + i) * ((int) Math.pow(10, i + 2));
-			double costScal = Math.random() + 1.1;
-			double attackScal = Math.random() + 1.0;
-			companions[i] = new Companion(attackBase, costBase, attackScal, costScal, null);
-			haveCompanion[i] = false;
-		}
-	}
-
-	public static void upgradeCompion(int index) {
-		if ((index > 5 || index < 0) && !haveCompanion[index]) {
-			System.out.println("upgrade Companion index out of bound");
-			return;
-		}
-		companions[index].upgrade();
-
-	}
-
-	public static void buyCompanion(int index) {
-		if ((index > 5 || index < 0) && haveCompanion[index]) {
-			System.out.println("buy Companion index out of bound");
-			return;
-		}
-		haveCompanion[index] = true;
-	}
 
 	public static SimpleLongProperty croissantCountProperty() {
 		return croissantCount;
@@ -447,7 +417,7 @@ public class GameLogic {
 		}
 
 		dpsHomeThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-			double dam = damagePerSec.get() * (1 + (companionBoostCardBoost / 100.0));
+			double dam = damagePerSec.get() * (1 + (companionCardBoost / 100.0));
 			reduceMonsterHpHome(dam );
 		}));
 		dpsHomeThread.setCycleCount(Timeline.INDEFINITE);
@@ -463,7 +433,7 @@ public class GameLogic {
 			dpsHomeThread.stop();
 		}
 		dpsStoryThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-			double dam = damagePerSec.get() * (1 + (companionBoostCardBoost / 100.0));
+			double dam = damagePerSec.get() * (1 + (companionCardBoost / 100.0));
 			reduceMonsterHpStory(dam);
 		}));
 		dpsStoryThread.setCycleCount(Timeline.INDEFINITE);
