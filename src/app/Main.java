@@ -33,7 +33,7 @@ public class Main extends Application {
         SceneManager.addScene("UPGRADE", new Scene(new UpgradeScene(), 500, 600));
         SceneManager.addScene("CARD_EQUIPMENT", new Scene(new CardEquipmentScene(), 500, 600));
         SceneManager.addScene("CARD_INVENTORY", new Scene(new CardInventoryScene(), 500, 600));
-        SceneManager.addScene("END_CREDIT", new Scene(new EndCreditScene(), 500, 600));
+     
         // Start on Home Scene
         SceneManager.switchTo("HOME");
         

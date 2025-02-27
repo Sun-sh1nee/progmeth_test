@@ -42,11 +42,11 @@ public class GlassCannonCard extends ActivateCard implements Activatable{
 	    
 	    isOnCooldown = true;
 	    
-	    GameLogic.ApplyCritDamageCardBoost(critDamageBoost);
+	    GameLogic.applyCritDamageCardBoost(critDamageBoost);
 	    
 	    Timeline buffTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
 	      
-	        GameLogic.CancelCritDamageCardBoost(critDamageBoost);
+	        GameLogic.cancelCritDamageCardBoost(critDamageBoost);
 	        
 	        Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(6), e -> {
 	            

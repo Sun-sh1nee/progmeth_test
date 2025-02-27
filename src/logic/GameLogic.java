@@ -66,6 +66,8 @@ public class GameLogic {
 
 	private static BaseCard[] equippedCards = new BaseCard[4];
 	private static ArrayList<BaseCard> ownedCards = new ArrayList<>();
+	
+	private static int playTime = 0;
 
 	public static void init() {
 		setStage(1);
@@ -75,12 +77,11 @@ public class GameLogic {
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		monsterHpStory.set(monsterStory.get(1).getMonsterHp());
 
-
 		croissantCount.set(20000000);
 		gemCount.set(11110);
 		setAttackPerClick();
 		setDamagePerSec();
-		
+
 		musicSetting.set("ON"); // not finish
 
 		damageCardBoost = 0;
@@ -95,7 +96,8 @@ public class GameLogic {
 
 		startDpsHome();
 		
-		playBackgroundSound();
+		if(playTime == 0) playBackgroundSound();
+		playTime++;
 	}
 
 	public static BaseCard[] getEquippedCards() {
@@ -111,7 +113,7 @@ public class GameLogic {
 	}
 
 	public static void equipCard(BaseCard newCard, int slotIndex) {
-	
+
 		BaseCard oldCard = equippedCards[slotIndex];
 		if (oldCard instanceof BuffStatCard) {
 			((BuffStatCard) oldCard).CancelBuff();
@@ -141,12 +143,8 @@ public class GameLogic {
 		}
 	}
 
-	public static BooleanProperty isMusicProperty() {
+	public static SimpleBooleanProperty isMusicProperty() {
 		return isMusic;
-	}
-
-	public static boolean isMusicOn() {
-		return isMusic.get();
 	}
 
 	public static void setMusic(boolean value) {
@@ -161,8 +159,9 @@ public class GameLogic {
 	public static void startStoryMode() {
 
 		monsterHpStory.set(monsterStory.get(getStage()).getMonsterHp());
-		for(BaseCard card : equippedCards) {
-			if(card instanceof ActivateCard)((ActivateCard) card).resetCooldown();
+		for (BaseCard card : equippedCards) {
+			if (card instanceof ActivateCard)
+				((ActivateCard) card).resetCooldown();
 		}
 		startDpsStory();
 		startTimer();
@@ -173,79 +172,53 @@ public class GameLogic {
 		return isStoryBattle;
 	}
 
-	public static void setStoryBattle(boolean isStoryBattle) {
-		GameLogic.isStoryBattle = isStoryBattle;
-	}
 
-	public static double getextraDamage() {
-		return extraDamage;
-	}
 
-	public static void ApplyextraDamage(double extraDamage) {
+	public static void applyExtraDamage(double extraDamage) {
 		GameLogic.extraDamage += extraDamage;
 	}
 
-	public static void CancelextraDamage(double decrease) {
+	public static void cancelExtraDamage(double decrease) {
 		GameLogic.extraDamage -= decrease;
 	}
 
-	public static double getDamageCardBoost() {
-		return damageCardBoost;
-	}
-
-	public static void ApplyDamageCardBoost(double damageCardBoost) {
+	public static void applyDamageCardBoost(double damageCardBoost) {
 		GameLogic.damageCardBoost += damageCardBoost;
 	}
 
-	public static void CancelDamageCardBoost(double decrease) {
+	public static void cancelDamageCardBoost(double decrease) {
 		GameLogic.damageCardBoost -= decrease;
 	}
 
-	public static double getGemDropChanceCardBoost() {
-		return gemDropChanceCardBoost;
-	}
-
-	public static void ApplyGemDropChanceCardBoost(double gemDropChanceCardBoost) {
+	public static void applyGemDropChanceCardBoost(double gemDropChanceCardBoost) {
 		GameLogic.gemDropChanceCardBoost += gemDropChanceCardBoost;
 	}
 
-	public static void CancelGemDropChanceCardBoost(double decrease) {
+	public static void cancelGemDropChanceCardBoost(double decrease) {
 		GameLogic.gemDropChanceCardBoost -= decrease;
 	}
 
-	public static double getCritChanceCardBoost() {
-		return critChanceCardBoost;
-	}
-
-	public static void ApplyCritChanceCardBoost(double critChanceCardBoost) {
+	public static void applyCritChanceCardBoost(double critChanceCardBoost) {
 		GameLogic.critChanceCardBoost += critChanceCardBoost;
 	}
 
-	public static void CancelCritChanceCardBoost(double decrease) {
+	public static void cancelCritChanceCardBoost(double decrease) {
 		GameLogic.critChanceCardBoost -= decrease;
 	}
 
-	public static double getCritDamageCardBoost() {
-		return critDamageCardBoost;
-	}
-
-	public static void ApplyCritDamageCardBoost(double critDamageCardBoost) {
+	public static void applyCritDamageCardBoost(double critDamageCardBoost) {
 		GameLogic.critDamageCardBoost += critDamageCardBoost;
 	}
 
-	public static void CancelCritDamageCardBoost(double decrease) {
+	public static void cancelCritDamageCardBoost(double decrease) {
 		GameLogic.critDamageCardBoost -= decrease;
 	}
 
-	public static double getCompanionCardBoost() {
-		return companionCardBoost;
-	}
-
-	public static void ApplyCompanionCardBoost(double companionCardBoost) {
+	public static void applyCompanionCardBoost(double companionCardBoost) {
 		GameLogic.companionCardBoost += companionCardBoost;
 	}
 
-	public static void CancelCompanionCardBoost(double decrease) {
+	public static void cancelCompanionCardBoost(double decrease) {
 		GameLogic.companionCardBoost -= decrease;
 	}
 
@@ -307,7 +280,6 @@ public class GameLogic {
 		croissantCount.set(croissant);
 	}
 
-
 	public static SimpleLongProperty croissantCountProperty() {
 		return croissantCount;
 	}
@@ -350,37 +322,35 @@ public class GameLogic {
 
 
 	public static void monsterStoryIsDead() {
-		
 
-		isStoryBattle = false;
-		if (stage >= 10) {
+		if(stage == 1) {
+		//if (stage >= monsterStory.size()-1) {
 			System.out.println("🎉 Story Completed! Returning to Home...");
 			SceneManager.addScene("END_CREDIT", new Scene(new EndCreditScene(), 500, 600));
 			SceneManager.switchTo("END_CREDIT");
 			return;
 		}
+		// Proceed to the next stage
 		monsterHome = monsterStory.get(stage);
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		stage++;
 		setStoryState();
-
 		// monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
 		monsterHpStory.set(getMonsterStage(stage).getMonsterHp());
-		
-		for(BaseCard card : equippedCards) {
-			if(card instanceof ActivateCard)((ActivateCard) card).resetCooldown();
+
+		for (BaseCard card : equippedCards) {
+			if (card instanceof ActivateCard)
+				((ActivateCard) card).resetCooldown();
 		}
 		// monsterHpHome.set(monsterStory.get(stage - 1).getMonsterHp());
 		gemCount.set(gemCount.get() + 2);
-		System.out.println();
 		SceneManager.switchTo("HOME");
 //			((HomeScene) SceneManager.getSceneNode("HOME")).updateHpMonsterHome();
-		
+
 	}
-	
+
 	public static void monsterHomeIsDead() {
 		monsterHpHome.set(monsterHome.getMonsterHp());
-
 		addCroissants(monsterHome.getCoinDrop());
 
 		Random random = new Random();
@@ -406,17 +376,16 @@ public class GameLogic {
 	    }
 	}
 
-
-
 	public static double clickHandle() {
 		int amount = player.getAttackPerClick();
 		if (damageCardBoost > 0)
-			amount *=  (1 + (damageCardBoost/100.0));
+			amount *= (1 + (damageCardBoost / 100.0));
 		Random random = new Random();
 
-		double critRate = player.getCritRate() + (critChanceCardBoost/100.0);
+		double critRate = player.getCritRate() + (critChanceCardBoost / 100.0);
+
 		if (random.nextDouble() < critRate) {
-			amount *= (player.getCritDamage() + (critDamageCardBoost/100.0));
+			amount *= (player.getCritDamage() + (critDamageCardBoost / 100.0));
 		}
 		if (extraDamage > 0)
 			amount *= (1 + (extraDamage / 100.0));
@@ -488,11 +457,11 @@ public class GameLogic {
 		damagePerSec.set(player.getDamagePerSec());
 
 	}
-	
+
 	public static Monster getMonsterHome() {
 		return monsterHome;
 	}
-	
+
 	public static Monster getMonsterStory() {
 		return monsterStory.get(stage);
 	}

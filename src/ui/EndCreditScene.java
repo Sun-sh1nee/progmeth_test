@@ -70,7 +70,7 @@ public class EndCreditScene extends StackPane {
 
     public void updateEndCreditUI() {
         double scrollSpeed = 2; // Slow scroll for dramatic effect
-        double totalScrollDistance = 600; // Move far enough up
+        double totalScrollDistance = 800; // Move far enough up
         double totalTime = totalScrollDistance / scrollSpeed * 25;
 
         // 🎞️ Animate Credit Text Moving Up with Smooth Star Wars Effect
