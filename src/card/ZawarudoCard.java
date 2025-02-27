@@ -4,10 +4,10 @@ import java.util.Random;
 
 import logic.GameLogic;
 
-public class Zawarudo extends BaseCard implements Activatable{
+public class ZawarudoCard extends BaseCard implements Activatable{
 	private int seconds;
 	private boolean isOnCooldown = false;
-	public Zawarudo(String name , String image , CardTier tier) {
+	public ZawarudoCard(String name , String image , CardTier tier) {
 		super(name, image, tier);
 		randomizeAttributes();
 	}

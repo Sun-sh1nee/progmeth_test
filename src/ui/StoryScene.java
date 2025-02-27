@@ -80,7 +80,7 @@ public class StoryScene extends BaseScene {
         VBox.setMargin(hpBar, new Insets(0, 0, marginLayout * (-1), 0));  // Reduce space below hpBar
         VBox.setMargin(timerProgress, new Insets(0, 0, 0, 0)); // No extra space above timerProgress
         switchBody(storyLayout);
-        GameLogic.startStoryMode();
+        
         
     }
 
@@ -118,19 +118,17 @@ public class StoryScene extends BaseScene {
         fadeOut.play();
     }
 
-    private void endBossFight() {
-        System.out.println("⏳ Time's up! Boss fight ended.");
-        // Add logic when timer ends (e.g., disable monster clicking, show Game Over)
-    }
     
     public void updateStoryUI() {
-        System.out.println("🔄 Updating Story UI...");
         
         Label stageLabel = new Label("Stage: " + GameLogic.getStage());
-        Button attackButton = new Button("Attack");
-        attackButton.setOnMouseClicked(e -> letStart());
+        Button startButton = new Button("Start");
+        startButton.setOnMouseClicked(e -> {
+        	letStart();
+        	GameLogic.startStoryMode();
+        });
 
-        VBox storyLayout = new VBox(10, stageLabel, attackButton);
+        VBox storyLayout = new VBox(10, stageLabel, startButton);
         storyLayout.setAlignment(Pos.CENTER);
 
         switchBody(storyLayout); // ✅ Now we always pass a valid Node

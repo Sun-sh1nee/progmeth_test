@@ -7,9 +7,9 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class GlassCannon extends BaseCard implements Activatable{
+public class GlassCannonCard extends BaseCard implements Activatable{
 	private double critDamageBoost;
-	public GlassCannon(String name , String image , CardTier tier) {
+	public GlassCannonCard(String name , String image , CardTier tier) {
 		super(name, image, tier);
 		randomizeAttributes();
 		cooldown = 6;

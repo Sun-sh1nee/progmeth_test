@@ -13,7 +13,7 @@ public class CritRateItem extends Item {
 		
 		setcritChance(1.3);
 		setScalFacCost(1.02);
-		setScalFacStatus(1.3);
+		setScalFacStatus(0.7);
 	}
 
 	@Override
@@ -26,7 +26,8 @@ public class CritRateItem extends Item {
 	public void upgrade() {
 		this.setLevelItem(levelItem.get()+1);
 		setcritChance(getCritChance() + getScalFacStatus());
-		setCostItem((int)(getCostItem().get() * (getScalFacCost())));		
+		setCostItem((int)(getCostItem().get() * (getScalFacCost())));
+		updateStat();
 	}
 
 	public double getCritChance() {

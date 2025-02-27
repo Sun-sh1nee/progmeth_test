@@ -39,6 +39,9 @@ public class GameLogic {
 	private static SimpleStringProperty effectSetting = new SimpleStringProperty();
 	private static SimpleIntegerProperty storyState = new SimpleIntegerProperty();
 	private static SimpleDoubleProperty storyTimerProgress = new SimpleDoubleProperty();
+	
+	private static Thread storyTimerThread;
+	
 	private static boolean isStoryBattle;
 	private static ArrayList<Monster> monsterStory;
 	private static Monster monsterHome;
@@ -64,7 +67,7 @@ public class GameLogic {
 //    =================
 	public static void init() {
 		setStage(1);
-		setDamagePerSec(0);
+		setDamagePerSec(100);
 
 //			ownedCards.add(new GlassCannon("testC", "cards/buffCard/default.png", CardTier.EPIC));
 //			ownedCards.add(new BigBangImpactCard("testBadsdsadsa", "cards/specialCard/attackCard.png", CardTier.LEGENDARY));
@@ -161,9 +164,12 @@ public class GameLogic {
 	}
 
 	public static void startStoryMode() {
-		monsterHpStory.set(monsterStory.get(getStage()).getMonsterHp());
-		startDpsStory();
-		startTimer();
+		if (!isStoryBattle) {
+	        isStoryBattle = true;
+	        monsterHpStory.set(monsterStory.get(getStage()).getMonsterHp());
+	        startDpsStory();
+	        startTimer();
+	    }
 	}
 
 	public static boolean isStoryBattle() {
@@ -247,34 +253,39 @@ public class GameLogic {
 	}
 
 	private static void startTimer() {
-		int totalTime = 5;
-		isStoryBattle = true;
-		new Thread(() -> {
-			double timeNow = totalTime;
-			while (timeNow > 0) {
-				try {
-					if (!SceneManager.getSceneName().equals("STORY")) {
-						isStoryBattle = false;
-						return;
-					}
-					double progress = timeNow / totalTime;
-					Platform.runLater(() -> storyTimerProgress.set(progress));
+	    int totalTime = 30;
 
-					timeNow -= 0.1;
-					Thread.sleep(100);
-				} catch (InterruptedException e1) {
-					Thread.currentThread().interrupt();
-					e1.printStackTrace();
-				}
-			}
-			isStoryBattle = false;
-			Platform.runLater(() -> SceneManager.switchTo("HOME"));
-		}).start();
+	    if (storyTimerThread != null && storyTimerThread.isAlive()) {
+	        storyTimerThread.interrupt();
+	    }
+
+	    storyTimerThread = new Thread(() -> {
+	        double timeNow = totalTime;
+	        while (timeNow > 0) {
+	            try {
+	                if (!SceneManager.getSceneName().equals("STORY")) {
+	                    isStoryBattle = false;
+	                    break;
+	                }
+	                
+	                double progress = timeNow / totalTime;
+	                Platform.runLater(() -> storyTimerProgress.set(progress));
+
+	                timeNow -= 0.1;
+	                Thread.sleep(100);
+	            } catch (InterruptedException e1) {
+	                Thread.currentThread().interrupt(); 
+	                System.out.println("Timer thread interrupted.");
+	                return;
+	            }
+	        }
+	        isStoryBattle = false;
+	        Platform.runLater(() -> SceneManager.switchTo("HOME"));
+	    });
+
+	    storyTimerThread.start();
 	}
 
-	private static void TimerCountDown() {
-
-	}
 
 	private static void initMonster() {
 		monsterStory = new ArrayList<Monster>();
@@ -303,10 +314,10 @@ public class GameLogic {
 
 		if (SceneManager.getSceneName().equals("HOME")) {
 			return getMonsterStage(stage - 1);
-		} else if (SceneManager.getSceneName().equals("STORY")) {
+		} else if (SceneManager.getSceneName().equals("STORY") && isStoryBattle) {
 			return getMonsterStage(stage);
 		}
-		return monsterStory.get(0);
+		return getMonsterStage(stage - 1);
 
 	}
 
@@ -389,27 +400,31 @@ public class GameLogic {
 		return monsterStory.get(index);
 	}
 
-	public static void monsterIsDead() {
-		if (SceneManager.getSceneName().equals("STORY")) {
-
-			if (stage >= monsterStory.size()) {
+	public static void monsterIsDead(String sceneMonsDied) {
+		if (SceneManager.getSceneName().equals("STORY") && isStoryBattle && sceneMonsDied == "STORY") {
+			System.out.println("sun");
+			if (dpsStoryThread != null) {
+	            dpsStoryThread.stop();
+	            dpsStoryThread = null;
+	        }
+			if (stage >= monsterStory.size()-1) {
 				System.out.println("🎉 Story Completed! Returning to Home...");
 				SceneManager.switchTo("HOME");
 				return;
 			}
 
-			// Proceed to the next stage
 			monsterHome = monsterStory.get(stage);
-			monsterHpHome.set(monsterHpStoryProperty().get());
+			monsterHpHome.set(monsterHome.getMonsterHp());
 			stage++;
 			setStoryState();
-			// monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
 			monsterHpStory.set(getMonster().getMonsterHp());
-			// monsterHpHome.set(monsterStory.get(stage - 1).getMonsterHp());
+			System.out.println("STO : " + monsterHpStory.get());
 			gemCount.set(gemCount.get() + 2);
 			SceneManager.switchTo("HOME");
 			SceneManager.updateHomeScene();
+			isStoryBattle = false;
 		} else {
+			//System.out.println(monsterHpHome.get());
 			monsterHpHome.set(getMonster().getMonsterHp());
 			addCroissants(monsterHome.getCoinDrop());
 
@@ -423,8 +438,9 @@ public class GameLogic {
 	public static void reduceMonsterHpHome(double amount) {
 
 		monsterHpHome.set(monsterHpHome.get() - amount<=0?0:monsterHpHome.get() - amount);
+		System.out.println("monster");
 	    if (monsterHpHome.get() <= 0) {
-	    	monsterIsDead();
+	    	monsterIsDead("HOME");
 	    }
 	}
 
@@ -432,7 +448,7 @@ public class GameLogic {
 
 	    monsterHpStory.set(monsterHpStory.get() - amount<=0?0:monsterHpStory.get() - amount);
 	    if (monsterHpStory.get() <= 0) {
-	    	monsterIsDead();
+	    	monsterIsDead("SROTY");
 	    }
 	}
 
@@ -442,6 +458,8 @@ public class GameLogic {
 			amount *= damageCardBoost;
 		Random random = new Random();
 		double critRate = player.getCritRate() + critChanceCardBoost;
+		System.out.println(critRate);
+		System.out.println(random.nextDouble(100));
 		if (random.nextDouble(100) < critRate) {
 			amount *= (player.getCritDamage() + critDamageCardBoost);
 		}
@@ -455,25 +473,27 @@ public class GameLogic {
 			dpsHomeThread.stop();
 		}
 
-		dpsHomeThread = new Timeline(new KeyFrame(Duration.seconds(0.1), e -> {
-			double dam = getDamagePerSec() * (1 + (companionBoostCardBoost / 100));
-			reduceMonsterHpHome(dam * 0.1);
+		dpsHomeThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+			double dam = getDamagePerSec() * (1 + (companionBoostCardBoost / 100.0));
+			reduceMonsterHpHome(dam*1);
+			System.out.println("SUN : " + monsterHpHome.get() + " " + getStage() + " " + isStoryBattle);
 		}));
 		dpsHomeThread.setCycleCount(Timeline.INDEFINITE);
 		dpsHomeThread.play();
 	}
 
 	public static void startDpsStory() {
+		 if (!isStoryBattle) return;
+		
 		if (dpsStoryThread != null) {
 			dpsStoryThread.stop();
+			dpsStoryThread = null;
 
 		}
-		if (dpsHomeThread != null) {
-			dpsHomeThread.stop();
-		}
-		dpsStoryThread = new Timeline(new KeyFrame(Duration.seconds(0.1), e -> {
+		
+		dpsStoryThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 			double dam = getDamagePerSec() * (1 + (companionBoostCardBoost / 100));
-			reduceMonsterHpStory(dam * 0.1);
+			reduceMonsterHpStory(dam * 1);
 		}));
 		dpsStoryThread.setCycleCount(Timeline.INDEFINITE);
 		dpsStoryThread.play();

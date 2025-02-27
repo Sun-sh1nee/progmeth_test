@@ -27,6 +27,7 @@ public class CritDamageItem extends Item {
 		this.setLevelItem(levelItem.get()+1);
 		setCritDamage(getCritDamage() + getScalFacStatus());
 		setCostItem((int)(getCostItem().get() * (getScalFacCost())));
+		updateStat();
 	}
 
 	public double getCritDamage() {
