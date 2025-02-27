@@ -58,6 +58,13 @@ public class CardEquipmentScene extends BaseScene {
 		removeButton.setOnMouseClicked(e -> {
 			GameLogic.equipCard(null, slotIndex);
 			updateSlotPane(arraySlotPane[slotIndex], slotIndex);
+			SceneManager.switchTo("CARD_EQUIPMENT");
+			
+			ArrayList<BaseCard> ownedCards = GameLogic.getOwnedCards();
+			
+			for(BaseCard bs: ownedCards) {
+				System.out.println(bs);
+			}
 		});
 		
 		return removeButton;
@@ -92,7 +99,7 @@ public class CardEquipmentScene extends BaseScene {
             Label plusLabel = new Label("+");
             plusLabel.setStyle("-fx-font-size: 36px; -fx-text-fill: gray;");
             StackPane stackPlus = new StackPane(plusLabel);
-            
+            slotPane.setStyle("-fx-border-color: black;");
             stackPlus.setAlignment(Pos.CENTER);
                         
             slotPane.getChildren().add(stackPlus);

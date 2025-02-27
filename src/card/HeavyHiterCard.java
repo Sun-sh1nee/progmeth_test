@@ -7,13 +7,12 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class HeavyHiterCard extends BaseCard implements Activatable{
+public class HeavyHiterCard extends ActivateCard implements Activatable{
 	
 	private double damagePerHit;
 	public HeavyHiterCard(String name , String image , CardTier tier) {
-		super(name, image, tier);
+		super(name, image, tier , 15);
 		randomizeAttributes();
-		cooldown = 15;
 	}
 	
 	private void randomizeAttributes() {
@@ -40,10 +39,10 @@ public class HeavyHiterCard extends BaseCard implements Activatable{
 		if (isOnCooldown) return;
 
 		if (GameLogic.isStoryBattle()) {
-			double damage = GameLogic.getMonster().getMonsterHp() * (damagePerHit/100.0);
+			double damage = GameLogic.getMonsterStory().getMonsterHp() * (damagePerHit/100.0);
 	        GameLogic.reduceMonsterHpStory(damage);
 	    } else {
-	    	double damage = GameLogic.getMonster().getMonsterHp()  * (damagePerHit/100.0);
+	    	double damage = GameLogic.getMonsterHome().getMonsterHp()  * (damagePerHit/100.0);
 	        GameLogic.reduceMonsterHpHome(damage);
 	    }
 

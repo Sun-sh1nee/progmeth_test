@@ -7,14 +7,13 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class PoisonCard extends BaseCard implements Activatable{
+public class PoisonCard extends ActivateCard implements Activatable{
 	
 	private double dotDamage;
 	
 	public PoisonCard(String name , String image , CardTier tier) {
-		super(name, image, tier);
+		super(name, image, tier , 7);
 		randomizeAttributes();
-		cooldown = 7;
 	}
 	
 	private void randomizeAttributes() {

@@ -59,7 +59,7 @@ public class BuffStatCard extends BaseCard {
 		GameLogic.ApplyCritChanceCardBoost(critChance);
 		GameLogic.ApplyCritDamageCardBoost(critDamage);
 		GameLogic.ApplyGemDropChanceCardBoost(gemDropChance);
-		GameLogic.ApplyCompanionBoostCardBoost(companionBoost);
+		GameLogic.ApplyCompanionCardBoost(companionBoost);
 	}
 	
 	public void CancelBuff() {
@@ -67,7 +67,7 @@ public class BuffStatCard extends BaseCard {
 		GameLogic.CancelCritChanceCardBoost(critChance);
 		GameLogic.CancelCritDamageCardBoost(critDamage);
 		GameLogic.CancelGemDropChanceCardBoost(gemDropChance);
-		GameLogic.CancelCompanionBoostCardBoost(companionBoost);
+		GameLogic.CancelCompanionCardBoost(companionBoost);
 	}
 
 	@Override

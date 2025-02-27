@@ -17,6 +17,9 @@ public class SceneManager {
     public static void addScene(String name, Scene scene) {
         scenes.put(name, scene);
     }
+    public static void changeScene(String name, Scene scene) {
+        scenes.replace(name, scene);
+    }
     public static String getSceneName() {
     	return sceneName;
     }
@@ -37,6 +40,8 @@ public class SceneManager {
             if (name.equals("HOME")) {
                 HomeScene homeScene = (HomeScene) scenes.get("HOME").getRoot();
                 homeScene.updateEquippedCardsBar();
+                homeScene.updateHpMonsterHome();
+//                GameLogic.startDpsHome();
             }
             if (name.equals("CARD_EQUIPMENT")) {
                 CardInventoryScene inventoryScene = (CardInventoryScene) scenes.get("CARD_INVENTORY").getRoot();
@@ -44,7 +49,7 @@ public class SceneManager {
             }
         }
     }
- // If you want direct access to the root node:
+    
     public static BaseScene getSceneNode(String name) {
         if (scenes.containsKey(name)) {
             return (BaseScene) scenes.get(name).getRoot();
@@ -52,7 +57,4 @@ public class SceneManager {
         return null;
     }
     
-    public static void updateHomeScene() {
-    	((HomeScene) scenes.get("HOME").getRoot()).updateHpMonsterHome();
-    }
 }

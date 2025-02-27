@@ -126,25 +126,25 @@ public class CardInventoryScene extends BaseScene {
     
     public void updateEquippedCardsInventory() {
     	
-    	 cardsPane.getChildren().clear();
-    	 ArrayList<BaseCard> ownedCards = GameLogic.getOwnedCards();
-         BaseCard[] equippedCardsAry = GameLogic.getEquippedCards(); 
-         Thread th = new Thread(() -> {
-        	 Collections.sort(ownedCards);
-	         ArrayList<BaseCard> equippedCards = new ArrayList<>();
-	         for (BaseCard equip : equippedCardsAry) {
-	             equippedCards.add(equip);
-	         }
+		cardsPane.getChildren().clear();
+		ArrayList<BaseCard> ownedCards = GameLogic.getOwnedCards();
+	    BaseCard[] equippedCardsAry = GameLogic.getEquippedCards(); 
+	    Thread th = new Thread(() -> {
+	    	Collections.sort(ownedCards);
+	        ArrayList<BaseCard> equippedCards = new ArrayList<>();
+	        for (BaseCard equip : equippedCardsAry) {
+	            equippedCards.add(equip);
+	        }
 	
-	         for (BaseCard card : ownedCards) {
+	        for (BaseCard card : ownedCards) {
 	   
-	             if (!equippedCards.contains(card)) { 
-	             	VBox cardView = createCardView(card);
-	                 cardsPane.getChildren().add(cardView);
+	            if (!equippedCards.contains(card)) { 
+	            	VBox cardView = createCardView(card);
+	                cardsPane.getChildren().add(cardView);
 	             }
 	         }
-	         });
-         th.start();
+	    });
+	    th.start();
     }
     
     

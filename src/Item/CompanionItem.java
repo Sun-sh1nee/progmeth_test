@@ -2,43 +2,40 @@ package Item;
 
 import logic.GameLogic;
 
-public class CritDamageItem extends Item {
-	
-	private double critDamage;
+public class CompanionItem extends Item {
+	private int damagePerSec;
 	private double scalFacCost;
 	private double scalFacStatus;
 	
-	public CritDamageItem(String itemURL) {
-		super("CritDamageItem", 750, itemURL);
+	public CompanionItem(String itemURL) {
+		super("CompanionItem", 750, itemURL);
 		
-		setCritDamage(1.5);
-		setScalFacCost(0.19);
-		setScalFacStatus(0.05);
-
+		setDamagePerSec(75);
+		setScalFacCost(0.18);
+		setScalFacStatus(1.35);
 	}
 
 	@Override
 	public void updateStat() {
 		// GameLogic update player status 
-		GameLogic.getPlayer().setCritDamage(critDamage);
+		GameLogic.getPlayer().setDamagePerSec(damagePerSec);;
 	}
 
 	@Override
 	public void upgrade() {
 		this.setLevelItem(levelItem.get()+1);
-		setCritDamage(getCritDamage() + getScalFacStatus());
-
+		setDamagePerSec((int) (getDamagePerSec() * getScalFacStatus()));
 		setCostItem((int)(getCostItem().get() * (1 + getScalFacCost())));
 		updateStat();
-
 	}
 
-	public double getCritDamage() {
-		return critDamage;
+
+	public int getDamagePerSec() {
+		return damagePerSec;
 	}
 
-	public void setCritDamage(double critDamage) {
-		this.critDamage = critDamage;
+	public void setDamagePerSec(int damagePerSec) {
+		this.damagePerSec = damagePerSec;
 	}
 
 	public double getScalFacStatus() {
@@ -57,9 +54,6 @@ public class CritDamageItem extends Item {
 		this.scalFacCost = scalFacCost;
 	}
 	public String toString() {
-		return "CritDamage";
+		return "CompanionItem";
 	}
-	
-	
-
 }

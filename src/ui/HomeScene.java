@@ -11,7 +11,7 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -46,7 +46,7 @@ public class HomeScene extends BaseScene {
         // 🔹 Bind HP Label to GameManager (Auto-Updates)
         hpLabel.textProperty().bind(GameLogic.monsterHpHomeProperty().asString("%.0f"));
         hpBar.progressProperty().bind(Bindings.createDoubleBinding(
-        	    () -> GameLogic.monsterHpHomeProperty().get() / GameLogic.getMonster().getMonsterHp(),
+        	    () -> GameLogic.monsterHpHomeProperty().get() / GameLogic.getMonsterHome().getMonsterHp(),
         	    GameLogic.monsterHpHomeProperty()
         ));
 
@@ -107,15 +107,12 @@ public class HomeScene extends BaseScene {
     
     public void updateHpMonsterHome() {
     	
-        hpLabel.textProperty().bind(GameLogic.monsterHpHomeProperty().asString("%.0f"));
-        hpBar.progressProperty().bind(Bindings.createDoubleBinding(
-        	    () -> GameLogic.monsterHpHomeProperty().get() / GameLogic.getMonster().getMonsterHp(),
-        	    GameLogic.monsterHpHomeProperty()
-        ));
+    	SceneManager.changeScene("HOME", new Scene(new HomeScene(), 500, 600));
        
     }
     
     public void updateEquippedCardsBar() {
+//    	updateHpMonsterHome();
         equippedCardsBar.getChildren().clear();
 
         BaseCard[] equipped = GameLogic.getEquippedCards();
@@ -139,43 +136,56 @@ public class HomeScene extends BaseScene {
 
                 Label cardLabel = new Label(card.getName() + "\n[" + card.getTier() + "]");
                 cardLabel.setStyle("-fx-text-alignment: center; -fx-font-size: 8;");
-                
-               
                 ProgressBar cooldownBar = new ProgressBar(1);
                 cooldownBar.setPrefWidth(60);
-                cooldownBar.setVisible(false);  
+                
+                  
                 cooldownBar.setStyle("-fx-accent: green;");
                 
-                cardPane.getChildren().addAll(cardLabel, imgView, cooldownBar);
-                if (card instanceof Activatable) {
+                
+                if (card instanceof ActivateCard) {
+                	
+                	
+                	Timeline cooldownBarCheck = new Timeline(new KeyFrame(Duration.millis(1), e -> {
+            			if (!((ActivateCard) card).isOnCooldown()) { 
+            				cooldownBar.setVisible(false);
+	                    }else {
+	                    	cooldownBar.setVisible(true);
+	                    }
+            		}));
+                	cooldownBarCheck.setCycleCount(Timeline.INDEFINITE);
+                	cooldownBarCheck.play();
+                	
+                	
+                	
+                	cooldownBar.progressProperty().bind(Bindings.createDoubleBinding(
+                    	    () -> ((ActivateCard) card).cooldownTimeLeftProperty().get() / ((ActivateCard) card).getCooldown(),
+                    	    ((ActivateCard) card).cooldownTimeLeftProperty()
+                    ));
                 	cardPane.setOnMouseClicked(e -> {
                     
-                        Activatable activatableCard = (Activatable) card;
+                		ActivateCard activatableCard = (ActivateCard) card;
                         
-                        if (!((Activatable) card).isOnCooldown()) { 
-                            activatableCard.activate();
-                            startCooldownAnimation(cooldownBar, ((BaseCard) card).getCooldown());
+                        if (!((ActivateCard) card).isOnCooldown()) { 
+                        	activatableCard.startCooldown();
                         }
                     
                 	});
+                	
+                	
+                }else {
+                	cooldownBar.setVisible(false);
                 }
+                
+                cardPane.getChildren().addAll(cardLabel, imgView, cooldownBar);
+                
+                
             }
 
             equippedCardsBar.getChildren().add(cardPane);
         }
     }
 
-    private void startCooldownAnimation(ProgressBar cooldownBar, int cooldownSeconds) {
-        cooldownBar.setVisible(true);
-        cooldownBar.setProgress(1.0);
-
-        Timeline cooldownTimeline = new Timeline(
-            new KeyFrame(Duration.seconds(cooldownSeconds), new KeyValue(cooldownBar.progressProperty(), 0))
-        );
-
-        cooldownTimeline.setOnFinished(e -> cooldownBar.setVisible(false)); // Hide after cooldown
-        cooldownTimeline.play();
-    }
 
     
     

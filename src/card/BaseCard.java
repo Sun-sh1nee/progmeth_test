@@ -8,9 +8,6 @@ public abstract class BaseCard implements Comparable<BaseCard>{
 	protected String name;
 	protected String CardURL;
 	protected CardTier tier;
-	 protected int cooldown;
-	 protected boolean isOnCooldown = false;
-	 protected double cooldownTimeLeft = 0;
 
 	public BaseCard(String name , String image , CardTier tier) {
 		this.setName(name);
@@ -20,9 +17,7 @@ public abstract class BaseCard implements Comparable<BaseCard>{
 		this.setCardURL(path);
 	}
 
-	public boolean isOnCooldown() {
-        return isOnCooldown;
-    }
+	
 	
 	public abstract String toString();
 
@@ -72,30 +67,5 @@ public abstract class BaseCard implements Comparable<BaseCard>{
         return Integer.compare(other.tier.ordinal(), this.tier.ordinal());
     }
 
-	 public double getCooldownTimeLeft() {
-	        return cooldownTimeLeft;
-	 }
-
-	  public void startCooldown() {
-	        if (isOnCooldown) return;
-
-	        isOnCooldown = true;
-	        cooldownTimeLeft = cooldown;
-
-	        Timeline cooldownTimer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-	            cooldownTimeLeft--;
-	            if (cooldownTimeLeft <= 0) {
-	                isOnCooldown = false;
-	                cooldownTimeLeft = 0;
-	            }
-	        }));
-
-	        cooldownTimer.setCycleCount(cooldown);
-	        cooldownTimer.play();
-	   }
-	
-		public int getCooldown() {
-			return cooldown;
-		}
 
 }

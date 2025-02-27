@@ -8,13 +8,12 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class BigBangImpactCard extends BaseCard implements Activatable{
+public class BigBangImpactCard extends ActivateCard implements Activatable{
 	
 	private double damagePerHit;
 	public BigBangImpactCard(String name , String image , CardTier tier) {
-		super(name, image, tier);
+		super(name, image, tier , 20);
 		randomizeAttributes();
-		cooldown = 20;
 	}
 	
 	private void randomizeAttributes() {

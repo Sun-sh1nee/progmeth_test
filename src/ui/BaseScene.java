@@ -55,13 +55,22 @@ public class BaseScene extends VBox {
 
         VBox croissantInfoPanel = new VBox(2);
         croissantInfoPanel.setAlignment(Pos.CENTER);
+        croissantInfoPanel.setPrefWidth(150);
         croissantCountLabel = new Label();
         croissantCountLabel.textProperty().bind(GameLogic.croissantCountProperty().asString());
         croissantCountLabel.setFont(new Font(22));
+        
         croissantPerClickLabel = new Label();
         croissantPerClickLabel.textProperty().bind(GameLogic.attackPerClickProperty().asString());
-        croissantPerSecondLabel = new Label(formatNumber(GameLogic.getDamagePerSec()) + " /sec");
-        croissantInfoPanel.getChildren().addAll(croissantCountLabel, croissantPerClickLabel, croissantPerSecondLabel);
+        HBox perClickH = new HBox(croissantPerClickLabel , new Label("/clicked"));
+        perClickH.setSpacing(2);
+        perClickH.setAlignment(Pos.CENTER);
+        croissantPerSecondLabel = new Label();
+        croissantPerSecondLabel.textProperty().bind(GameLogic.getDamagePerSecProperty().asString());
+        HBox perSecH = new HBox(croissantPerSecondLabel , new Label("/sec"));
+        perSecH.setSpacing(2);
+        perSecH.setAlignment(Pos.CENTER);
+        croissantInfoPanel.getChildren().addAll(croissantCountLabel, perClickH, perSecH);
 
         Label settingsButton = new Label("⚙️");
         //settingsButton.setOnMouseClicked(e -> System.out.println("open setting"));
@@ -111,7 +120,6 @@ public class BaseScene extends VBox {
 
         this.getChildren().add(rootContainer);
         
-        GameLogic.playBackgroundSound();
     }
     
     private void createSettingsPage() {

@@ -7,12 +7,11 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class BullsEyeCard extends BaseCard implements Activatable{
+public class BullsEyeCard extends ActivateCard implements Activatable{
 	private double critChanceBoost;
 	public BullsEyeCard(String name , String image , CardTier tier) {
-		super(name, image, tier);
+		super(name, image, tier , 6);
 		randomizeAttributes();
-		cooldown = 6;
 	}
 	
 	private void randomizeAttributes() {

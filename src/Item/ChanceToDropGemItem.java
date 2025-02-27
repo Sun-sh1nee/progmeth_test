@@ -13,8 +13,10 @@ public class ChanceToDropGemItem extends Item {
 		super("ChanceToDropGemItem", 1000, itemURL);
 		
 		setChanceToDropGem(0.01);
-		setScalFacCost(1.02);
-		setScalFacStatus(0.01);
+
+		setScalFacCost(0.28);
+		setScalFacStatus(0.005);
+
 		
 	}
 

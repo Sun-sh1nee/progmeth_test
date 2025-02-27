@@ -2,41 +2,62 @@ package card;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.control.ProgressBar;
 import javafx.util.Duration;
 
-public abstract class ActivateCard extends BaseCard{
-	protected int cooldown;
-	
-	protected double cooldownTimeLeft = 0;
-	
-	public ActivateCard(String name, String image, CardTier tier) {
-		super(name, image, tier);
-		
-	}
-	
-	
-	 public double getCooldownTimeLeft() {
-	        return cooldownTimeLeft;
-	 }
-	 public void startCooldown() {
-	        if (isOnCooldown) return;
+public abstract class ActivateCard extends BaseCard implements Activatable {
+    protected int cooldown;
+    protected SimpleDoubleProperty cooldownTimeLeft ;
+    protected boolean isOnCooldown = false;
 
-	        isOnCooldown = true;
-	        cooldownTimeLeft = cooldown;
+    public ActivateCard(String name, String image, CardTier tier , int cooldownTime) {
+        super(name, image, tier);
+        cooldown = cooldownTime;
+        this.cooldownTimeLeft = new SimpleDoubleProperty(cooldown);
+    }
 
-	        Timeline cooldownTimer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-	            cooldownTimeLeft--;
-	            if (cooldownTimeLeft <= 0) {
-	                isOnCooldown = false;
-	                cooldownTimeLeft = 0;
-	            }
-	        }));
+    public abstract void activate();
 
-	        cooldownTimer.setCycleCount(cooldown);
-	        cooldownTimer.play();
-	    }
-	
-	public int getCooldown() {
-		return cooldown;
-	}
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public boolean isOnCooldown() {
+        return isOnCooldown;
+    }
+
+    public SimpleDoubleProperty cooldownTimeLeftProperty() {
+        return cooldownTimeLeft;
+    }
+
+    public void startCooldown() {
+        if (isOnCooldown) return;
+        this.activate();
+        isOnCooldown = true;
+        cooldownTimeLeft.set(cooldown);
+
+        Timeline cooldownTimer = new Timeline(
+            new KeyFrame(Duration.seconds(0.1), e -> {
+                cooldownTimeLeft.set(cooldownTimeLeft.get() - 0.1);
+//                System.out.println(cooldownTimeLeft.get());
+                if (cooldownTimeLeft.get() <= 0) {
+                    isOnCooldown = false;
+                    cooldownTimeLeft.set(0);
+                }
+            })
+        );
+        cooldownTimer.setOnFinished(e -> {
+        	cooldownTimeLeft.set(cooldown);
+        });
+        cooldownTimer.setCycleCount((int) (cooldown * 10)); 
+        cooldownTimer.play();
+        
+    }
+    
+    public void resetCooldown() {
+    	cooldownTimeLeft.set(cooldown);
+    	isOnCooldown = false;
+    }
+
 }

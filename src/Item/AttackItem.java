@@ -12,7 +12,7 @@ public class AttackItem extends Item {
 		super("AttackItem", 100, itemURL);
 		
 		setAttack(100);
-		setScalFacCost(1.08);
+		setScalFacCost(0.13);
 		setScalFacStatus(1.15);
 	}
 	public void updateStat() {
@@ -24,7 +24,7 @@ public class AttackItem extends Item {
 	public void upgrade() {
 		this.setLevelItem(levelItem.get()+1);
 		setAttack((int)(getAttack() * getScalFacStatus()));
-		setCostItem((int)(getCostItem().get() * (getScalFacCost())));
+		setCostItem((int)(getCostItem().get() * (1+getScalFacCost())));
 		updateStat();
 	}
 
