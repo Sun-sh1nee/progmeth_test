@@ -55,19 +55,19 @@ public class BuffStatCard extends BaseCard {
     }
 	
 	public void applyBuff() {
-		GameLogic.ApplyDamageCardBoost(damagePerClick);
-		GameLogic.ApplyCritChanceCardBoost(critChance);
-		GameLogic.ApplyCritDamageCardBoost(critDamage);
-		GameLogic.ApplyGemDropChanceCardBoost(gemDropChance);
-		GameLogic.ApplyCompanionCardBoost(companionBoost);
+		GameLogic.applyDamageCardBoost(damagePerClick);
+		GameLogic.applyCritChanceCardBoost(critChance);
+		GameLogic.applyCritDamageCardBoost(critDamage);
+		GameLogic.applyGemDropChanceCardBoost(gemDropChance);
+		GameLogic.applyCompanionCardBoost(companionBoost);
 	}
 	
 	public void CancelBuff() {
-		GameLogic.CancelDamageCardBoost(damagePerClick);
-		GameLogic.CancelCritChanceCardBoost(critChance);
-		GameLogic.CancelCritDamageCardBoost(critDamage);
-		GameLogic.CancelGemDropChanceCardBoost(gemDropChance);
-		GameLogic.CancelCompanionCardBoost(companionBoost);
+		GameLogic.cancelDamageCardBoost(damagePerClick);
+		GameLogic.cancelCritChanceCardBoost(critChance);
+		GameLogic.cancelCritDamageCardBoost(critDamage);
+		GameLogic.cancelGemDropChanceCardBoost(gemDropChance);
+		GameLogic.cancelCompanionCardBoost(companionBoost);
 	}
 
 	@Override

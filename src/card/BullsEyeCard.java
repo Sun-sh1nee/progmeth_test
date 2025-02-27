@@ -39,11 +39,11 @@ public class BullsEyeCard extends ActivateCard implements Activatable{
 	    
 	    isOnCooldown = true;
 	    
-	    GameLogic.ApplyCritChanceCardBoost(critChanceBoost);
+	    GameLogic.applyCritChanceCardBoost(critChanceBoost);
 	    
 	    Timeline buffTimeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
 	      
-	        GameLogic.ApplyCritChanceCardBoost(critChanceBoost);
+	        GameLogic.cancelCritChanceCardBoost(critChanceBoost);
 	        
 	        Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(6), e -> {
 	            

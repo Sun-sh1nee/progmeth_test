@@ -39,11 +39,11 @@ public class WeakPointCard extends ActivateCard implements Activatable{
 	    
 	    isOnCooldown = true;
 	    
-	    GameLogic.ApplyextraDamage(extraBoost);
+	    GameLogic.applyExtraDamage(extraBoost);
 	    
 	    Timeline buffTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
 	      
-	        GameLogic.CancelextraDamage(extraBoost);
+	        GameLogic.cancelExtraDamage(extraBoost);
 	        
 	        Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(7), e -> {
 	            
