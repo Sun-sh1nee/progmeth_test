@@ -22,6 +22,7 @@ import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 import player.Player;
 import ui.BaseScene;
+import ui.EndCreditScene;
 import ui.HomeScene;
 import ui.RandomScene;
 import ui.SceneManager;
@@ -42,7 +43,8 @@ public class GameLogic {
 	private static SimpleIntegerProperty storyState = new SimpleIntegerProperty();
 	private static SimpleDoubleProperty storyTimerProgress = new SimpleDoubleProperty();
 	
-	private static Thread storyTimerThread;
+	public static boolean isTimeStop;
+	
 	
 	private static boolean isStoryBattle;
 	private static ArrayList<Monster> monsterStory;
@@ -249,12 +251,10 @@ public class GameLogic {
 
 	private static void startTimer() {
 	    int totalTime = 30;
-
-	    if (storyTimerThread != null && storyTimerThread.isAlive()) {
-	        storyTimerThread.interrupt();
-	    }
-
-	    storyTimerThread = new Thread(() -> {
+	    isTimeStop = false;
+	    isStoryBattle = true;
+	    
+	    new Thread(() -> {
 	        double timeNow = totalTime;
 	        while (timeNow > 0) {
 	            try {
@@ -262,10 +262,12 @@ public class GameLogic {
 	                    isStoryBattle = false;
 	                    break;
 	                }
+	                if(isTimeStop) {
+	                	continue;
+	                }
 	                
 	                double progress = timeNow / totalTime;
 	                Platform.runLater(() -> storyTimerProgress.set(progress));
-
 	                timeNow -= 0.1;
 	                Thread.sleep(100);
 	            } catch (InterruptedException e1) {
@@ -275,10 +277,11 @@ public class GameLogic {
 	            }
 	        }
 	        isStoryBattle = false;
-	        Platform.runLater(() -> SceneManager.switchTo("HOME"));
-	    });
+	        if(stage < 1) Platform.runLater(() -> {
+	        	SceneManager.switchTo("HOME");
+	        });
+	    }).start();
 
-	    storyTimerThread.start();
 	}
 
 	private static void initMonster() {
@@ -349,39 +352,41 @@ public class GameLogic {
 	public static void monsterStoryIsDead() {
 		
 
-			if (stage >= monsterStory.size()) {
-				System.out.println("🎉 Story Completed! Returning to Home...");
-				SceneManager.switchTo("HOME");
-				return;
-			}
+		isStoryBattle = false;
+		if (stage >= 10) {
+			System.out.println("🎉 Story Completed! Returning to Home...");
+			SceneManager.addScene("END_CREDIT", new Scene(new EndCreditScene(), 500, 600));
+			SceneManager.switchTo("END_CREDIT");
+			return;
+		}
+		monsterHome = monsterStory.get(stage);
+		monsterHpHome.set(monsterHome.getMonsterHp());
+		stage++;
+		setStoryState();
 
-			monsterHome = monsterStory.get(stage);
-			monsterHpHome.set(monsterHome.getMonsterHp());
-			stage++;
-			setStoryState();
-
-			// monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
-			monsterHpStory.set(getMonsterStage(stage).getMonsterHp());
-			
-			for(BaseCard card : equippedCards) {
-				if(card instanceof ActivateCard)((ActivateCard) card).resetCooldown();
-			}
-			// monsterHpHome.set(monsterStory.get(stage - 1).getMonsterHp());
-			gemCount.set(gemCount.get() + 2);
-			SceneManager.switchTo("HOME");
+		// monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
+		monsterHpStory.set(getMonsterStage(stage).getMonsterHp());
+		
+		for(BaseCard card : equippedCards) {
+			if(card instanceof ActivateCard)((ActivateCard) card).resetCooldown();
+		}
+		// monsterHpHome.set(monsterStory.get(stage - 1).getMonsterHp());
+		gemCount.set(gemCount.get() + 2);
+		System.out.println();
+		SceneManager.switchTo("HOME");
 //			((HomeScene) SceneManager.getSceneNode("HOME")).updateHpMonsterHome();
 		
 	}
 	
 	public static void monsterHomeIsDead() {
-			monsterHpHome.set(monsterHome.getMonsterHp());
+		monsterHpHome.set(monsterHome.getMonsterHp());
 
-			addCroissants(monsterHome.getCoinDrop());
+		addCroissants(monsterHome.getCoinDrop());
 
-			Random random = new Random();
-			if (random.nextDouble() < player.getChanceToDropGem()) {
-				gemCount.set(gemCount.get() + 1);
-			}
+		Random random = new Random();
+		if (random.nextDouble() < player.getChanceToDropGem()) {
+			gemCount.set(gemCount.get() + 1);
+		}
 //			((HomeScene) SceneManager.getSceneNode("HOME")).updateHpMonsterHome();
 	}
 
@@ -495,4 +500,5 @@ public class GameLogic {
 	public static void setStoryState() {
 		storyState.set(stage);
 	}
+
 }

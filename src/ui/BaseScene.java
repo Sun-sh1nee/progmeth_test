@@ -100,7 +100,6 @@ public class BaseScene extends VBox {
         Label inventory = new Label("box");
         
         inventory.setOnMouseClicked(e -> SceneManager.switchTo("CARD_EQUIPMENT"));
-
         randomButton.setOnMouseClicked(e -> SceneManager.switchTo("RANDOM"));
         homeButton.setOnMouseClicked(e -> SceneManager.switchTo("HOME"));
         storyButton.setOnMouseClicked(e -> SceneManager.switchTo("STORY"));

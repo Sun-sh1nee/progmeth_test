@@ -10,6 +10,7 @@ import card.GlassCannonCard;
 import card.HeavyHiterCard;
 import card.PoisonCard;
 import card.WeakPointCard;
+import card.ZawarudoCard;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,7 +33,7 @@ public class RandomScene extends BaseScene {
     private Label notEnoughGemsLabel;
     private String[] specialCard = {
             "BigBangImpact", "Poison", "BullsEye", "FriendshipIsMagic", 
-            "GlassCannon", "WeakPoint", "HeavyHiter"
+            "GlassCannon", "WeakPoint", "HeavyHiter","Zawarudo"
         };
     
     public RandomScene() {
@@ -118,7 +119,7 @@ public class RandomScene extends BaseScene {
         	
             CardTier randomTier = TIERS[indexTier];
             
-            Boolean isSpecial = random.nextDouble() >= 0.8;
+            Boolean isSpecial = random.nextDouble() >= 0;
             BaseCard card;
             
             if(!isSpecial) {
@@ -220,6 +221,8 @@ public class RandomScene extends BaseScene {
             	return new WeakPointCard("Weak Point", "cards/specialCard/attackCard.png", tier);
             case "HeavyHiter":
             	return new HeavyHiterCard("Heavy Hiter", "cards/specialCard/attackCard.png", tier);
+            case "Zawarudo":
+            	return new ZawarudoCard("Zawarudo", "cards/specialCard/attackCard.png", tier);
             default:
                 throw new IllegalArgumentException("Unknown special card type: " + type);
         }
