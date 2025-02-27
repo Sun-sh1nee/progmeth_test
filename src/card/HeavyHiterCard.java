@@ -39,10 +39,10 @@ public class HeavyHiterCard extends ActivateCard implements Activatable{
 		if (isOnCooldown) return;
 
 		if (GameLogic.isStoryBattle()) {
-			double damage = GameLogic.getMonster().getMonsterHp() * (damagePerHit/100.0);
+			double damage = GameLogic.getMonsterStory().getMonsterHp() * (damagePerHit/100.0);
 	        GameLogic.reduceMonsterHpStory(damage);
 	    } else {
-	    	double damage = GameLogic.getMonster().getMonsterHp()  * (damagePerHit/100.0);
+	    	double damage = GameLogic.getMonsterHome().getMonsterHp()  * (damagePerHit/100.0);
 	        GameLogic.reduceMonsterHpHome(damage);
 	    }
 

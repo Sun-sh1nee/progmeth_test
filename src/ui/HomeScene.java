@@ -46,7 +46,7 @@ public class HomeScene extends BaseScene {
         // 🔹 Bind HP Label to GameManager (Auto-Updates)
         hpLabel.textProperty().bind(GameLogic.monsterHpHomeProperty().asString("%.0f"));
         hpBar.progressProperty().bind(Bindings.createDoubleBinding(
-        	    () -> GameLogic.monsterHpHomeProperty().get() / GameLogic.getMonster().getMonsterHp(),
+        	    () -> GameLogic.monsterHpHomeProperty().get() / GameLogic.getMonsterHome().getMonsterHp(),
         	    GameLogic.monsterHpHomeProperty()
         ));
 

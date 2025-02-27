@@ -24,7 +24,7 @@ public class AttackItem extends Item {
 	public void upgrade() {
 		this.setLevelItem(levelItem.get()+1);
 		setAttack((int)(getAttack() * getScalFacStatus()));
-		setCostItem((int)(getCostItem().get() * (getScalFacCost())));
+		setCostItem((int)(getCostItem().get() * (1+getScalFacCost())));
 		updateStat();
 	}
 

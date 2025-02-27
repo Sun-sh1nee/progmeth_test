@@ -70,7 +70,7 @@ public class GameLogic {
 		monsterHpStory.set(monsterStory.get(1).getMonsterHp());
 
 
-		croissantCount.set(0);
+		croissantCount.set(20000000);
 		gemCount.set(11110);
 		setAttackPerClick();
 		setDamagePerSec();
@@ -287,16 +287,7 @@ public class GameLogic {
 		croissantCount.set(croissant);
 	}
 
-	public static Monster getMonster() {
-
-		if (SceneManager.getSceneName().equals("HOME")) {
-			return getMonsterStage(stage - 1);
-		} else if (SceneManager.getSceneName().equals("STORY")) {
-			return getMonsterStage(stage);
-		}
-		return monsterStory.get(0);
-
-	}
+	
 
 
 	public static SimpleLongProperty croissantCountProperty() {
@@ -350,7 +341,7 @@ public class GameLogic {
 
 			// Proceed to the next stage
 			monsterHome = monsterStory.get(stage);
-			monsterHpHome.set(monsterHpStoryProperty().get());
+			monsterHpHome.set(monsterHome.getMonsterHp());
 			stage++;
 			setStoryState();
 			// monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
@@ -367,7 +358,7 @@ public class GameLogic {
 	}
 	
 	public static void monsterHomeIsDead() {
-			monsterHpHome.set(getMonsterStage(stage - 1).getMonsterHp());
+			monsterHpHome.set(monsterHome.getMonsterHp());
 			addCroissants(monsterHome.getCoinDrop());
 
 			Random random = new Random();
@@ -387,7 +378,7 @@ public class GameLogic {
 	}
 
 	public static void reduceMonsterHpStory(double amount) {
-		monsterHpHome.set(monsterHpHome.get() - amount<=0?0:monsterHpHome.get() - amount);
+		monsterHpStory.set(monsterHpStory.get() - amount);
 		if (monsterHpStory.get() <= 0) {
 			monsterStoryIsDead();
 		}
@@ -414,6 +405,10 @@ public class GameLogic {
 	public static void startDpsHome() {
 		if (dpsHomeThread != null) {
 			dpsHomeThread.stop();
+		}
+		if (dpsStoryThread != null) {
+			dpsStoryThread.stop();
+
 		}
 
 		dpsHomeThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
@@ -467,6 +462,14 @@ public class GameLogic {
 	public static void setDamagePerSec() {
 		damagePerSec.set(player.getDamagePerSec());
 
+	}
+	
+	public static Monster getMonsterHome() {
+		return monsterHome;
+	}
+	
+	public static Monster getMonsterStory() {
+		return monsterStory.get(stage);
 	}
 
 	public static void setStoryState() {

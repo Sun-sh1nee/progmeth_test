@@ -54,7 +54,7 @@ public class StoryScene extends BaseScene {
         hpLabel.setText(getAccessibleHelp());
         hpLabel.textProperty().bind(GameLogic.monsterHpStoryProperty().asString("%.0f"));
         hpBar.progressProperty().bind(Bindings.createDoubleBinding(
-        	    () -> GameLogic.monsterHpStoryProperty().get() / GameLogic.getMonster().getMonsterHp(),
+        	    () -> GameLogic.monsterHpStoryProperty().get() / GameLogic.getMonsterStory().getMonsterHp(),
         	    GameLogic.monsterHpStoryProperty()
         ));
 
