@@ -7,10 +7,12 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class GlassCannon extends ActivateCard implements Activatable{
+
+public class GlassCannonCard extends ActivateCard implements Activatable{
+
 	private double critDamageBoost;
-	public GlassCannon(String name , String image , CardTier tier) {
-		super(name, image, tier , 6);
+	public GlassCannonCard(String name , String image , CardTier tier) {
+		super(name, image, tier, 6);
 		randomizeAttributes();
 	}
 	

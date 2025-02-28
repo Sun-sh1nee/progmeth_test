@@ -10,7 +10,7 @@ import logic.GameLogic;
 public class PoisonCard extends ActivateCard implements Activatable{
 	
 	private double dotDamage;
-	
+	private Timeline poisonTimeline;
 	public PoisonCard(String name , String image , CardTier tier) {
 		super(name, image, tier , 7);
 		randomizeAttributes();
@@ -41,10 +41,10 @@ public class PoisonCard extends ActivateCard implements Activatable{
 
 	    isOnCooldown = true;
 	    
-	    double poison = GameLogic.getPlayer().getAttackPerClick() * dotDamage;
+	    double poison = GameLogic.getPlayer().getAttackPerClick() * dotDamage / 100;
 	    
 	    
-	    Timeline poisonTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+	    poisonTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
 	        
 	        if (GameLogic.isStoryBattle()) {
 	            GameLogic.reduceMonsterHpStory(poison);
@@ -67,4 +67,12 @@ public class PoisonCard extends ActivateCard implements Activatable{
 		return String.format("Card: %s [%s Tier]\n- deal: %.2f%% of damage per click every seconds to enemy for 10 seconds \n-cooldown: 7sec",
 				name , tier , dotDamage);
 	}
+	
+	@Override
+	public void resetCooldown() {
+    	cooldownTimeLeft.set(cooldown);
+    	if(poisonTimeline != null) poisonTimeline.stop();
+    	isOnCooldown = false;
+    }
+
 }

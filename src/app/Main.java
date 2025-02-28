@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import logic.GameLogic;
 import ui.CardEquipmentScene;
 import ui.CardInventoryScene;
+import ui.EndCreditScene;
 import ui.HomeScene;
 import ui.RandomScene;
 import ui.SceneManager;
@@ -32,6 +33,7 @@ public class Main extends Application {
         SceneManager.addScene("UPGRADE", new Scene(new UpgradeScene(), 500, 600));
         SceneManager.addScene("CARD_EQUIPMENT", new Scene(new CardEquipmentScene(), 500, 600));
         SceneManager.addScene("CARD_INVENTORY", new Scene(new CardInventoryScene(), 500, 600));
+     
         // Start on Home Scene
         SceneManager.switchTo("HOME");
         

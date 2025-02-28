@@ -22,6 +22,7 @@ import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 import player.Player;
 import ui.BaseScene;
+import ui.EndCreditScene;
 import ui.HomeScene;
 import ui.RandomScene;
 import ui.SceneManager;
@@ -41,6 +42,10 @@ public class GameLogic {
 //	================================================================================
 	private static SimpleIntegerProperty storyState = new SimpleIntegerProperty();
 	private static SimpleDoubleProperty storyTimerProgress = new SimpleDoubleProperty();
+	
+	public static boolean isTimeStop;
+	
+	
 	private static boolean isStoryBattle;
 	private static ArrayList<Monster> monsterStory;
 	private static Monster monsterHome;
@@ -61,9 +66,12 @@ public class GameLogic {
 
 	private static BaseCard[] equippedCards = new BaseCard[4];
 	private static ArrayList<BaseCard> ownedCards = new ArrayList<>();
+	
+	private static int playTime = 0;
 
 	public static void init() {
 		setStage(1);
+
 		initMonster();
 		monsterHome = monsterStory.get(0);
 		monsterHpHome.set(monsterHome.getMonsterHp());
@@ -87,6 +95,9 @@ public class GameLogic {
 		setStoryState();
 
 		startDpsHome();
+		
+		if(playTime == 0) playBackgroundSound();
+		playTime++;
 	}
 
 	public static BaseCard[] getEquippedCards() {
@@ -107,6 +118,7 @@ public class GameLogic {
 		if (oldCard instanceof BuffStatCard) {
 			((BuffStatCard) oldCard).CancelBuff();
 		}
+		
 
 		equippedCards[slotIndex] = newCard;
 
@@ -145,6 +157,7 @@ public class GameLogic {
 	}
 
 	public static void startStoryMode() {
+
 		monsterHpStory.set(monsterStory.get(getStage()).getMonsterHp());
 		for (BaseCard card : equippedCards) {
 			if (card instanceof ActivateCard)
@@ -152,6 +165,7 @@ public class GameLogic {
 		}
 		startDpsStory();
 		startTimer();
+
 	}
 
 	public static boolean isStoryBattle() {
@@ -207,29 +221,38 @@ public class GameLogic {
 	}
 
 	private static void startTimer() {
-		int totalTime = 5;
-		isStoryBattle = true;
-		new Thread(() -> {
-			double timeNow = totalTime;
-			while (timeNow > 0) {
-				try {
-					if (!SceneManager.getSceneName().equals("STORY")) {
-						isStoryBattle = false;
-						return;
-					}
-					double progress = timeNow / totalTime;
-					Platform.runLater(() -> storyTimerProgress.set(progress));
+	    int totalTime = 30;
+	    isTimeStop = false;
+	    isStoryBattle = true;
+	    
+	    new Thread(() -> {
+	        double timeNow = totalTime;
+	        while (timeNow > 0) {
+	            try {
+	                if (!SceneManager.getSceneName().equals("STORY")) {
+	                    isStoryBattle = false;
+	                    break;
+	                }
+	                if(isTimeStop) {
+	                	continue;
+	                }
+	                
+	                double progress = timeNow / totalTime;
+	                Platform.runLater(() -> storyTimerProgress.set(progress));
+	                timeNow -= 0.1;
+	                Thread.sleep(100);
+	            } catch (InterruptedException e1) {
+	                Thread.currentThread().interrupt(); 
+	                System.out.println("Timer thread interrupted.");
+	                return;
+	            }
+	        }
+	        isStoryBattle = false;
+	        if(stage < 1) Platform.runLater(() -> {
+	        	SceneManager.switchTo("HOME");
+	        });
+	    }).start();
 
-					timeNow -= 0.1;
-					Thread.sleep(100);
-				} catch (InterruptedException e1) {
-					Thread.currentThread().interrupt();
-					e1.printStackTrace();
-				}
-			}
-			isStoryBattle = false;
-			Platform.runLater(() -> SceneManager.switchTo("HOME"));
-		}).start();
 	}
 
 	private static void initMonster() {
@@ -295,14 +318,16 @@ public class GameLogic {
 		return monsterStory.get(index);
 	}
 
+
 	public static void monsterStoryIsDead() {
 
-		if (stage >= monsterStory.size()) {
+		if(stage == 1) {
+		//if (stage >= monsterStory.size()-1) {
 			System.out.println("🎉 Story Completed! Returning to Home...");
-			SceneManager.switchTo("HOME");
+			SceneManager.addScene("END_CREDIT", new Scene(new EndCreditScene(), 500, 600));
+			SceneManager.switchTo("END_CREDIT");
 			return;
 		}
-
 		// Proceed to the next stage
 		monsterHome = monsterStory.get(stage);
 		monsterHpHome.set(monsterHome.getMonsterHp());
@@ -335,19 +360,18 @@ public class GameLogic {
 
 	public static void reduceMonsterHpHome(double amount) {
 
-		monsterHpHome.set(monsterHpHome.get() - amount);
+		monsterHpHome.set(monsterHpHome.get() - amount<=0?0:monsterHpHome.get() - amount);
 		if (monsterHpHome.get() <= 0) {
 			monsterHomeIsDead();
 		}
-
 	}
 
 	public static void reduceMonsterHpStory(double amount) {
-		monsterHpStory.set(monsterHpStory.get() - amount);
-		if (monsterHpStory.get() <= 0) {
-			monsterStoryIsDead();
-		}
 
+	    monsterHpStory.set(monsterHpStory.get() - amount<=0?0:monsterHpStory.get() - amount);
+	    if (monsterHpStory.get() <= 0) {
+	    	monsterStoryIsDead();
+	    }
 	}
 
 	public static double clickHandle() {
@@ -355,7 +379,9 @@ public class GameLogic {
 		if (damageCardBoost > 0)
 			amount *= (1 + (damageCardBoost / 100.0));
 		Random random = new Random();
+
 		double critRate = player.getCritRate() + (critChanceCardBoost / 100.0);
+
 		if (random.nextDouble() < critRate) {
 			amount *= (player.getCritDamage() + (critDamageCardBoost / 100.0));
 		}
@@ -376,22 +402,26 @@ public class GameLogic {
 		dpsHomeThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 			double dam = damagePerSec.get() * (1 + (companionCardBoost / 100.0));
 			reduceMonsterHpHome(dam);
+
 		}));
 		dpsHomeThread.setCycleCount(Timeline.INDEFINITE);
 		dpsHomeThread.play();
 	}
 
 	public static void startDpsStory() {
+		
 		if (dpsStoryThread != null) {
 			dpsStoryThread.stop();
 
 		}
+
 		if (dpsHomeThread != null) {
 			dpsHomeThread.stop();
 		}
 		dpsStoryThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 			double dam = damagePerSec.get() * (1 + (companionCardBoost / 100.0));
 			reduceMonsterHpStory(dam);
+
 		}));
 		dpsStoryThread.setCycleCount(Timeline.INDEFINITE);
 		dpsStoryThread.play();
@@ -437,4 +467,5 @@ public class GameLogic {
 	public static void setStoryState() {
 		storyState.set(stage);
 	}
+
 }

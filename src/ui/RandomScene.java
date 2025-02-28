@@ -3,8 +3,13 @@ package ui;
 import card.BaseCard;
 import card.BigBangImpactCard;
 import card.BuffStatCard;
+import card.BullsEyeCard;
 import card.CardTier;
-import javafx.geometry.Insets;
+import card.FriendshipIsMagicCard;
+import card.GlassCannonCard;
+import card.HeavyHiterCard;
+import card.PoisonCard;
+import card.WeakPointCard;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,7 +30,10 @@ public class RandomScene extends BaseScene {
     private HBox cardDisplay;
     private static final CardTier[] TIERS = { CardTier.COMMON, CardTier.RARE, CardTier.EPIC, CardTier.LEGENDARY};
     private Label notEnoughGemsLabel;
-    
+    private String[] specialCard = {
+            "BigBangImpact", "Poison", "BullsEye", "FriendshipIsMagic", 
+            "GlassCannon", "WeakPoint", "HeavyHiter"
+        };
     
     public RandomScene() {
         super();
@@ -110,7 +118,7 @@ public class RandomScene extends BaseScene {
         	
             CardTier randomTier = TIERS[indexTier];
             
-            Boolean isSpecial = random.nextDouble() >= 0.8;
+            Boolean isSpecial = random.nextDouble() >= 0;
             BaseCard card;
             
             if(!isSpecial) {
@@ -118,7 +126,8 @@ public class RandomScene extends BaseScene {
             	card = new BuffStatCard("Buff Overall Card", "cards/buffCard/default.png", randomTier);
             }else {
             	//System.out.println("special");
-            	card = new BigBangImpactCard("Big Bang pew pew", "cards/specialCard/attackCard.png", randomTier);
+            	String chosenCard = specialCard[random.nextInt(specialCard.length)];
+            	card = createCard(chosenCard, randomTier);
             }
             
 
@@ -192,6 +201,27 @@ public class RandomScene extends BaseScene {
                 return "orange";
             default:
                 return "black;";
+        }
+    }
+    
+    private BaseCard createCard(String type, CardTier tier) {
+        switch (type) {
+            case "BigBangImpact":
+                return new BigBangImpactCard("Big Bang Impact", "cards/specialCard/attackCard.png", tier);
+            case "Poison":
+                return new PoisonCard("Poison Attack", "cards/specialCard/attackCard.png", tier);
+            case "BullsEye":
+            	return new BullsEyeCard("Bulls Eye", "cards/specialCard/attackCard.png", tier);
+            case "FriendshipIsMagic":
+            	return new FriendshipIsMagicCard("Friend Ship", "cards/specialCard/attackCard.png", tier);
+            case "GlassCannon":
+            	return new GlassCannonCard("Glass Cannon", "cards/specialCard/attackCard.png", tier);
+            case "WeakPoint":
+            	return new WeakPointCard("Weak Point", "cards/specialCard/attackCard.png", tier);
+            case "HeavyHiter":
+            	return new HeavyHiterCard("Heavy Hiter", "cards/specialCard/attackCard.png", tier);
+            default:
+                throw new IllegalArgumentException("Unknown special card type: " + type);
         }
     }
 

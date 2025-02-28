@@ -25,6 +25,7 @@ public class SceneManager {
     }
     public static void switchTo(String name) {
         if (scenes.containsKey(name)) {
+        	System.out.println(name);
         	sceneName = name;
             primaryStage.setScene(scenes.get(name));
             primaryStage.show();
@@ -47,6 +48,13 @@ public class SceneManager {
                 CardInventoryScene inventoryScene = (CardInventoryScene) scenes.get("CARD_INVENTORY").getRoot();
                 inventoryScene.updateEquippedCardsInventory();
             }
+            
+            if(name.equals("END_CREDIT")) {
+            	EndCreditScene endCreditScene = (EndCreditScene) scenes.get("END_CREDIT").getRoot();
+            	endCreditScene.updateEndCreditUI();
+            }
+            
+            
         }
     }
     

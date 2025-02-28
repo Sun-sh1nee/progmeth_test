@@ -100,7 +100,6 @@ public class BaseScene extends VBox {
         Label inventory = new Label("box");
         
         inventory.setOnMouseClicked(e -> SceneManager.switchTo("CARD_EQUIPMENT"));
-
         randomButton.setOnMouseClicked(e -> SceneManager.switchTo("RANDOM"));
         homeButton.setOnMouseClicked(e -> SceneManager.switchTo("HOME"));
         storyButton.setOnMouseClicked(e -> SceneManager.switchTo("STORY"));
@@ -120,19 +119,15 @@ public class BaseScene extends VBox {
 
         this.getChildren().add(rootContainer);
         
-        GameLogic.playBackgroundSound();
     }
     
     private void createSettingsPage() {
-        System.out.println("✅ Creating Centered Settings Page...");
 
-        // 🟢 พื้นหลังโปร่งใส (ให้เห็น Main UI ข้างหลัง)
         Region background = new Region();
         background.setStyle("-fx-background-color: rgba(0, 0, 0, 0.6);");
         background.setPrefSize(800, 600);
         background.setOnMouseClicked(e -> toggleSettingsPage()); // คลิกข้างนอกเพื่อปิด
 
-        // 🟢 กล่อง Settings (Popup ตรงกลาง)
         VBox settingsBox = new VBox(15);
         settingsBox.setAlignment(Pos.CENTER);
         settingsBox.setStyle(
