@@ -158,8 +158,6 @@ public class GameLogic {
 		return isStoryBattle;
 	}
 
-
-
 	public static void applyExtraDamage(double extraDamage) {
 		GameLogic.extraDamage += extraDamage;
 	}
