@@ -7,7 +7,6 @@ import card.*;
 import companion.Companion;
 import enemy.Monster;
 import javafx.animation.KeyFrame;
-
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -37,15 +36,11 @@ public class GameLogic {
 	private static SimpleIntegerProperty attackPerClick = new SimpleIntegerProperty();
 	private static SimpleIntegerProperty damagePerSec = new SimpleIntegerProperty();
 	private static SimpleStringProperty musicSetting = new SimpleStringProperty();
-//	!!!!!!!!!
 	private static SimpleStringProperty effectSetting = new SimpleStringProperty();
-//	================================================================================
 	private static SimpleIntegerProperty storyState = new SimpleIntegerProperty();
 	private static SimpleDoubleProperty storyTimerProgress = new SimpleDoubleProperty();
-	
+
 	public static boolean isTimeStop;
-	
-	
 	private static boolean isStoryBattle;
 	private static ArrayList<Monster> monsterStory;
 	private static Monster monsterHome;
@@ -53,37 +48,29 @@ public class GameLogic {
 	private static Timeline dpsHomeThread;
 	private static Timeline dpsStoryThread;
 	private static Player player = new Player();
-
 	private static double damageCardBoost;
 	private static double gemDropChanceCardBoost;
 	private static double critChanceCardBoost;
 	private static double critDamageCardBoost;
 	private static double companionCardBoost;
 	private static double extraDamage;
-
 	private static SimpleBooleanProperty isMusic = new SimpleBooleanProperty(true);
 	private static AudioClip backgroundSound;
-
 	private static BaseCard[] equippedCards = new BaseCard[4];
 	private static ArrayList<BaseCard> ownedCards = new ArrayList<>();
-	
 	private static int playTime = 0;
 
 	public static void init() {
 		setStage(1);
-
 		initMonster();
 		monsterHome = monsterStory.get(0);
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		monsterHpStory.set(monsterStory.get(1).getMonsterHp());
-
 		croissantCount.set(20000000);
 		gemCount.set(11110);
 		setAttackPerClick();
 		setDamagePerSec();
-
-		musicSetting.set("ON"); // not finish
-
+		musicSetting.set("ON");
 		damageCardBoost = 0;
 		gemDropChanceCardBoost = 0;
 		critChanceCardBoost = 0;
@@ -91,12 +78,10 @@ public class GameLogic {
 		companionCardBoost = 0;
 		extraDamage = 0;
 		isStoryBattle = false;
-
 		setStoryState();
-
 		startDpsHome();
-		
-		if(playTime == 0) playBackgroundSound();
+		if (playTime == 0)
+			playBackgroundSound();
 		playTime++;
 	}
 
@@ -113,19 +98,14 @@ public class GameLogic {
 	}
 
 	public static void equipCard(BaseCard newCard, int slotIndex) {
-
 		BaseCard oldCard = equippedCards[slotIndex];
 		if (oldCard instanceof BuffStatCard) {
 			((BuffStatCard) oldCard).CancelBuff();
 		}
-		
-
 		equippedCards[slotIndex] = newCard;
-
 		if (newCard instanceof BuffStatCard) {
 			((BuffStatCard) newCard).applyBuff();
 		}
-
 	}
 
 	public static void playBackgroundSound() {
@@ -135,7 +115,6 @@ public class GameLogic {
 			backgroundSound.setCycleCount(AudioClip.INDEFINITE);
 			backgroundSound.setVolume(0.1);
 		}
-
 		if (isMusic.get()) {
 			backgroundSound.play();
 		} else {
@@ -157,7 +136,6 @@ public class GameLogic {
 	}
 
 	public static void startStoryMode() {
-
 		monsterHpStory.set(monsterStory.get(getStage()).getMonsterHp());
 		for (BaseCard card : equippedCards) {
 			if (card instanceof ActivateCard)
@@ -165,7 +143,6 @@ public class GameLogic {
 		}
 		startDpsStory();
 		startTimer();
-
 	}
 
 	public static boolean isStoryBattle() {
@@ -221,53 +198,49 @@ public class GameLogic {
 	}
 
 	private static void startTimer() {
-	    int totalTime = 30;
-	    isTimeStop = false;
-	    isStoryBattle = true;
-	    
-	    new Thread(() -> {
-	        double timeNow = totalTime;
-	        while (timeNow > 0) {
-	            try {
-	                if (!SceneManager.getSceneName().equals("STORY")) {
-	                    isStoryBattle = false;
-	                    break;
-	                }
-	                if(isTimeStop) {
-	                	continue;
-	                }
-	                
-	                double progress = timeNow / totalTime;
-	                Platform.runLater(() -> storyTimerProgress.set(progress));
-	                timeNow -= 0.1;
-	                Thread.sleep(100);
-	            } catch (InterruptedException e1) {
-	                Thread.currentThread().interrupt(); 
-	                System.out.println("Timer thread interrupted.");
-	                return;
-	            }
-	        }
-	        isStoryBattle = false;
-	        if(stage < 1) Platform.runLater(() -> {
-	        	SceneManager.switchTo("HOME");
-	        });
-	    }).start();
-
+		int totalTime = 30;
+		isTimeStop = false;
+		isStoryBattle = true;
+		new Thread(() -> {
+			double timeNow = totalTime;
+			while (timeNow > 0) {
+				try {
+					if (!SceneManager.getSceneName().equals("STORY")) {
+						isStoryBattle = false;
+						break;
+					}
+					if (isTimeStop) {
+						continue;
+					}
+					double progress = timeNow / totalTime;
+					Platform.runLater(() -> storyTimerProgress.set(progress));
+					timeNow -= 0.1;
+					Thread.sleep(100);
+				} catch (InterruptedException e1) {
+					Thread.currentThread().interrupt();
+					System.out.println("Timer thread interrupted.");
+					return;
+				}
+			}
+			isStoryBattle = false;
+			if (stage < 1)
+				Platform.runLater(() -> {
+					SceneManager.switchTo("HOME");
+				});
+		}).start();
 	}
 
 	private static void initMonster() {
 		monsterStory = new ArrayList<Monster>();
-//		ArrayList<String> images = new ArrayList<String>();
 		monsterStory.add(new Monster(200, 50, 1, 1.0, 1.0, null));
 		for (int i = 1; i <= 30; ++i) {
 			int hpBase = i * 1000;
 			int coinBase = i * 100;
 			double coinScal = 1;
 			double hpScal = 1.3;
-
 			monsterStory.add(new Monster(hpBase, coinBase, i, hpScal, coinScal, null));
-
 		}
+		
 	}
 
 	public static SimpleLongProperty getCroissantCount() {
@@ -282,7 +255,7 @@ public class GameLogic {
 		return croissantCount;
 	}
 
-	public static SimpleLongProperty gemCountProperty() {
+	public static SimpleLongProperty getGemCountProperty() {
 		return gemCount;
 	}
 
@@ -310,68 +283,47 @@ public class GameLogic {
 		return storyTimerProgress;
 	}
 
-	public static Monster getMonsterStage(int index) {
-		if ((index >= 30 || index < 0)) {
-			System.out.println("monster stage index out of bound");
-			return null;
-		}
-		return monsterStory.get(index);
-	}
-
-
 	public static void monsterStoryIsDead() {
-
-		if(stage == 1) {
-		//if (stage >= monsterStory.size()-1) {
+		if (stage == 30) {
 			System.out.println("🎉 Story Completed! Returning to Home...");
 			SceneManager.addScene("END_CREDIT", new Scene(new EndCreditScene(), 500, 600));
 			SceneManager.switchTo("END_CREDIT");
 			return;
 		}
-		// Proceed to the next stage
 		monsterHome = monsterStory.get(stage);
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		stage++;
 		setStoryState();
-		// monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
-		monsterHpStory.set(getMonsterStage(stage).getMonsterHp());
-
+		monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
 		for (BaseCard card : equippedCards) {
 			if (card instanceof ActivateCard)
 				((ActivateCard) card).resetCooldown();
 		}
-		// monsterHpHome.set(monsterStory.get(stage - 1).getMonsterHp());
 		gemCount.set(gemCount.get() + 2);
 		SceneManager.switchTo("HOME");
-//			((HomeScene) SceneManager.getSceneNode("HOME")).updateHpMonsterHome();
-
 	}
 
 	public static void monsterHomeIsDead() {
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		addCroissants(monsterHome.getCoinDrop());
-
 		Random random = new Random();
 		if (random.nextDouble() < player.getChanceToDropGem()) {
 			gemCount.set(gemCount.get() + 1);
 		}
-//			((HomeScene) SceneManager.getSceneNode("HOME")).updateHpMonsterHome();
 	}
 
 	public static void reduceMonsterHpHome(double amount) {
-
-		monsterHpHome.set(monsterHpHome.get() - amount<=0?0:monsterHpHome.get() - amount);
+		monsterHpHome.set(monsterHpHome.get() - amount <= 0 ? 0 : monsterHpHome.get() - amount);
 		if (monsterHpHome.get() <= 0) {
 			monsterHomeIsDead();
 		}
 	}
 
 	public static void reduceMonsterHpStory(double amount) {
-
-	    monsterHpStory.set(monsterHpStory.get() - amount<=0?0:monsterHpStory.get() - amount);
-	    if (monsterHpStory.get() <= 0) {
-	    	monsterStoryIsDead();
-	    }
+		monsterHpStory.set(monsterHpStory.get() - amount <= 0 ? 0 : monsterHpStory.get() - amount);
+		if (monsterHpStory.get() <= 0) {
+			monsterStoryIsDead();
+		}
 	}
 
 	public static double clickHandle() {
@@ -379,9 +331,7 @@ public class GameLogic {
 		if (damageCardBoost > 0)
 			amount *= (1 + (damageCardBoost / 100.0));
 		Random random = new Random();
-
 		double critRate = player.getCritRate() + (critChanceCardBoost / 100.0);
-
 		if (random.nextDouble() < critRate) {
 			amount *= (player.getCritDamage() + (critDamageCardBoost / 100.0));
 		}
@@ -396,36 +346,28 @@ public class GameLogic {
 		}
 		if (dpsStoryThread != null) {
 			dpsStoryThread.stop();
-
 		}
-
 		dpsHomeThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 			double dam = damagePerSec.get() * (1 + (companionCardBoost / 100.0));
 			reduceMonsterHpHome(dam);
-
 		}));
 		dpsHomeThread.setCycleCount(Timeline.INDEFINITE);
 		dpsHomeThread.play();
 	}
 
 	public static void startDpsStory() {
-		
 		if (dpsStoryThread != null) {
 			dpsStoryThread.stop();
-
 		}
-
 		if (dpsHomeThread != null) {
 			dpsHomeThread.stop();
 		}
 		dpsStoryThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 			double dam = damagePerSec.get() * (1 + (companionCardBoost / 100.0));
 			reduceMonsterHpStory(dam);
-
 		}));
 		dpsStoryThread.setCycleCount(Timeline.INDEFINITE);
 		dpsStoryThread.play();
-
 	}
 
 	public static Player getPlayer() {
@@ -445,15 +387,14 @@ public class GameLogic {
 	}
 
 	public static boolean reduceGemCount(int amount) {
-		if (gemCountProperty().get() < amount)
+		if (getGemCountProperty().get() < amount)
 			return false;
-		gemCount.set(gemCountProperty().get() - amount);
+		gemCount.set(getGemCountProperty().get() - amount);
 		return true;
 	}
 
 	public static void setDamagePerSec() {
 		damagePerSec.set(player.getDamagePerSec());
-
 	}
 
 	public static Monster getMonsterHome() {
@@ -467,5 +408,4 @@ public class GameLogic {
 	public static void setStoryState() {
 		storyState.set(stage);
 	}
-
 }

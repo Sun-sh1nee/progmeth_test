@@ -49,7 +49,7 @@ public class BaseScene extends VBox {
         gemCounter.setAlignment(Pos.CENTER_LEFT);
         Label gemIcon = new Label("💎");
         Label gemCount = new Label();
-        gemCount.textProperty().bind(GameLogic.gemCountProperty().asString());
+        gemCount.textProperty().bind(GameLogic.getGemCountProperty().asString());
         gemCount.setFont(new Font(18));
         gemCounter.getChildren().addAll(gemIcon, gemCount);
 
