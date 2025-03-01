@@ -47,13 +47,7 @@ public class BigBangImpactCard extends ActivateCard implements Activatable{
 	        GameLogic.reduceMonsterHpHome(damage);
 	    }
 
-	    isOnCooldown = true;
-	    
-	    Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(cooldown), event -> {
-	        isOnCooldown = false;
-	    }));
-	    cooldownTimeline.setCycleCount(1);
-	    cooldownTimeline.play();
+
 	}
 	
 	@Override

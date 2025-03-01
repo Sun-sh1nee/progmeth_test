@@ -9,11 +9,7 @@ public class ChanceToDropGemItem extends Item {
 
 	public ChanceToDropGemItem(String itemURL) {
 		super("ChanceToDropGemItem", 1000, itemURL);
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> 2b144089b889e2e7250ccbd15ac29db39b3fb226
 		setChanceToDropGem(0.01);
 		setScalFacCost(0.28);
 		setScalFacStatus(0.005);

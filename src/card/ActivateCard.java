@@ -49,6 +49,7 @@ public abstract class ActivateCard extends BaseCard implements Activatable {
         );
         cooldownTimer.setOnFinished(e -> {
         	cooldownTimeLeft.set(cooldown);
+        	isOnCooldown = false;
         });
         cooldownTimer.setCycleCount((int) (cooldown * 10)); 
         cooldownTimer.play();

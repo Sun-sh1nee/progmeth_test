@@ -10,7 +10,7 @@ import logic.GameLogic;
 public class WeakPointCard extends ActivateCard implements Activatable{
 	private double extraBoost;
 	public WeakPointCard(String name , String image , CardTier tier) {
-		super(name, image, tier ,7);
+		super(name, image, tier ,12);
 		randomizeAttributes();
 	}
 	
@@ -37,7 +37,7 @@ public class WeakPointCard extends ActivateCard implements Activatable{
 	public void activate() {
 		if (isOnCooldown)return;
 	    
-	    isOnCooldown = true;
+
 	    
 	    GameLogic.applyExtraDamage(extraBoost);
 	    
@@ -45,13 +45,7 @@ public class WeakPointCard extends ActivateCard implements Activatable{
 	      
 	        GameLogic.cancelExtraDamage(extraBoost);
 	        
-	        Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(cooldown), e -> {
-	            
-	            isOnCooldown = false;
-	            
-	        }));
-	        cooldownTimeline.setCycleCount(1);
-	        cooldownTimeline.play();
+
 	    }));
 	    buffTimeline.setCycleCount(1);
 	    buffTimeline.play();
