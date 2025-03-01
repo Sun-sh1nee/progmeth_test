@@ -4,29 +4,21 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import card.*;
-import companion.Companion;
 import enemy.Monster;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Scene;
-import javafx.scene.layout.Priority;
 import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 import player.Player;
-import ui.BaseScene;
 import ui.EndCreditScene;
-import ui.HomeScene;
-import ui.RandomScene;
 import ui.SceneManager;
-import ui.StoryScene;
-import ui.UpgradeScene;
 
 public class GameLogic {
 	private static SimpleLongProperty croissantCount = new SimpleLongProperty();
@@ -36,7 +28,6 @@ public class GameLogic {
 	private static SimpleIntegerProperty attackPerClick = new SimpleIntegerProperty();
 	private static SimpleIntegerProperty damagePerSec = new SimpleIntegerProperty();
 	private static SimpleStringProperty musicSetting = new SimpleStringProperty();
-	private static SimpleStringProperty effectSetting = new SimpleStringProperty();
 	private static SimpleIntegerProperty storyState = new SimpleIntegerProperty();
 	private static SimpleDoubleProperty storyTimerProgress = new SimpleDoubleProperty();
 
@@ -56,6 +47,7 @@ public class GameLogic {
 	private static double extraDamage;
 	private static SimpleBooleanProperty isMusic = new SimpleBooleanProperty(true);
 	private static AudioClip backgroundSound;
+	private static AudioClip endCreditBgSound;
 	private static BaseCard[] equippedCards = new BaseCard[4];
 	private static ArrayList<BaseCard> ownedCards = new ArrayList<>();
 	private static int playTime = 0;
@@ -80,9 +72,7 @@ public class GameLogic {
 		isStoryBattle = false;
 		setStoryState();
 		startDpsHome();
-		if (playTime == 0)
-			playBackgroundSound();
-		playTime++;
+		playBackgroundSound();
 	}
 
 	public static BaseCard[] getEquippedCards() {
@@ -109,6 +99,8 @@ public class GameLogic {
 	}
 
 	public static void playBackgroundSound() {
+		if(endCreditBgSound != null) endCreditBgSound.stop();
+		
 		if (backgroundSound == null) {
 			String backgroundURL = ClassLoader.getSystemResource("sounds/backgroundSound.mp3").toString();
 			backgroundSound = new AudioClip(backgroundURL);
@@ -120,6 +112,21 @@ public class GameLogic {
 		} else {
 			backgroundSound.stop();
 		}
+	}
+	
+	public static void endCreditBackgroundSound() {
+		if(backgroundSound != null) {
+			isMusic.set(true);
+			backgroundSound.stop();
+		}
+		if(endCreditBgSound == null) {	
+			String endCreditBgURL = ClassLoader.getSystemResource("sounds/endCreditBgSound.mp3").toString();
+			endCreditBgSound = new AudioClip(endCreditBgURL);
+			endCreditBgSound.setCycleCount(AudioClip.INDEFINITE);
+			endCreditBgSound.setVolume(0.5);
+		}
+		
+		endCreditBgSound.play();
 	}
 
 	public static SimpleBooleanProperty isMusicProperty() {
@@ -236,7 +243,7 @@ public class GameLogic {
 		for (int i = 1; i <= 30; ++i) {
 			int hpBase = i * 1000;
 			int coinBase = i * 100;
-			double coinScal = 1;
+			double coinScal = 0.5;
 			double hpScal = 1.3;
 			monsterStory.add(new Monster(hpBase, coinBase, i, hpScal, coinScal, null));
 		}
@@ -284,7 +291,7 @@ public class GameLogic {
 	}
 
 	public static void monsterStoryIsDead() {
-		if (stage == 30) {
+		if (stage >= 30) {
 			System.out.println("🎉 Story Completed! Returning to Home...");
 			SceneManager.addScene("END_CREDIT", new Scene(new EndCreditScene(), 500, 600));
 			SceneManager.switchTo("END_CREDIT");

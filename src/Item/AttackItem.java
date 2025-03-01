@@ -3,38 +3,36 @@ package Item;
 import logic.GameLogic;
 
 public class AttackItem extends Item {
-	
 	private int attack;
 	private double scalFacStatus;
 	private double scalFacCost;
-	
+
 	public AttackItem(String itemURL) {
 		super("AttackItem", 100, itemURL);
-		
+
 		setAttack(100);
 		setScalFacCost(0.13);
 		setScalFacStatus(1.15);
 	}
+
 	public void updateStat() {
-		// GameLogic update player status 
 		GameLogic.getPlayer().setAttackPerClick(attack);
 	}
 
 	@Override
 	public void upgrade() {
-		this.setLevelItem(levelItem.get()+1);
-		setAttack((int)(getAttack() * getScalFacStatus()));
-		setCostItem((int)(getCostItem().get() * (1+getScalFacCost())));
+		this.setLevelItem(levelItem.get() + 1);
+		setAttack((int) (getAttack() * getScalFacStatus()));
+		setCostItem((int) (getCostItem().get() * (1 + getScalFacCost())));
 		updateStat();
 	}
-
 
 	public int getAttack() {
 		return attack;
 	}
 
 	public void setAttack(int attack) {
-		this.attack = attack<1?1:attack;
+		this.attack = attack < 1 ? 1 : attack;
 	}
 
 	public double getScalFacStatus() {
@@ -42,7 +40,7 @@ public class AttackItem extends Item {
 	}
 
 	public void setScalFacStatus(double scalFacStatus) {
-		this.scalFacStatus = scalFacStatus<0?0.01:scalFacStatus;
+		this.scalFacStatus = scalFacStatus < 0 ? 0.01 : scalFacStatus;
 	}
 
 	public double getScalFacCost() {
@@ -50,12 +48,10 @@ public class AttackItem extends Item {
 	}
 
 	public void setScalFacCost(double scalFacCost) {
-		this.scalFacCost = scalFacCost<0?0.01:scalFacCost;
+		this.scalFacCost = scalFacCost < 0 ? 0.01 : scalFacCost;
 	}
+
 	public String toString() {
 		return "Attack";
 	}
-	
-	
-	
 }

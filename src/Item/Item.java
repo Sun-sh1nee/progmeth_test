@@ -1,23 +1,33 @@
 package Item;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class Item {
+	protected String nameItem;
+	protected IntegerProperty levelItem;
+	protected IntegerProperty costItem;
+	protected String itemURL;
 
-    protected String nameItem;
-    protected IntegerProperty levelItem;
-    protected IntegerProperty costItem;
-    protected String itemURL;
+	public Item(String nameItem, int costItem, String itemURL) {
+		this.nameItem = nameItem;
+		this.costItem = new SimpleIntegerProperty(costItem);
+		this.itemURL = itemURL;
+		this.levelItem = new SimpleIntegerProperty(1);
+	}
 
+<<<<<<< HEAD
     public Item(String nameItem, int costItem, String itemURL) {
     	this.setNameItem(nameItem);
     	this.costItem = new SimpleIntegerProperty(costItem);
         this.setItemURL(itemURL);
         this.levelItem = new SimpleIntegerProperty(1);
     }
+=======
+	public abstract void updateStat();
+>>>>>>> 2b144089b889e2e7250ccbd15ac29db39b3fb226
 
-    public abstract void updateStat();
-    public abstract void upgrade();
+	public abstract void upgrade();
 
 	public String getNameItem() {
 		return nameItem;
@@ -50,10 +60,9 @@ public abstract class Item {
 	public void setItemURL(String itemURL) {
 		this.itemURL = itemURL;
 	}
-	
+
 	public IntegerProperty levelProperty() {
 		return levelItem;
 	}
 	
-    
 }

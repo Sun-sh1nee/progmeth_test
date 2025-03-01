@@ -40,7 +40,11 @@ public class RandomScene extends BaseScene {
 
         
         Label chestLabel = new Label("CHEST");
-        Rectangle chest = new Rectangle(100, 60, Color.GRAY);
+        String chestPath = ClassLoader.getSystemResource("objects/chest.png").toString();
+        ImageView chest = new ImageView(new Image(chestPath));
+        chest.setFitWidth(100);
+        chest.setFitHeight(80);
+   
 
         
         HBox buttonBox = new HBox(20); // add 20 magin
@@ -74,7 +78,7 @@ public class RandomScene extends BaseScene {
         cardDisplay.setDisable(false);
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
-        scrollPane.setPrefHeight(200);
+        scrollPane.setPrefHeight(180);
         scrollPane.setStyle(
         		"-fx-background: transparent;"
         	);
@@ -118,7 +122,7 @@ public class RandomScene extends BaseScene {
         	
             CardTier randomTier = TIERS[indexTier];
             
-            Boolean isSpecial = random.nextDouble() >= 0;
+            Boolean isSpecial = random.nextDouble() >= 0.8;
             BaseCard card;
             
             if(!isSpecial) {
@@ -143,9 +147,9 @@ public class RandomScene extends BaseScene {
             	    "-fx-border-color: " + getTierStyle(card.getTier()) + "; "
             	);
             
-            cardBlock.setMinWidth(110);
-            cardBlock.setMaxWidth(110); 
-            cardBlock.setPrefWidth(110); 
+            cardBlock.setMinWidth(100);
+            cardBlock.setMaxWidth(100); 
+            cardBlock.setPrefWidth(100); 
 
 
 
@@ -153,8 +157,8 @@ public class RandomScene extends BaseScene {
             ImageView cardImage = new ImageView();
             cardImage.setPreserveRatio(true); 
             cardImage.setSmooth(true); 
-            cardImage.setFitWidth(80);
-            cardImage.setFitHeight(100);
+            cardImage.setFitWidth(70);
+            cardImage.setFitHeight(90);
 
 
             
@@ -190,7 +194,7 @@ public class RandomScene extends BaseScene {
 
     
     private String getTierStyle(CardTier tier) {
-        switch (tier) {
+        switch (tier) { 
             case COMMON:
                 return "gray";
             case RARE:
@@ -207,19 +211,19 @@ public class RandomScene extends BaseScene {
     private BaseCard createCard(String type, CardTier tier) {
         switch (type) {
             case "BigBangImpact":
-                return new BigBangImpactCard("Big Bang Impact", "cards/specialCard/attackCard.png", tier);
+                return new BigBangImpactCard("Big Bang Impact", "cards/specialCard/bigBangImpact.png", tier);
             case "Poison":
-                return new PoisonCard("Poison Attack", "cards/specialCard/attackCard.png", tier);
+                return new PoisonCard("Poison", "cards/specialCard/poison.png", tier);
             case "BullsEye":
-            	return new BullsEyeCard("Bulls Eye", "cards/specialCard/attackCard.png", tier);
+            	return new BullsEyeCard("Bulls Eye", "cards/specialCard/bullsEye.png", tier);
             case "FriendshipIsMagic":
-            	return new FriendshipIsMagicCard("Friend Ship", "cards/specialCard/attackCard.png", tier);
+            	return new FriendshipIsMagicCard("Friend Ship", "cards/specialCard/friendshipIsMagicCard.png", tier);
             case "GlassCannon":
-            	return new GlassCannonCard("Glass Cannon", "cards/specialCard/attackCard.png", tier);
+            	return new GlassCannonCard("Glass Cannon", "cards/specialCard/glassCannonCard.png", tier);
             case "WeakPoint":
-            	return new WeakPointCard("Weak Point", "cards/specialCard/attackCard.png", tier);
+            	return new WeakPointCard("Weak Point", "cards/specialCard/weakPoint.png", tier);
             case "HeavyHiter":
-            	return new HeavyHiterCard("Heavy Hiter", "cards/specialCard/attackCard.png", tier);
+            	return new HeavyHiterCard("Heavy Hiter", "cards/specialCard/heavyHiter.png", tier);
             default:
                 throw new IllegalArgumentException("Unknown special card type: " + type);
         }
