@@ -47,8 +47,7 @@ public class RandomScene extends BaseScene {
    
 
         
-        HBox buttonBox = new HBox(20); // add 20 magin
-        
+        HBox buttonBox = new HBox(20); 
         Button buyOne = new Button("X1 💎 20");
         Button buyTen = new Button("X10 💎 180");
        
