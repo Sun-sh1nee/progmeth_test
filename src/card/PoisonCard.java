@@ -55,7 +55,7 @@ public class PoisonCard extends ActivateCard implements Activatable{
 	    poisonTimeline.setCycleCount(10);
 	    poisonTimeline.play();
 	    
-	    Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(7), e -> {
+	    Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(cooldown), e -> {
 	        isOnCooldown = false;
 	    }));
 	    cooldownTimeline.setCycleCount(1);

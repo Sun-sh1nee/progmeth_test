@@ -23,7 +23,7 @@ class ComponentPane extends VBox {
   public ComponentPane(Item item) {
     this.item = item;
 
-    // UI elements
+   
     Label nameLabel = new Label(item.toString());
     Rectangle itemBox = new Rectangle(50, 50, Color.LIGHTGRAY);
     levelLabel = new Label("Level: " + item.getLevelItem());
@@ -31,13 +31,13 @@ class ComponentPane extends VBox {
         .textProperty()
         .bind(item.levelProperty().asString("Level: %d"));
 
-    // Cost Label
+    
     costLabel = new Label();
     costLabel
         .textProperty()
         .bind(Bindings.format("Cost: %d", item.getCostItem()));
 
-    // Style based on croissant count
+    
     ObjectBinding<Color> textColorBinding =
         Bindings.createObjectBinding(
             () ->
@@ -46,8 +46,7 @@ class ComponentPane extends VBox {
                     ? Color.BLACK
                     : Color.RED,
             GameLogic.getCroissantCount(),
-            item.getCostItem()); // Depend on both croissant count and item
-                                      // cost
+            item.getCostItem()); 
 
     costLabel.textFillProperty().bind(textColorBinding);
 

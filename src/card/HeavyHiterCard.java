@@ -48,7 +48,7 @@ public class HeavyHiterCard extends ActivateCard implements Activatable{
 
 	    isOnCooldown = true;
 	    
-	    Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(15), event -> {
+	    Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(cooldown), event -> {
 	        isOnCooldown = false;
 	    }));
 	    cooldownTimeline.setCycleCount(1);

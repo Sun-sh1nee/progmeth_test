@@ -49,7 +49,7 @@ public class BigBangImpactCard extends ActivateCard implements Activatable{
 
 	    isOnCooldown = true;
 	    
-	    Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(20), event -> {
+	    Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(cooldown), event -> {
 	        isOnCooldown = false;
 	    }));
 	    cooldownTimeline.setCycleCount(1);
@@ -63,8 +63,5 @@ public class BigBangImpactCard extends ActivateCard implements Activatable{
 	            name, tier, damagePerHit);
 	}
 
-	public boolean isOnCooldown() {
-		return isOnCooldown;
-	}
 
 }

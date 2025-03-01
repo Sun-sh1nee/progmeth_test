@@ -45,7 +45,7 @@ public class WeakPointCard extends ActivateCard implements Activatable{
 	      
 	        GameLogic.cancelExtraDamage(extraBoost);
 	        
-	        Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(7), e -> {
+	        Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(cooldown), e -> {
 	            
 	            isOnCooldown = false;
 	            

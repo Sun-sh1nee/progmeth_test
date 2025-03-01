@@ -4,7 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-public abstract class BaseCard implements Comparable<BaseCard>{
+public class BaseCard implements Comparable<BaseCard>{
 	protected String name;
 	protected String CardURL;
 	protected CardTier tier;
@@ -17,9 +17,6 @@ public abstract class BaseCard implements Comparable<BaseCard>{
 		this.setCardURL(path);
 	}
 
-	
-	
-	public abstract String toString();
 
 	public String getName() {
 		return name;
@@ -49,16 +46,16 @@ public abstract class BaseCard implements Comparable<BaseCard>{
 
 	public String getTierStyle() {
 	    switch (this.tier) {
-	        case COMMON:
-	            return "#808080";
+		    case COMMON:
+	            return "gray";
 	        case RARE:
-	            return "#0000FF";
+	            return "blue";
 	        case EPIC:
-	            return "#800080"; 
+	            return "purple";
 	        case LEGENDARY:
-	            return "#FFA500"; 
+	            return "orange";
 	        default:
-	            return "#000000"; 
+	            return "black;";
 	    }
 	}
 	

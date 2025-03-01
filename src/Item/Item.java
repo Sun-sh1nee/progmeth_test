@@ -10,9 +10,9 @@ public abstract class Item {
     protected String itemURL;
 
     public Item(String nameItem, int costItem, String itemURL) {
-    	this.nameItem = nameItem;
+    	this.setNameItem(nameItem);
     	this.costItem = new SimpleIntegerProperty(costItem);
-        this.itemURL = itemURL;
+        this.setItemURL(itemURL);
         this.levelItem = new SimpleIntegerProperty(1);
     }
 

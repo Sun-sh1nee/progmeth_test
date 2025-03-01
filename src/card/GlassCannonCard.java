@@ -48,7 +48,7 @@ public class GlassCannonCard extends ActivateCard implements Activatable{
 	      
 	        GameLogic.cancelCritDamageCardBoost(critDamageBoost);
 	        
-	        Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(6), e -> {
+	        Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(cooldown), e -> {
 	            
 	            isOnCooldown = false;
 	            

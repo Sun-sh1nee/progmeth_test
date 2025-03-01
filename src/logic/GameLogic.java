@@ -100,7 +100,7 @@ public class GameLogic {
 	public static void equipCard(BaseCard newCard, int slotIndex) {
 		BaseCard oldCard = equippedCards[slotIndex];
 		if (oldCard instanceof BuffStatCard) {
-			((BuffStatCard) oldCard).CancelBuff();
+			((BuffStatCard) oldCard).cancelBuff();
 		}
 		equippedCards[slotIndex] = newCard;
 		if (newCard instanceof BuffStatCard) {
