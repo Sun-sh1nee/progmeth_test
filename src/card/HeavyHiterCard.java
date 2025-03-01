@@ -46,13 +46,7 @@ public class HeavyHiterCard extends ActivateCard implements Activatable{
 	        GameLogic.reduceMonsterHpHome(damage);
 	    }
 
-	    isOnCooldown = true;
-	    
-	    Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(15), event -> {
-	        isOnCooldown = false;
-	    }));
-	    cooldownTimeline.setCycleCount(1);
-	    cooldownTimeline.play();
+
 	}
 	
 	@Override

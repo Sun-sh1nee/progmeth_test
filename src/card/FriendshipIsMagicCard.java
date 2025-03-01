@@ -10,7 +10,7 @@ import logic.GameLogic;
 public class FriendshipIsMagicCard extends ActivateCard implements Activatable{
 	private double companionBoost;
 	public FriendshipIsMagicCard(String name , String image , CardTier tier) {
-		super(name, image, tier , 6);
+		super(name, image, tier , 11);
 		randomizeAttributes();
 	}
 	private void randomizeAttributes() {
@@ -36,7 +36,7 @@ public class FriendshipIsMagicCard extends ActivateCard implements Activatable{
 	public void activate() {
 		if (isOnCooldown)return;
 	    
-	    isOnCooldown = true;
+
 	    
 	    GameLogic.applyCompanionCardBoost(companionBoost);
 	    
@@ -44,13 +44,7 @@ public class FriendshipIsMagicCard extends ActivateCard implements Activatable{
 	      
 	        GameLogic.cancelCompanionCardBoost(companionBoost);
 	        
-	        Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(6), e -> {
-	            
-	            isOnCooldown = false;
-	            
-	        }));
-	        cooldownTimeline.setCycleCount(1);
-	        cooldownTimeline.play();
+
 	    }));
 	    buffTimeline.setCycleCount(1);
 	    buffTimeline.play();

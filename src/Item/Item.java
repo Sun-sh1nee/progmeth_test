@@ -9,14 +9,16 @@ public abstract class Item {
 	protected IntegerProperty costItem;
 	protected String itemURL;
 
-	public Item(String nameItem, int costItem, String itemURL) {
-		this.nameItem = nameItem;
-		this.costItem = new SimpleIntegerProperty(costItem);
-		this.itemURL = itemURL;
-		this.levelItem = new SimpleIntegerProperty(1);
-	}
+
+    public Item(String nameItem, int costItem, String itemURL) {
+    	this.setNameItem(nameItem);
+    	this.costItem = new SimpleIntegerProperty(costItem);
+        this.setItemURL(itemURL);
+        this.levelItem = new SimpleIntegerProperty(1);
+    }
 
 	public abstract void updateStat();
+
 
 	public abstract void upgrade();
 

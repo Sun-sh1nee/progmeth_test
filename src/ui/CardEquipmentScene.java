@@ -32,7 +32,7 @@ public class CardEquipmentScene extends BaseScene {
         slotsContainer.setAlignment(Pos.CENTER);
         slotsContainer.setPadding(new Insets(20));
 
-        // Create 4 slot views
+       
         for (int i = 0; i < 4; i++) {
         	VBox slotPane = createSlotPane(i);
         	Button removeButton = createRemoveButton(i);
@@ -60,11 +60,11 @@ public class CardEquipmentScene extends BaseScene {
 			updateSlotPane(arraySlotPane[slotIndex], slotIndex);
 			SceneManager.switchTo("CARD_EQUIPMENT");
 			
-			ArrayList<BaseCard> ownedCards = GameLogic.getOwnedCards();
-			
-			for(BaseCard bs: ownedCards) {
-				System.out.println(bs);
-			}
+//			ArrayList<BaseCard> ownedCards = GameLogic.getOwnedCards();
+//			
+//			for(BaseCard bs: ownedCards) {
+//				System.out.println(bs);
+//			}
 		});
 		
 		return removeButton;
@@ -72,13 +72,13 @@ public class CardEquipmentScene extends BaseScene {
 
     private VBox createSlotPane(int slotIndex) {
         VBox slotPane = new VBox();
-        slotPane.setPrefSize(100, 140); // size for the card slot
+        slotPane.setPrefSize(100, 140); 
         slotPane.setStyle("-fx-border-color: black; -fx-border-width: 2; "
                         + "-fx-alignment: top_center; -fx-background-color: #eeeeee;");
 
         updateSlotPane(slotPane, slotIndex);
 
-        // When user clicks this slot, open the CardInventoryScene
+        
         slotPane.setOnMouseClicked(e -> {
             CardInventoryScene.setTargetSlotIndex(slotIndex);
             SceneManager.switchTo("CARD_INVENTORY");
@@ -95,7 +95,7 @@ public class CardEquipmentScene extends BaseScene {
         slotPane.getChildren().clear();
 
         if (card == null) {
-            // Show a plus sign if no card
+            
             Label plusLabel = new Label("+");
             plusLabel.setStyle("-fx-font-size: 36px; -fx-text-fill: gray;");
             StackPane stackPlus = new StackPane(plusLabel);
@@ -104,7 +104,7 @@ public class CardEquipmentScene extends BaseScene {
                         
             slotPane.getChildren().add(stackPlus);
         } else {
-            // Show card name or tier, or an image if you have it
+           
         	
             Label cardLabel = new Label(card.getName() + "\n[" + card.getTier() + "]");
             cardLabel.setStyle("-fx-text-alignment: center; -fx-font-size: 8;");
@@ -126,11 +126,12 @@ public class CardEquipmentScene extends BaseScene {
         }
     }
 
-    // You can call this when returning from inventory to refresh slot visuals
+  
     public void refreshSlots() {
         for (int i = 0; i < slotsContainer.getChildren().size(); i++) {
-        	VBox slotPane = (VBox) ((VBox) slotsContainer.getChildren().get(i)).getChildren().get(0);
-            updateSlotPane(slotPane, i);
+//        	VBox slotPane = (VBox) ((VBox) slotsContainer.getChildren().get(i)).getChildren().get(0);
+//            updateSlotPane(slotPane, i);
+        	updateSlotPane(arraySlotPane[i], i);
         }
     }
 }

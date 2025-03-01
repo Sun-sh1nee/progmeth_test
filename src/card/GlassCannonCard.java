@@ -12,7 +12,7 @@ public class GlassCannonCard extends ActivateCard implements Activatable{
 
 	private double critDamageBoost;
 	public GlassCannonCard(String name , String image , CardTier tier) {
-		super(name, image, tier, 6);
+		super(name, image, tier, 11);
 		randomizeAttributes();
 	}
 	
@@ -40,7 +40,7 @@ public class GlassCannonCard extends ActivateCard implements Activatable{
 	public void activate() {
 		if (isOnCooldown)return;
 	    
-	    isOnCooldown = true;
+
 	    
 	    GameLogic.applyCritDamageCardBoost(critDamageBoost);
 	    
@@ -48,13 +48,7 @@ public class GlassCannonCard extends ActivateCard implements Activatable{
 	      
 	        GameLogic.cancelCritDamageCardBoost(critDamageBoost);
 	        
-	        Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(6), e -> {
-	            
-	            isOnCooldown = false;
-	            
-	        }));
-	        cooldownTimeline.setCycleCount(1);
-	        cooldownTimeline.play();
+
 	    }));
 	    buffTimeline.setCycleCount(1);
 	    buffTimeline.play();
