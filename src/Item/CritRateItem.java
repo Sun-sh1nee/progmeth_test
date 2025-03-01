@@ -3,7 +3,6 @@ package Item;
 import logic.GameLogic;
 
 public class CritRateItem extends Item {
-
 	private double critChance;
 	private double scalFacCost;
 	private double scalFacStatus;
@@ -14,13 +13,10 @@ public class CritRateItem extends Item {
 		setcritChance(0.20);
 		setScalFacCost(0.17);
 		setScalFacStatus(0.01);
-
-
 	}
 
 	@Override
 	public void updateStat() {
-		// TODO Auto-generated method stub
 		GameLogic.getPlayer().setCritRate(critChance);
 	}
 
@@ -28,7 +24,6 @@ public class CritRateItem extends Item {
 	public void upgrade() {
 		this.setLevelItem(levelItem.get()+1);
 		setcritChance(getCritChance() + getScalFacStatus());
-
 		setCostItem((int)(getCostItem().get() * (1 + getScalFacCost())));	
 		updateStat();
 	}
@@ -61,7 +56,5 @@ public class CritRateItem extends Item {
 	public String toString() {
 		return "CritRate";
 	}
-	
-	
 
 }

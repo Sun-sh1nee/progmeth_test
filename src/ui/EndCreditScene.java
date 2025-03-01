@@ -1,12 +1,20 @@
 package ui;
 
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.effect.PerspectiveTransform;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.Font;
@@ -20,8 +28,20 @@ public class EndCreditScene extends StackPane {
     private Text spaceBarHint;
 
     public EndCreditScene() {
-        // 🎥 Star Wars Styled Credit Text
-        creditsText = new Text(
+    	GameLogic.endCreditBackgroundSound();
+    	
+    	String backgroundImagePath = ClassLoader.getSystemResource("endCredit/bgEnd.png").toString();
+    	Image backgroundImage = new Image(backgroundImagePath);
+
+    	this.setBackground(new Background(new BackgroundImage(
+    	        backgroundImage, 
+    	        BackgroundRepeat.NO_REPEAT,
+    	        BackgroundRepeat.NO_REPEAT,
+    	        BackgroundPosition.CENTER,
+    	        new BackgroundSize(100, 100, true, true, true, true)
+    	)));
+
+    	creditsText = new Text(
                 "A long time ago in a galaxy far, far away...\n\n" +
                 "🎉 Congratulations! 🎉\n\n" +
                 "You have completed the game!\n\n" +
@@ -34,6 +54,7 @@ public class EndCreditScene extends StackPane {
                 "May the Force be with you!"
         );
 
+    	creditsText.setFill(Color.WHITE);
         creditsText.setFont(new Font("Arial", 24));
         creditsText.setTextAlignment(TextAlignment.CENTER);
 
@@ -64,12 +85,15 @@ public class EndCreditScene extends StackPane {
                 SceneManager.switchTo("HOME");
             }
         });
+        
+        
+        
 
         updateEndCreditUI(); // Start scrolling effect
     }
 
     public void updateEndCreditUI() {
-        double scrollSpeed = 2; // Slow scroll for dramatic effect
+        double scrollSpeed = 1; // Slow scroll for dramatic effect
         double totalScrollDistance = 800; // Move far enough up
         double totalTime = totalScrollDistance / scrollSpeed * 25;
 
