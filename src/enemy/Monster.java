@@ -13,7 +13,7 @@ public class Monster {
 		int monsterCoin = (int) Math.pow(1 + scalFactorCoin, this.stageMonster - 1) * Math.max(1, baseCoin);
 		this.setMonsterHp(monsterHealth);
 		this.setCoinDrop(monsterCoin);
-//		this.monsterURL =  ClassLoader.getSystemResource(imageMonster).toString();
+		this.monsterURL =  ClassLoader.getSystemResource(imageMonster).toString();
 
 	}
 

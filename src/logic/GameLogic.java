@@ -21,6 +21,26 @@ import ui.EndCreditScene;
 import ui.SceneManager;
 
 public class GameLogic {
+	private static final String croissantUrl = "monster/croissant.png";
+	private static final String croissantDeadUrl = "monster/croissantDead.png";
+	private static final String croissantKingUrl = "monster/croissantKing.png";
+	private static final String croissantKingDeadUrl = "monster/croissantKingDead.png";
+	private static final String cabbageUrl = "monster/cabbage.png";
+	private static final String cabbageDeadUrl = "monster/cabbageDead.png";
+	
+	private static final String[] listImageUrl = {croissantUrl, croissantDeadUrl};
+
+//		{
+//			add(croissantUrl);
+//			add(croissantDeadUrl);
+//			add(croissantKingUrl);
+//			add(croissantKingDeadUrl);
+//			add(cabbageUrl);
+//			add(cabbageDeadUrl);
+//		}
+//	};
+	
+	
 	private static SimpleLongProperty croissantCount = new SimpleLongProperty();
 	private static SimpleLongProperty gemCount = new SimpleLongProperty();
 	private static SimpleDoubleProperty monsterHpHome = new SimpleDoubleProperty();
@@ -248,7 +268,11 @@ public class GameLogic {
 			int coinBase = i * 100;
 			double coinScal = 0.5;
 			double hpScal = 1.3;
-			monsterStory.add(new Monster(hpBase, coinBase, i, hpScal, coinScal, null));
+			
+			Random rand = new Random();
+			String url = listImageUrl[(rand.nextInt(2))];
+			
+			monsterStory.add(new Monster(hpBase, coinBase, i, hpScal, coinScal, url));
 		}
 		
 	}
