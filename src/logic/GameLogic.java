@@ -38,7 +38,7 @@ public class GameLogic {
 	private static int stage;
 	private static Timeline dpsHomeThread;
 	private static Timeline dpsStoryThread;
-	private static Player player = new Player();
+	private static Player player;
 	private static double damageCardBoost;
 	private static double gemDropChanceCardBoost;
 	private static double critChanceCardBoost;
@@ -48,13 +48,14 @@ public class GameLogic {
 	private static SimpleBooleanProperty isMusic = new SimpleBooleanProperty(true);
 	private static AudioClip backgroundSound;
 	private static AudioClip endCreditBgSound;
-	private static BaseCard[] equippedCards = new BaseCard[4];
-	private static ArrayList<BaseCard> ownedCards = new ArrayList<>();
-	private static int playTime = 0;
+	private static BaseCard[] equippedCards;
+	private static ArrayList<BaseCard> ownedCards;
 
 	public static void init() {
 		setStage(1);
 		initMonster();
+		player = new Player();
+		System.out.println(player.getAttackPerClick());
 		monsterHome = monsterStory.get(0);
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		monsterHpStory.set(monsterStory.get(1).getMonsterHp());
@@ -70,6 +71,8 @@ public class GameLogic {
 		companionCardBoost = 0;
 		extraDamage = 0;
 		isStoryBattle = false;
+		equippedCards = new BaseCard[4];
+		ownedCards = new ArrayList<>();
 		setStoryState();
 		startDpsHome();
 		playBackgroundSound();
@@ -291,7 +294,7 @@ public class GameLogic {
 	}
 
 	public static void monsterStoryIsDead() {
-		if (stage >= 30) {
+		if (stage >= 1) {
 			System.out.println("🎉 Story Completed! Returning to Home...");
 			SceneManager.addScene("END_CREDIT", new Scene(new EndCreditScene(), 500, 600));
 			SceneManager.switchTo("END_CREDIT");

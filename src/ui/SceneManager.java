@@ -45,6 +45,8 @@ public class SceneManager {
 //                GameLogic.startDpsHome();
             }
             if (name.equals("CARD_EQUIPMENT")) {
+            	CardEquipmentScene equipmentScene = (CardEquipmentScene) scenes.get("CARD_EQUIPMENT").getRoot();
+            	equipmentScene.refreshSlots();
                 CardInventoryScene inventoryScene = (CardInventoryScene) scenes.get("CARD_INVENTORY").getRoot();
                 inventoryScene.updateEquippedCardsInventory();
             }

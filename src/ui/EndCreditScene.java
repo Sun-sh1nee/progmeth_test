@@ -93,7 +93,7 @@ public class EndCreditScene extends StackPane {
     }
 
     public void updateEndCreditUI() {
-        double scrollSpeed = 1; // Slow scroll for dramatic effect
+        double scrollSpeed = 5; // Slow scroll for dramatic effect
         double totalScrollDistance = 800; // Move far enough up
         double totalTime = totalScrollDistance / scrollSpeed * 25;
 
