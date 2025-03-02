@@ -3,6 +3,7 @@ package ui;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.image.Image;
@@ -106,8 +107,8 @@ public class EndCreditScene extends StackPane {
         
         timeline.setCycleCount((int) (totalTime / 30));
         timeline.setOnFinished(e -> {
-            spaceBarHint.setVisible(true); // ✅ Show hint after credits finish
-            this.requestFocus(); // ✅ Request focus again for key events
+        	Platform.exit();
+        	System.exit(0);
         });
 
         timeline.play();
