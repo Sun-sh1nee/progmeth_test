@@ -39,7 +39,7 @@ public class PoisonCard extends ActivateCard implements Activatable{
 	public void activate() {
 		if (isOnCooldown) return;
 
-	    isOnCooldown = true;
+
 	    
 	    double poison = GameLogic.getPlayer().getAttackPerClick() * dotDamage / 100;
 	    
@@ -55,11 +55,7 @@ public class PoisonCard extends ActivateCard implements Activatable{
 	    poisonTimeline.setCycleCount(10);
 	    poisonTimeline.play();
 	    
-	    Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(7), e -> {
-	        isOnCooldown = false;
-	    }));
-	    cooldownTimeline.setCycleCount(1);
-	    cooldownTimeline.play();
+
 	}
 	
 	@Override

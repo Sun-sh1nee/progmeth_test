@@ -26,7 +26,7 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         
         
-        // Create Scenes
+        
         SceneManager.addScene("HOME", new Scene(new HomeScene(), 500, 600));
         SceneManager.addScene("RANDOM", new Scene(new RandomScene(), 500, 600));
         SceneManager.addScene("STORY", new Scene(new StoryScene(), 500, 600));
@@ -34,7 +34,7 @@ public class Main extends Application {
         SceneManager.addScene("CARD_EQUIPMENT", new Scene(new CardEquipmentScene(), 500, 600));
         SceneManager.addScene("CARD_INVENTORY", new Scene(new CardInventoryScene(), 500, 600));
      
-        // Start on Home Scene
+        
         SceneManager.switchTo("HOME");
         
     }

@@ -47,8 +47,7 @@ public class RandomScene extends BaseScene {
    
 
         
-        HBox buttonBox = new HBox(20); // add 20 magin
-        
+        HBox buttonBox = new HBox(20); 
         Button buyOne = new Button("X1 💎 20");
         Button buyTen = new Button("X10 💎 180");
        
@@ -144,7 +143,7 @@ public class RandomScene extends BaseScene {
             	    "-fx-border-radius: 10px; " + 
             	    "-fx-background-radius: 10px; " +
             	    "-fx-background-color: white; " + 
-            	    "-fx-border-color: " + getTierStyle(card.getTier()) + "; "
+            	    "-fx-border-color: " + card.getTierStyle() + "; "
             	);
             
             cardBlock.setMinWidth(100);
@@ -183,7 +182,7 @@ public class RandomScene extends BaseScene {
             Label tierLabel = new Label(card.getTier().toString());
             tierLabel.setStyle(
             			"-fx-font-size: 9px;" +
-            			"-fx-text-fill: " + getTierStyle(card.getTier()) + ";"
+            			"-fx-text-fill: " + card.getTierStyle() + ";"
             		);
 
             cardBlock.getChildren().addAll(cardImage, cardNameLabel, tierLabel);
@@ -192,21 +191,7 @@ public class RandomScene extends BaseScene {
         }
     }
 
-    
-    private String getTierStyle(CardTier tier) {
-        switch (tier) { 
-            case COMMON:
-                return "gray";
-            case RARE:
-                return "blue";
-            case EPIC:
-                return "purple";
-            case LEGENDARY:
-                return "orange";
-            default:
-                return "black;";
-        }
-    }
+
     
     private BaseCard createCard(String type, CardTier tier) {
         switch (type) {

@@ -62,7 +62,7 @@ public class BuffStatCard extends BaseCard {
 		GameLogic.applyCompanionCardBoost(companionBoost);
 	}
 	
-	public void CancelBuff() {
+	public void cancelBuff() {
 		GameLogic.cancelDamageCardBoost(damagePerClick);
 		GameLogic.cancelCritChanceCardBoost(critChance);
 		GameLogic.cancelCritDamageCardBoost(critDamage);

@@ -10,7 +10,7 @@ import logic.GameLogic;
 public class BullsEyeCard extends ActivateCard implements Activatable{
 	private double critChanceBoost;
 	public BullsEyeCard(String name , String image , CardTier tier) {
-		super(name, image, tier , 6);
+		super(name, image, tier , 8);
 		randomizeAttributes();
 	}
 	
@@ -37,7 +37,7 @@ public class BullsEyeCard extends ActivateCard implements Activatable{
 	public void activate() {
 		if (isOnCooldown) return;
 	    
-	    isOnCooldown = true;
+
 	    
 	    GameLogic.applyCritChanceCardBoost(critChanceBoost);
 	    
@@ -45,13 +45,7 @@ public class BullsEyeCard extends ActivateCard implements Activatable{
 	      
 	        GameLogic.cancelCritChanceCardBoost(critChanceBoost);
 	        
-	        Timeline cooldownTimeline = new Timeline(new KeyFrame(Duration.seconds(6), e -> {
-	            
-	            isOnCooldown = false;
-	            
-	        }));
-	        cooldownTimeline.setCycleCount(1);
-	        cooldownTimeline.play();
+
 	    }));
 	    buffTimeline.setCycleCount(1);
 	    buffTimeline.play();

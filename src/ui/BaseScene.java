@@ -176,6 +176,7 @@ public class BaseScene extends VBox {
     
     public void switchBody(javafx.scene.Node newContent) {
         bodyContainer.getChildren().clear();
+        System.out.println(newContent);
         bodyContainer.getChildren().add(newContent);
     }
 
