@@ -79,8 +79,8 @@ public class GameLogic {
 		monsterHome = monsterStory.get(0);
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		monsterHpStory.set(monsterStory.get(1).getMonsterHp());
-		croissantCount.set(20000000);
-		gemCount.set(11110);
+		croissantCount.set(100000);
+		gemCount.set(10000);
 		setAttackPerClick();
 		setDamagePerSec();
 		musicSetting.set("ON");
@@ -262,14 +262,14 @@ public class GameLogic {
 
 	private static void initMonster() {
 		monsterStory = new ArrayList<Monster>();
-		monsterStory.add(new Monster(200, 50, 1, 1.0, 1.0, null));
+		Random rand = new Random();
+		monsterStory.add(new Monster(200, 50, 1, 1.0, 1.0, listImageUrl[(rand.nextInt(2))]));
 		for (int i = 1; i <= 30; ++i) {
 			int hpBase = i * 1000;
 			int coinBase = i * 100;
 			double coinScal = 0.5;
 			double hpScal = 1.3;
 			
-			Random rand = new Random();
 			String url = listImageUrl[(rand.nextInt(2))];
 			
 			monsterStory.add(new Monster(hpBase, coinBase, i, hpScal, coinScal, url));
