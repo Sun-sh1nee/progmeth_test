@@ -43,14 +43,44 @@ public class EndCreditScene extends StackPane {
     	)));
 
     	creditsText = new Text(
-                "A long time ago in a galaxy far, far away...\n\n" +
-                "🎉 Congratulations! 🎉\n\n" +
+                "The Great Croissant \n" +
+                "Uprising is over! \n" + 
+                "For generations, \n" +
+                "the monstrous Croissants, \n" + 
+                "born from a freak bakery \n" +
+                "accident involving \n" + 
+                "a forgotten sourdough \n" +
+                "starter and a rogue meteor, 1\n" + 
+                "have terrorized the land.\n" +
+                "Their flaky, \n "  + 
+                "buttery bodies and \n" +
+                "jam-filled eyes struck fear \n" +  
+                "into the hearts of all. \n\n"
+                + "But you, brave clicker, \n" +
+                "you stood against \n" +
+                "the doughy tide! \n" +
+                "With your tireless clicking \n" +
+                "and strategic upgrades, \n" +
+                "you've vanquished the Croissant King \n" +
+                "and restored peace to the kingdom \n" +
+                "(and ensured a steady supply \n" +
+                "of non-sentient pastries for all). \n\n"
+                
+                + "Congratulations, hero! \n" +
+                "You kneaded the competition \n"+
+                "and rose to the occasion! \n" +
+                "Enjoy your well-deserved rest... \n\n " + 
+                "and maybe a real croissant \n" +
+                "(they're safe now, we promise!). \n\n" +
                 "You have completed the game!\n\n" +
                 "Game Developed by:\n" +
-                "- Developer 1\n" +
-                "- Developer 2\n\n" +
+                "- Wiritpol Poonnak \n" +
+                "- Worapob Pongpanich \n" +
+                "- Pokpong Sukjai\n\n" +
                 "Special Thanks to:\n" +
-                "- Community\n\n" +
+                "- Vishnu Kotrajaras \n" +
+                "- Peerapon Vateekul \n" +
+                "- Chate Patanothai \n\n" +
                 "Thanks for playing!\n\n" +
                 "May the Force be with you!"
         );
@@ -94,7 +124,7 @@ public class EndCreditScene extends StackPane {
     }
 
     public void updateEndCreditUI() {
-        double scrollSpeed = 5; // Slow scroll for dramatic effect
+        double scrollSpeed = 2; // Slow scroll for dramatic effect
         double totalScrollDistance = 800; // Move far enough up
         double totalTime = totalScrollDistance / scrollSpeed * 25;
 
