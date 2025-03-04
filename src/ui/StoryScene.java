@@ -59,7 +59,13 @@ public class StoryScene extends BaseScene {
         ));
 
      
-        monsterArea = new StackPane(new Rectangle(120, 120, Color.WHITE));
+        ImageView monsterImage = new ImageView(new Image(GameLogic.getMonsterHome().getMonsterURL()));
+        monsterImage.setFitHeight(120);
+        monsterImage.setFitWidth(120);
+        monsterArea = new StackPane();
+        monsterArea.setPrefSize(120, 120);
+        monsterArea.setStyle("-fx-background-color: #FBEDBE;");
+        monsterArea.getChildren().add(monsterImage);
         monsterArea.setOnMouseClicked(e -> attackMonster());
 
    

@@ -4,6 +4,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -15,6 +17,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -30,9 +34,9 @@ public class BaseScene extends VBox {
     protected Label croissantPerClickLabel;
     
     
-    protected StackPane rootContainer; // ครอบทั้ง Main UI และ Settings
-    protected VBox mainContainer; // ชั้นแรก (พื้นหลัง)
-    protected StackPane settingsContainer; // ชั้น Settings
+    protected StackPane rootContainer; 
+    protected VBox mainContainer; 
+    protected StackPane settingsContainer;
     protected boolean isSettingsOpen = false;
    
     
@@ -76,7 +80,6 @@ public class BaseScene extends VBox {
         //settingsButton.setOnMouseClicked(e -> System.out.println("open setting"));
         settingsButton.setOnMouseClicked(e -> {
         	toggleSettingsPage();
-        	System.out.println("open setting");
         });
         
         topBar.getChildren().addAll(gemCounter, croissantInfoPanel, settingsButton);
@@ -84,32 +87,51 @@ public class BaseScene extends VBox {
         bodyContainer = new StackPane();
         bodyContainer.setMinHeight(400);
         bodyContainer.setMaxHeight(400);
-
         VBox.setVgrow(bodyContainer, Priority.ALWAYS);
 
-        navBar = new HBox(20);
+        navBar = new HBox(30);
         navBar.setPrefHeight(80);
         navBar.setAlignment(Pos.CENTER);
         navBar.setStyle("-fx-padding: 10px; -fx-background-color: lightgray;");
 
-        Label randomButton = new Label("⬆️");
-        Label homeButton = new Label("🏠");
-        Label storyButton = new Label("🎲");
-        Label upgradeButton = new Label("⬆️");
-
-        Label inventory = new Label("box");
+       
         
-        inventory.setOnMouseClicked(e -> SceneManager.switchTo("CARD_EQUIPMENT"));
-        randomButton.setOnMouseClicked(e -> SceneManager.switchTo("RANDOM"));
-        homeButton.setOnMouseClicked(e -> SceneManager.switchTo("HOME"));
-        storyButton.setOnMouseClicked(e -> SceneManager.switchTo("STORY"));
-        upgradeButton.setOnMouseClicked(e -> SceneManager.switchTo("UPGRADE"));
+        
+        ImageView homeIcon = new ImageView(new Image(loadImagePath("icon/HomeIcon.png")));
+        homeIcon.setFitWidth(50); 
+        homeIcon.setFitHeight(50);
+        
+        ImageView randomIcon = new ImageView(new Image(loadImagePath("icon/diceIcon.png")));
+        randomIcon.setFitWidth(30);
+        randomIcon.setFitHeight(30);
+        
+        ImageView storyIcon = new ImageView(new Image(loadImagePath("icon/crossedSwordsIcon.png")));
+        storyIcon.setFitWidth(40);
+        storyIcon.setFitHeight(40);
+        
+        ImageView upgradeIcon = new ImageView(new Image(loadImagePath("icon/arrowUpIcon.png")));
+        upgradeIcon.setFitWidth(30);
+        upgradeIcon.setFitHeight(30);
 
-        navBar.getChildren().addAll(randomButton, homeButton, storyButton, upgradeButton,inventory);
+        ImageView inventoryIcon = new ImageView(new Image(loadImagePath("icon/backpackIcon.png")));
+        inventoryIcon.setFitWidth(40);
+        inventoryIcon.setFitHeight(30);
+        
+        
+        
+        inventoryIcon.setOnMouseClicked(e -> SceneManager.switchTo("CARD_EQUIPMENT"));
+        randomIcon.setOnMouseClicked(e -> SceneManager.switchTo("RANDOM"));
+        homeIcon.setOnMouseClicked(e -> SceneManager.switchTo("HOME"));
+        storyIcon.setOnMouseClicked(e -> SceneManager.switchTo("STORY"));
+        upgradeIcon.setOnMouseClicked(e -> SceneManager.switchTo("UPGRADE"));
+
+        
+        navBar.getChildren().addAll(randomIcon, homeIcon, storyIcon, upgradeIcon,inventoryIcon);
 
 
         
         mainContainer = new VBox(topBar, bodyContainer, navBar);
+        mainContainer.setStyle("-fx-background-color: #FBEDBE;");
         mainContainer.setAlignment(Pos.CENTER);
         
         createSettingsPage();
@@ -176,10 +198,13 @@ public class BaseScene extends VBox {
     
     public void switchBody(javafx.scene.Node newContent) {
         bodyContainer.getChildren().clear();
-        System.out.println(newContent);
         bodyContainer.getChildren().add(newContent);
     }
-
+    
+    
+    private String loadImagePath (String path) {
+    	return ClassLoader.getSystemResource(path).toString();
+    }
     
     
 }

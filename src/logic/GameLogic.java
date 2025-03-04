@@ -18,29 +18,10 @@ import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 import player.Player;
 import ui.EndCreditScene;
+import ui.HomeScene;
 import ui.SceneManager;
 
 public class GameLogic {
-	private static final String croissantUrl = "monster/croissant.png";
-	private static final String croissantDeadUrl = "monster/croissantDead.png";
-	private static final String croissantKingUrl = "monster/croissantKing.png";
-	private static final String croissantKingDeadUrl = "monster/croissantKingDead.png";
-	private static final String cabbageUrl = "monster/cabbage.png";
-	private static final String cabbageDeadUrl = "monster/cabbageDead.png";
-	
-	private static final String[] listImageUrl = {croissantUrl, croissantDeadUrl};
-
-//		{
-//			add(croissantUrl);
-//			add(croissantDeadUrl);
-//			add(croissantKingUrl);
-//			add(croissantKingDeadUrl);
-//			add(cabbageUrl);
-//			add(cabbageDeadUrl);
-//		}
-//	};
-	
-	
 	private static SimpleLongProperty croissantCount = new SimpleLongProperty();
 	private static SimpleLongProperty gemCount = new SimpleLongProperty();
 	private static SimpleDoubleProperty monsterHpHome = new SimpleDoubleProperty();
@@ -52,6 +33,7 @@ public class GameLogic {
 	private static SimpleDoubleProperty storyTimerProgress = new SimpleDoubleProperty();
 
 	public static boolean isTimeStop;
+
 	private static boolean isStoryBattle;
 	private static ArrayList<Monster> monsterStory;
 	private static Monster monsterHome;
@@ -75,9 +57,10 @@ public class GameLogic {
 		setStage(1);
 		initMonster();
 		player = new Player();
-		System.out.println(player.getAttackPerClick());
+
 		monsterHome = monsterStory.get(0);
 		monsterHpHome.set(monsterHome.getMonsterHp());
+//		monsterHomeURL = monsterHome.getMonsterURL();
 		monsterHpStory.set(monsterStory.get(1).getMonsterHp());
 		croissantCount.set(20000000);
 		gemCount.set(11110);
@@ -122,8 +105,9 @@ public class GameLogic {
 	}
 
 	public static void playBackgroundSound() {
-		if(endCreditBgSound != null) endCreditBgSound.stop();
-		
+		if (endCreditBgSound != null)
+			endCreditBgSound.stop();
+
 		if (backgroundSound == null) {
 			String backgroundURL = ClassLoader.getSystemResource("sounds/backgroundSound.mp3").toString();
 			backgroundSound = new AudioClip(backgroundURL);
@@ -136,19 +120,19 @@ public class GameLogic {
 			backgroundSound.stop();
 		}
 	}
-	
+
 	public static void endCreditBackgroundSound() {
-		if(backgroundSound != null) {
+		if (backgroundSound != null) {
 			isMusic.set(true);
 			backgroundSound.stop();
 		}
-		if(endCreditBgSound == null) {	
+		if (endCreditBgSound == null) {
 			String endCreditBgURL = ClassLoader.getSystemResource("sounds/endCreditBgSound.mp3").toString();
 			endCreditBgSound = new AudioClip(endCreditBgURL);
 			endCreditBgSound.setCycleCount(AudioClip.INDEFINITE);
 			endCreditBgSound.setVolume(0.5);
 		}
-		
+
 		endCreditBgSound.play();
 	}
 
@@ -167,6 +151,7 @@ public class GameLogic {
 
 	public static void startStoryMode() {
 		monsterHpStory.set(monsterStory.get(getStage()).getMonsterHp());
+		System.out.println("monster story => " + monsterStory.get(getStage()).getMonsterURL());
 		for (BaseCard card : equippedCards) {
 			if (card instanceof ActivateCard)
 				((ActivateCard) card).resetCooldown();
@@ -248,7 +233,7 @@ public class GameLogic {
 					Thread.sleep(100);
 				} catch (InterruptedException e1) {
 					Thread.currentThread().interrupt();
-					System.out.println("Timer thread interrupted.");
+
 					return;
 				}
 			}
@@ -262,19 +247,26 @@ public class GameLogic {
 
 	private static void initMonster() {
 		monsterStory = new ArrayList<Monster>();
-		monsterStory.add(new Monster(200, 50, 1, 1.0, 1.0, null));
+		monsterStory.add(new Monster(200, 50, 1, 1.0, 1.0, "croissant"));
 		for (int i = 1; i <= 30; ++i) {
 			int hpBase = i * 1000;
 			int coinBase = i * 100;
 			double coinScal = 0.5;
 			double hpScal = 1.3;
-			
+
 			Random rand = new Random();
-			String url = listImageUrl[(rand.nextInt(2))];
-			
-			monsterStory.add(new Monster(hpBase, coinBase, i, hpScal, coinScal, url));
+			int random = rand.nextInt(3);
+			Monster newMonster;
+			if (random == 0) {
+				newMonster = new Monster(hpBase, coinBase, i, hpScal, coinScal, "croissant");
+			} else if (random == 1) {
+				newMonster = new Monster(hpBase, coinBase, i, hpScal, coinScal, "croissantKing");
+			} else {
+				newMonster = new Monster(hpBase, coinBase, i, hpScal, coinScal, "cabbage");
+			}
+			monsterStory.add(newMonster);
 		}
-		
+
 	}
 
 	public static SimpleLongProperty getCroissantCount() {
@@ -318,17 +310,23 @@ public class GameLogic {
 	}
 
 	public static void monsterStoryIsDead() {
-		if (stage >= 1) {
-			System.out.println("🎉 Story Completed! Returning to Home...");
+		if (stage >= 30) {
 			SceneManager.addScene("END_CREDIT", new Scene(new EndCreditScene(), 500, 600));
 			SceneManager.switchTo("END_CREDIT");
 			return;
 		}
+//		System.out.println(monsterHome.getMonsterURL() + "\n =====under======");
 		monsterHome = monsterStory.get(stage);
+//		monsterHomeURL = monsterHome.getMonsterURL();
 		monsterHpHome.set(monsterHome.getMonsterHp());
+		
+		System.out.println(monsterHome.getMonsterURL()+ "\n ===========");
+		
 		stage++;
 		setStoryState();
 		monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
+		
+		System.out.println(monsterStory.get(stage).getMonsterURL());
 		for (BaseCard card : equippedCards) {
 			if (card instanceof ActivateCard)
 				((ActivateCard) card).resetCooldown();
@@ -338,12 +336,25 @@ public class GameLogic {
 	}
 
 	public static void monsterHomeIsDead() {
-		monsterHpHome.set(monsterHome.getMonsterHp());
+
+//		monsterHomeURL = monsterHome.getMonsterDeadURL();
 		addCroissants(monsterHome.getCoinDrop());
 		Random random = new Random();
-		if (random.nextDouble() < player.getChanceToDropGem()) {
+		if (random.nextDouble() < (player.getChanceToDropGem() + gemDropChanceCardBoost)) {
 			gemCount.set(gemCount.get() + 1);
 		}
+		dpsHomeThread.stop();
+		
+		HomeScene homeScene = (HomeScene) SceneManager.getSceneNode("HOME");
+		homeScene.monsterIsDead();
+		Timeline deadTimer  = new Timeline(new KeyFrame(Duration.seconds(2), e -> {
+
+			monsterHpHome.set(monsterHome.getMonsterHp());
+		}));
+
+		deadTimer.setCycleCount(1);
+		deadTimer.play();
+
 	}
 
 	public static void reduceMonsterHpHome(double amount) {
@@ -384,6 +395,7 @@ public class GameLogic {
 		dpsHomeThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 			double dam = damagePerSec.get() * (1 + (companionCardBoost / 100.0));
 			reduceMonsterHpHome(dam);
+//			System.out.println("dpsHomeruning");
 		}));
 		dpsHomeThread.setCycleCount(Timeline.INDEFINITE);
 		dpsHomeThread.play();
@@ -434,6 +446,11 @@ public class GameLogic {
 	public static Monster getMonsterHome() {
 		return monsterHome;
 	}
+
+//	===============
+//	public static String getMonsterHomeImage() {
+//		return monsterHomeURL;
+//	}
 
 	public static Monster getMonsterStory() {
 		return monsterStory.get(stage);

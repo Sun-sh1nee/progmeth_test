@@ -63,7 +63,6 @@ public class CardEquipmentScene extends BaseScene {
 //			ArrayList<BaseCard> ownedCards = GameLogic.getOwnedCards();
 //			
 //			for(BaseCard bs: ownedCards) {
-//				System.out.println(bs);
 //			}
 		});
 		

@@ -25,11 +25,10 @@ public class SceneManager {
     }
     public static void switchTo(String name) {
         if (scenes.containsKey(name)) {
-        	System.out.println(name);
         	sceneName = name;
             primaryStage.setScene(scenes.get(name));
             primaryStage.show();
- 
+            System.out.println(name);
             // Ensure DPS keeps running when switching scenes
             GameLogic.startDpsHome();
 
@@ -41,7 +40,7 @@ public class SceneManager {
             if (name.equals("HOME")) {
                 HomeScene homeScene = (HomeScene) scenes.get("HOME").getRoot();
                 homeScene.updateEquippedCardsBar();
-                homeScene.updateHpMonsterHome();
+                homeScene.updateMonsterHome();
 //                GameLogic.startDpsHome();
             }
             if (name.equals("CARD_EQUIPMENT")) {
