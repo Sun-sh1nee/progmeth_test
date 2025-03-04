@@ -51,7 +51,7 @@ public abstract class Item {
 	}
 
 	public void setItemURL(String itemURL) {
-		this.itemURL = itemURL;
+		this.itemURL = ClassLoader.getSystemResource(itemURL).toString();
 	}
 
 	public IntegerProperty levelProperty() {

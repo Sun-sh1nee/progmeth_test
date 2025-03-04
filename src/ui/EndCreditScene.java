@@ -1,6 +1,8 @@
 package ui;
 
 
+import javax.swing.plaf.InsetsUIResource;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -25,7 +27,6 @@ public class EndCreditScene extends StackPane {
     private Timeline timeline;
     private Text creditsText;
     private VBox creditContainer;
-    private Text spaceBarHint;
 
     public EndCreditScene() {
     	GameLogic.endCreditBackgroundSound();
@@ -43,7 +44,7 @@ public class EndCreditScene extends StackPane {
 
     	creditsText = new Text(
                 "The Great Croissant \n" +
-                "Uprising is over! \n" + 
+                "Uprising is over! \n\n" + 
                 "For generations, \n" +
                 "the monstrous Croissants, \n" + 
                 "born from a freak bakery \n" +
@@ -71,7 +72,7 @@ public class EndCreditScene extends StackPane {
                 "Enjoy your well-deserved rest... \n\n " + 
                 "and maybe a real croissant \n" +
                 "(they're safe now, we promise!). \n\n" +
-                "You have completed the game!\n\n" +
+                "You have completed the game!\n\n\n\n\n" +
                 "Game Developed by:\n" +
                 "- Wiritpol Poonnak \n" +
                 "- Worapob Pongpanich \n" +
@@ -87,45 +88,23 @@ public class EndCreditScene extends StackPane {
     	creditsText.setFill(Color.WHITE);
         creditsText.setFont(new Font("Arial", 24));
         creditsText.setTextAlignment(TextAlignment.CENTER);
-
         
         creditContainer = new VBox(creditsText);
         creditContainer.setAlignment(Pos.CENTER);
-        creditContainer.setTranslateY(600);
-
-
-
-
+        creditContainer.setTranslateY(1100);
         
-        spaceBarHint = new Text("Press SPACE BAR to Play Again");
-        spaceBarHint.setFont(new Font("Arial", 18));
-        spaceBarHint.setTextAlignment(TextAlignment.CENTER);
-        spaceBarHint.setVisible(false);
-
-        
-        this.getChildren().addAll(creditContainer, spaceBarHint);
-        StackPane.setAlignment(spaceBarHint, Pos.BOTTOM_CENTER);
+        this.getChildren().add(creditContainer);
 
         
         this.setFocusTraversable(true);
-        this.setOnKeyPressed(e -> {
-        	
-            if (spaceBarHint.isVisible() && e.getCode() == KeyCode.SPACE) {
-                GameLogic.init();
-                SceneManager.switchTo("HOME");
-            }
-        });
-        
-        
-        
 
         updateEndCreditUI(); 
     }
 
     public void updateEndCreditUI() {
 
-        double scrollSpeed = 2; 
-        double totalScrollDistance = 800; 
+        double scrollSpeed = 0.3; 
+        double totalScrollDistance = 980; 
         double totalTime = totalScrollDistance / scrollSpeed * 25;
 
         timeline = new Timeline(new KeyFrame(Duration.millis(30), e -> {
@@ -136,8 +115,16 @@ public class EndCreditScene extends StackPane {
         
         timeline.setCycleCount((int) (totalTime / 30));
         timeline.setOnFinished(e -> {
-        	Platform.exit();
-        	System.exit(0);
+        	new Thread(()->{
+        		try {
+					Thread.sleep(5000);
+					Platform.exit();
+		        	System.exit(0);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+        	}).start();
         });
 
         timeline.play();

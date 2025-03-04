@@ -19,11 +19,11 @@ public class Player {
 
   public Player() {
     this.items = new ArrayList<>();
-    AttackItem attackItem = new AttackItem("123");
-    CritRateItem critRateItem = new CritRateItem("123");
-    CompanionItem companionItem = new CompanionItem("123");
-    CritDamageItem critDamageItem = new CritDamageItem("123");
-    ChanceToDropGemItem chanceToDropGemItem = new ChanceToDropGemItem("123");
+    AttackItem attackItem = new AttackItem("objects/items/attack.jpg");
+    CritRateItem critRateItem = new CritRateItem("objects/items/critrate.jpg");
+    CompanionItem companionItem = new CompanionItem("objects/items/conpanion.jpg");
+    CritDamageItem critDamageItem = new CritDamageItem("objects/items/critdamage.jpg");
+    ChanceToDropGemItem chanceToDropGemItem = new ChanceToDropGemItem("objects/items/changetodrop.jpg");
     items.add(attackItem);
     items.add(critRateItem);
     items.add(critDamageItem);
