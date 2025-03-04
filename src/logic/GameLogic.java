@@ -112,7 +112,7 @@ public class GameLogic {
 			String backgroundURL = ClassLoader.getSystemResource("sounds/backgroundSound.mp3").toString();
 			backgroundSound = new AudioClip(backgroundURL);
 			backgroundSound.setCycleCount(AudioClip.INDEFINITE);
-			backgroundSound.setVolume(0.1);
+			backgroundSound.setVolume(0);
 		}
 		if (isMusic.get()) {
 			backgroundSound.play();

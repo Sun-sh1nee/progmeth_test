@@ -124,14 +124,15 @@ public class HomeScene extends BaseScene {
 	public void monsterIsDead() {
 	
 		monsterImage.setImage(new Image(GameLogic.getMonsterHome().getMonsterDeadURL()));
-
+		monsterArea.setOnMouseClicked(e -> {});
 		Timeline cooldownTimer = new Timeline(new KeyFrame(Duration.seconds(2), e -> {
-
+			
 			monsterImage.setImage(new Image(GameLogic.getMonsterHome().getMonsterURL()));
 			
 		}));
 		cooldownTimer.setOnFinished(e -> {
 			GameLogic.startDpsHome();
+			monsterArea.setOnMouseClicked(event -> attackMonster());
 
 		});
 		cooldownTimer.setCycleCount(1);

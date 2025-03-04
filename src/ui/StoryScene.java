@@ -59,7 +59,7 @@ public class StoryScene extends BaseScene {
         ));
 
      
-        ImageView monsterImage = new ImageView(new Image(GameLogic.getMonsterHome().getMonsterURL()));
+        ImageView monsterImage = new ImageView(new Image(GameLogic.getMonsterStory().getMonsterURL()));
         monsterImage.setFitHeight(120);
         monsterImage.setFitWidth(120);
         monsterArea = new StackPane();
