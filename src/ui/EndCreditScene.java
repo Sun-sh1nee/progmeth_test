@@ -5,7 +5,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
-import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
@@ -59,28 +58,28 @@ public class EndCreditScene extends StackPane {
         creditsText.setFont(new Font("Arial", 24));
         creditsText.setTextAlignment(TextAlignment.CENTER);
 
-        // 🌟 Credit Container (Holds Text)
+        
         creditContainer = new VBox(creditsText);
         creditContainer.setAlignment(Pos.CENTER);
-        creditContainer.setTranslateY(600); // Start far below the screen
+        creditContainer.setTranslateY(600);
 
 
 
 
-        // 🔹 Space Bar Hint (Initially Hidden)
+        
         spaceBarHint = new Text("Press SPACE BAR to Play Again");
         spaceBarHint.setFont(new Font("Arial", 18));
         spaceBarHint.setTextAlignment(TextAlignment.CENTER);
         spaceBarHint.setVisible(false);
 
-        // 🎭 Layout
+        
         this.getChildren().addAll(creditContainer, spaceBarHint);
         StackPane.setAlignment(spaceBarHint, Pos.BOTTOM_CENTER);
 
-        // ✅ Ensure Key Events Work
+        
         this.setFocusTraversable(true);
         this.setOnKeyPressed(e -> {
-            System.out.println("Key Pressed: " + e.getCode());
+        	
             if (spaceBarHint.isVisible() && e.getCode() == KeyCode.SPACE) {
                 GameLogic.init();
                 SceneManager.switchTo("HOME");
@@ -90,15 +89,14 @@ public class EndCreditScene extends StackPane {
         
         
 
-        updateEndCreditUI(); // Start scrolling effect
+        updateEndCreditUI(); 
     }
 
     public void updateEndCreditUI() {
-        double scrollSpeed = 5; // Slow scroll for dramatic effect
-        double totalScrollDistance = 800; // Move far enough up
+        double scrollSpeed = 5; 
+        double totalScrollDistance = 800; 
         double totalTime = totalScrollDistance / scrollSpeed * 25;
 
-        // 🎞️ Animate Credit Text Moving Up with Smooth Star Wars Effect
         timeline = new Timeline(new KeyFrame(Duration.millis(30), e -> {
             double currentY = creditContainer.getTranslateY();
             creditContainer.setTranslateY(currentY - scrollSpeed);

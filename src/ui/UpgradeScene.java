@@ -30,10 +30,11 @@ public class UpgradeScene extends BaseScene {
         new VBox(
             10, componentPane1, componentPane2, componentPane3, componentPane4, componentPane5);
     upgradeLayout.setAlignment(Pos.CENTER);
-
+    upgradeLayout.setStyle("-fx-background-color: white;");
     ScrollPane scrollPane = new ScrollPane(upgradeLayout);
     scrollPane.setFitToWidth(true);
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    scrollPane.setStyle("-fx-background-color: FCF4D0;");
 
     switchBody(scrollPane);
   }

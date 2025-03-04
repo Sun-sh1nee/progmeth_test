@@ -5,15 +5,25 @@ public class Monster {
 	private int stageMonster;
 	private int coinDrop;
 	private String monsterURL;
+	private String monsterDeadURL;
 
 	public Monster(int baseHealth, int baseCoin, int stage, double scalFactorHp, double scalFactorCoin,
-			String imageMonster) {
+			String name ) {
 		this.setStageMonster(stage);
 		int monsterHealth = (int) Math.pow(scalFactorHp, this.stageMonster - 1) * Math.max(1, baseHealth);
 		int monsterCoin = (int) Math.pow(1 + scalFactorCoin, this.stageMonster - 1) * Math.max(1, baseCoin);
 		this.setMonsterHp(monsterHealth);
 		this.setCoinDrop(monsterCoin);
-		this.monsterURL =  ClassLoader.getSystemResource(imageMonster).toString();
+		if(name.equals("croissant")) {
+			this.monsterURL = ClassLoader.getSystemResource("monster/croissant.png").toString();
+			this.monsterDeadURL = ClassLoader.getSystemResource("monster/croissantDead.png").toString();
+		}else if(name.equals("croissantKing")) {
+			this.monsterURL = ClassLoader.getSystemResource("monster/croissantKing.png").toString();
+			this.monsterDeadURL = ClassLoader.getSystemResource("monster/croissantKingDead.png").toString();
+		}else {
+			this.monsterURL = ClassLoader.getSystemResource("monster/cabbage.png").toString();
+			this.monsterDeadURL = ClassLoader.getSystemResource("monster/cabbageDead.png").toString();
+		}
 
 	}
 
@@ -45,6 +55,10 @@ public class Monster {
 
 	public String getMonsterURL() {
 		return monsterURL;
+	}
+	
+	public String getMonsterDeadURL() {
+		return monsterDeadURL;
 	}
 
 }

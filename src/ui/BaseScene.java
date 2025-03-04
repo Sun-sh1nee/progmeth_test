@@ -1,6 +1,7 @@
 package ui;
 
 import javafx.scene.layout.VBox;
+
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -14,188 +15,204 @@ import javafx.scene.text.Font;
 import logic.GameLogic;
 
 public class BaseScene extends VBox {
-    protected HBox topBar;
-    protected StackPane bodyContainer;
-    protected HBox navBar;
-    protected Label croissantCountLabel;
-    protected Label croissantPerSecondLabel;
-    protected Label croissantPerClickLabel;
-    
-    
-    protected StackPane rootContainer; 
-    protected VBox mainContainer; 
-    protected StackPane settingsContainer;
-    protected boolean isSettingsOpen = false;
-   
-    
+	protected HBox topBar;
+	protected StackPane bodyContainer;
+	protected HBox navBar;
+	protected Label croissantCountLabel;
+	protected Label croissantPerSecondLabel;
+	protected Label croissantPerClickLabel;
 
-    public BaseScene() {
-        topBar = new HBox(20);
-        topBar.setMinHeight(80);
-        topBar.setAlignment(Pos.CENTER);
-        topBar.setStyle("-fx-padding: 15px; -fx-background-color: lightgray;");
+	protected StackPane rootContainer;
+	protected VBox mainContainer;
+	protected StackPane settingsContainer;
+	protected boolean isSettingsOpen = false;
 
-        
-        HBox gemCounter = new HBox(10);
-        gemCounter.setAlignment(Pos.CENTER_LEFT);
-        gemCounter.setMaxWidth(90);
-        
+	public BaseScene() {
+		topBar = new HBox(0);
+		topBar.setMinHeight(90);
+		topBar.setAlignment(Pos.CENTER);
+		topBar.setStyle("-fx-padding: 15px; -fx-background-color: F7D07A;");
 
-        String gemPath = ClassLoader.getSystemResource("objects/gem.png").toString();
-        ImageView gemIcon = new ImageView(new Image(gemPath));
-        gemIcon.setFitWidth(25);
-        gemIcon.setFitHeight(25);
+		HBox gemCounter = new HBox(10);
+		gemCounter.setAlignment(Pos.CENTER_LEFT);
+		gemCounter.setMaxWidth(90);
 
-        Label gemCount = new Label();
-        gemCount.textProperty().bind(GameLogic.getGemCountProperty().asString());
-        gemCount.setFont(new Font(18));
-        gemCount.setStyle("-fx-font-weight: bold;");
-       
-        
-        gemCounter.getChildren().addAll(gemIcon, gemCount);
-        VBox croissantContainer = new VBox(10);
-        croissantContainer.setAlignment(Pos.CENTER);
+		String gemPath = ClassLoader.getSystemResource("objects/gem.png").toString();
+		ImageView gemIcon = new ImageView(new Image(gemPath));
+		gemIcon.setFitWidth(25);
+		gemIcon.setFitHeight(25);
 
-        String croissantPath = ClassLoader.getSystemResource("objects/croissant.png").toString();
-        ImageView croissantIcon = new ImageView(new Image(croissantPath));
-        croissantIcon.setFitWidth(25);
-        croissantIcon.setFitHeight(20);
-        croissantIcon.setRotate(10);
+		Label gemCount = new Label();
+		gemCount.textProperty().bind(GameLogic.getGemCountProperty().asString());
+		gemCount.setFont(new Font(18));
+		gemCount.setStyle("-fx-font-weight: bold;");
 
-        HBox croissantInfoPanel = new HBox(5);
-        croissantInfoPanel.setAlignment(Pos.CENTER);
-        croissantInfoPanel.setPrefWidth(200);
+		gemCounter.getChildren().addAll(gemIcon, gemCount);
 
-        croissantCountLabel = new Label();
-        croissantCountLabel.textProperty().bind(GameLogic.croissantCountProperty().asString());
-        croissantCountLabel.setFont(new Font(22));
-        croissantCountLabel.setStyle("-fx-font-weight: bold;");
-        croissantPerClickLabel = new Label();
-        croissantPerClickLabel.textProperty().bind(GameLogic.attackPerClickProperty().asString());
-        HBox perClickH = new HBox(5, croissantPerClickLabel, new Label("/ click"));
-        perClickH.setAlignment(Pos.CENTER);
+		VBox croissantContainer = new VBox(10);
+		croissantContainer.setAlignment(Pos.CENTER);
+		croissantContainer.setMaxWidth(150);
 
-        croissantPerSecondLabel = new Label();
-        croissantPerSecondLabel.textProperty().bind(GameLogic.getDamagePerSecProperty().asString());
-        HBox perSecH = new HBox(5, croissantPerSecondLabel, new Label("/ sec"));
-        perSecH.setAlignment(Pos.CENTER);
+		String croissantPath = ClassLoader.getSystemResource("objects/croissant.png").toString();
+		ImageView croissantIcon = new ImageView(new Image(croissantPath));
+		croissantIcon.setFitWidth(25);
+		croissantIcon.setFitHeight(20);
+		croissantIcon.setRotate(10);
 
-        croissantInfoPanel.getChildren().addAll(croissantCountLabel, croissantIcon);
-        croissantContainer.getChildren().addAll(croissantInfoPanel, perClickH, perSecH);
+		HBox croissantInfoPanel = new HBox(5);
+		croissantInfoPanel.setAlignment(Pos.CENTER);
+		croissantInfoPanel.setPrefWidth(150);
 
-    
-        HBox centerContainer = new HBox();
-        centerContainer.setAlignment(Pos.CENTER);
-        HBox.setHgrow(centerContainer, Priority.ALWAYS); 
-        centerContainer.getChildren().add(croissantContainer);
+		croissantCountLabel = new Label();
+		croissantCountLabel.textProperty().bind(GameLogic.croissantCountProperty().asString());
+		croissantCountLabel.setFont(new Font(22));
+		croissantCountLabel.setStyle("-fx-font-weight: bold;");
+		croissantPerClickLabel = new Label();
+		croissantPerClickLabel.textProperty().bind(GameLogic.attackPerClickProperty().asString());
+		HBox perClickH = new HBox(5, croissantPerClickLabel, new Label("/ click"));
+		perClickH.setAlignment(Pos.CENTER);
 
-        String settingsPath = ClassLoader.getSystemResource("objects/setting.png").toString();
-        ImageView settingsIcon = new ImageView(new Image(settingsPath));
-        settingsIcon.setFitWidth(30);
-        settingsIcon.setFitHeight(30);
+		croissantPerSecondLabel = new Label();
+		croissantPerSecondLabel.textProperty().bind(GameLogic.getDamagePerSecProperty().asString());
+		HBox perSecH = new HBox(5, croissantPerSecondLabel, new Label("/ sec"));
+		perSecH.setAlignment(Pos.CENTER);
 
-        StackPane settingsButton = new StackPane(settingsIcon);
-        settingsButton.setOnMouseClicked(e -> toggleSettingsPage());
-        settingsButton.setAlignment(Pos.CENTER_RIGHT);
+		croissantInfoPanel.getChildren().addAll(croissantCountLabel, croissantIcon);
+		croissantContainer.getChildren().addAll(croissantInfoPanel, perClickH, perSecH);
 
-        topBar.getChildren().addAll(gemCounter, centerContainer, settingsButton);
+		String settingsPath = ClassLoader.getSystemResource("objects/setting.png").toString();
+		ImageView settingsIcon = new ImageView(new Image(settingsPath));
+		settingsIcon.setFitWidth(30);
+		settingsIcon.setFitHeight(30);
 
-        bodyContainer = new StackPane();
-        bodyContainer.setMinHeight(400);
-        bodyContainer.setMaxHeight(400);
-        VBox.setVgrow(bodyContainer, Priority.ALWAYS);
+		StackPane settingsButton = new StackPane(settingsIcon);
+		settingsButton.setOnMouseClicked(e -> toggleSettingsPage());
+		settingsButton.setAlignment(Pos.CENTER_RIGHT);
 
-        navBar = new HBox(20);
-        navBar.setPrefHeight(80);
-        navBar.setAlignment(Pos.CENTER);
-        navBar.setStyle("-fx-padding: 15px; -fx-background-color: lightgray;");
+		StackPane leftContainer = new StackPane();
+		leftContainer.setAlignment(Pos.CENTER_LEFT);
+		leftContainer.getChildren().add(gemCounter);
+		leftContainer.setStyle("-fx-background-color: F7D07A;");
+		leftContainer.setPrefWidth(150);
 
-        Label randomButton = new Label("⬆️");
-        Label homeButton = new Label("🏠");
-        Label storyButton = new Label("🎲");
-        Label upgradeButton = new Label("⬆️");
-        Label inventory = new Label("📦");
+		StackPane centerContainer = new StackPane();
+		centerContainer.setAlignment(Pos.CENTER);
+		centerContainer.getChildren().add(croissantContainer);
+		centerContainer.setStyle("-fx-background-color: F7D07A;");
+		centerContainer.setPrefWidth(150);
 
-        inventory.setOnMouseClicked(e -> SceneManager.switchTo("CARD_EQUIPMENT"));
-        randomButton.setOnMouseClicked(e -> SceneManager.switchTo("RANDOM"));
-        homeButton.setOnMouseClicked(e -> SceneManager.switchTo("HOME"));
-        storyButton.setOnMouseClicked(e -> SceneManager.switchTo("STORY"));
-        upgradeButton.setOnMouseClicked(e -> SceneManager.switchTo("UPGRADE"));
+		StackPane rightContainer = new StackPane();
+		rightContainer.setAlignment(Pos.CENTER);
+		rightContainer.getChildren().add(settingsButton);
+		rightContainer.setStyle("-fx-background-color: F7D07A;");
+		rightContainer.setPrefWidth(150);
 
-        navBar.getChildren().addAll(randomButton, homeButton, storyButton, upgradeButton, inventory);
+		topBar.getChildren().addAll(leftContainer, centerContainer, rightContainer);
 
-        mainContainer = new VBox(topBar, bodyContainer, navBar);
-        mainContainer.setAlignment(Pos.CENTER);
+		bodyContainer = new StackPane();
+		bodyContainer.setMinHeight(400);
+		bodyContainer.setMaxHeight(400);
+		VBox.setVgrow(bodyContainer, Priority.ALWAYS);
 
-        createSettingsPage();
+		navBar = new HBox(30);
+		navBar.setPrefHeight(65);
+		navBar.setAlignment(Pos.CENTER);
+		navBar.setStyle("-fx-padding: 15px; -fx-background-color: F7D07A;");
 
-        rootContainer = new StackPane(mainContainer, settingsContainer);
-        rootContainer.setAlignment(Pos.CENTER);
+		StackPane homeIcon = new StackPane(
+				new ImageView(new Image(loadImagePath("icon/HomeIcon.png"), 50, 50, false, false)));
+		homeIcon.setPrefSize(50, 70);
+		homeIcon.setStyle("-fx-background-color: F7D07A;");
+		StackPane randomIcon = new StackPane(
+				new ImageView(new Image(loadImagePath("icon/diceIcon.png"), 30, 30, false, false)));
+		randomIcon.setPrefSize(50, 70);
+		randomIcon.setStyle("-fx-background-color: F7D07A;");
+		StackPane storyIcon = new StackPane(
+				new ImageView(new Image(loadImagePath("icon/crossedSwordsIcon.png"), 40, 40, false, false)));
+		storyIcon.setPrefSize(50, 70);
+		storyIcon.setStyle("-fx-background-color: F7D07A;");
+		StackPane upgradeIcon = new StackPane(
+				new ImageView(new Image(loadImagePath("icon/arrowUpIcon.png"), 30, 30, false, false)));
+		upgradeIcon.setPrefSize(50, 70);
+		upgradeIcon.setStyle("-fx-background-color: F7D07A;");
+		StackPane inventoryIcon = new StackPane(
+				new ImageView(new Image(loadImagePath("icon/backpackIcon.png"), 40, 30, false, false)));
+		inventoryIcon.setPrefSize(50, 70);
+		inventoryIcon.setStyle("-fx-background-color: F7D07A;");
 
-        this.getChildren().add(rootContainer);
-    }
+		inventoryIcon.setOnMouseClicked(e -> SceneManager.switchTo("CARD_EQUIPMENT"));
+		randomIcon.setOnMouseClicked(e -> SceneManager.switchTo("RANDOM"));
+		homeIcon.setOnMouseClicked(e -> SceneManager.switchTo("HOME"));
+		storyIcon.setOnMouseClicked(e -> SceneManager.switchTo("STORY"));
+		upgradeIcon.setOnMouseClicked(e -> SceneManager.switchTo("UPGRADE"));
 
+		navBar.getChildren().addAll(randomIcon, homeIcon, storyIcon, upgradeIcon, inventoryIcon);
 
-    
-    private void createSettingsPage() {
+		mainContainer = new VBox(topBar, bodyContainer, navBar);
+		mainContainer.setStyle("-fx-background-color: #FBEDBE;");
+		mainContainer.setAlignment(Pos.CENTER);
 
-        Region background = new Region();
-        background.setStyle("-fx-background-color: rgba(0, 0, 0, 0.6);");
-        background.setPrefSize(800, 600);
-        background.setOnMouseClicked(e -> toggleSettingsPage()); // คลิกข้างนอกเพื่อปิด
+		createSettingsPage();
 
-        VBox settingsBox = new VBox(15);
-        settingsBox.setAlignment(Pos.CENTER);
-        settingsBox.setStyle(
-        	    "-fx-background-color: white; " +
-        	    "-fx-padding: 15px; " +
-        	    "-fx-background-radius: 10px;"
-        );
-        settingsBox.setMaxSize(250, 150); // ลดขนาดลง
+		rootContainer = new StackPane(mainContainer, settingsContainer);
+		rootContainer.setAlignment(Pos.CENTER);
 
-        Label title = new Label("Settings");
-        title.setFont(new Font(20)); // ลดขนาดตัวอักษร
+		this.getChildren().add(rootContainer);
+	}
 
-        Button toggleMusicButton = new Button();
-        toggleMusicButton.textProperty().bind(GameLogic.isMusicProperty().map(value -> value ? "Music: ON" : "Music: OFF"));
-        toggleMusicButton.setOnAction(e -> toggleMusic());
+	private void createSettingsPage() {
 
-        Button closeButton = new Button("Close");
-        closeButton.setOnAction(e -> toggleSettingsPage());
+		Region background = new Region();
+		background.setStyle("-fx-background-color: rgba(0, 0, 0, 0.6);");
+		background.setPrefSize(800, 600);
+		background.setOnMouseClicked(e -> toggleSettingsPage());
 
-        settingsBox.getChildren().addAll(title, toggleMusicButton, closeButton);
+		VBox settingsBox = new VBox(15);
+		settingsBox.setAlignment(Pos.CENTER);
+		settingsBox.setStyle("-fx-background-color: white; " + "-fx-padding: 15px; " + "-fx-background-radius: 10px;");
+		settingsBox.setMaxSize(250, 150);
 
-        // 🟢 StackPane จัดหน้า Settings ให้อยู่ตรงกลาง
-        StackPane settingsContent = new StackPane(settingsBox);
-        settingsContent.setAlignment(Pos.CENTER);
+		Label title = new Label("Settings");
+		title.setFont(new Font(20));
 
-        // 🟢 StackPane ครอบหน้า Settings + Background	
-        settingsContainer = new StackPane(background, settingsContent);
-        settingsContainer.setAlignment(Pos.CENTER);
-        settingsContainer.setVisible(false); // ซ่อนตอนเริ่มเกม
-    }
+		Button toggleMusicButton = new Button();
+		toggleMusicButton.textProperty()
+				.bind(GameLogic.isMusicProperty().map(value -> value ? "Music: ON" : "Music: OFF"));
+		toggleMusicButton.setOnAction(e -> toggleMusic());
 
-    private void toggleSettingsPage() {
-        isSettingsOpen = !isSettingsOpen;
-        settingsContainer.setVisible(isSettingsOpen);
-    }
+		Button closeButton = new Button("Close");
+		closeButton.setOnAction(e -> toggleSettingsPage());
 
-    private void toggleMusic() {
-        GameLogic.toggleMusic();
-    }
-    
-    
-    protected String formatNumber(long number) {
-        return String.format("%,d", number);
-    }
-    
-    
-    public void switchBody(javafx.scene.Node newContent) {
-        bodyContainer.getChildren().clear();
-        System.out.println(newContent);
-        bodyContainer.getChildren().add(newContent);
-    }
+		settingsBox.getChildren().addAll(title, toggleMusicButton, closeButton);
 
-    
-    
+		StackPane settingsContent = new StackPane(settingsBox);
+		settingsContent.setAlignment(Pos.CENTER);
+
+		settingsContainer = new StackPane(background, settingsContent);
+		settingsContainer.setAlignment(Pos.CENTER);
+		settingsContainer.setVisible(false);
+	}
+
+	private void toggleSettingsPage() {
+		isSettingsOpen = !isSettingsOpen;
+		settingsContainer.setVisible(isSettingsOpen);
+	}
+
+	private void toggleMusic() {
+		GameLogic.toggleMusic();
+	}
+
+	protected String formatNumber(long number) {
+		return String.format("%,d", number);
+	}
+
+	public void switchBody(javafx.scene.Node newContent) {
+		bodyContainer.getChildren().clear();
+		bodyContainer.getChildren().add(newContent);
+	}
+
+	private String loadImagePath(String path) {
+		return ClassLoader.getSystemResource(path).toString();
+	}
+
 }

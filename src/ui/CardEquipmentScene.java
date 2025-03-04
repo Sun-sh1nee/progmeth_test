@@ -1,8 +1,6 @@
 package ui;
 
 
-import java.util.ArrayList;
-
 import card.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -55,16 +53,12 @@ public class CardEquipmentScene extends BaseScene {
 		Button removeButton = new Button();
 		removeButton.setText("remove");
 		removeButton.setAlignment(Pos.CENTER);
+		removeButton.setStyle("-fx-background-color: FF4E01;");
 		removeButton.setOnMouseClicked(e -> {
 			GameLogic.equipCard(null, slotIndex);
 			updateSlotPane(arraySlotPane[slotIndex], slotIndex);
 			SceneManager.switchTo("CARD_EQUIPMENT");
-			
-//			ArrayList<BaseCard> ownedCards = GameLogic.getOwnedCards();
-//			
-//			for(BaseCard bs: ownedCards) {
-//				System.out.println(bs);
-//			}
+		
 		});
 		
 		return removeButton;
@@ -74,7 +68,7 @@ public class CardEquipmentScene extends BaseScene {
         VBox slotPane = new VBox();
         slotPane.setPrefSize(100, 140); 
         slotPane.setStyle("-fx-border-color: black; -fx-border-width: 2; "
-                        + "-fx-alignment: top_center; -fx-background-color: #eeeeee;");
+                        + "-fx-alignment: top_center; -fx-background-color: white;");
 
         updateSlotPane(slotPane, slotIndex);
 
@@ -113,7 +107,7 @@ public class CardEquipmentScene extends BaseScene {
             imgView.setFitHeight(100);
             imgView.setPreserveRatio(true);
 			slotPane.setStyle("-fx-border-color: black; -fx-border-width: 2; "
-			  + "-fx-alignment: top_center; -fx-background-color: #eeeeee;"
+			  + "-fx-alignment: top_center; -fx-background-color: white;"
 			  + "-fx-border-color: " + card.getTierStyle()  + ";");
             
 
@@ -129,8 +123,7 @@ public class CardEquipmentScene extends BaseScene {
   
     public void refreshSlots() {
         for (int i = 0; i < slotsContainer.getChildren().size(); i++) {
-//        	VBox slotPane = (VBox) ((VBox) slotsContainer.getChildren().get(i)).getChildren().get(0);
-//            updateSlotPane(slotPane, i);
+
         	updateSlotPane(arraySlotPane[i], i);
         }
     }

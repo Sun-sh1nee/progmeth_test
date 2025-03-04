@@ -1,9 +1,5 @@
 package card;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
-
 public class BaseCard implements Comparable<BaseCard>{
 	protected String name;
 	protected String CardURL;

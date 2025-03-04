@@ -16,12 +16,10 @@ import javafx.scene.shape.Rectangle;
 import logic.GameLogic;
 
 class ComponentPane extends VBox {
-  private Item item;
   private Label levelLabel;
   private Label costLabel;
 
   public ComponentPane(Item item) {
-    this.item = item;
 
    
     Label nameLabel = new Label(item.toString());
@@ -51,6 +49,7 @@ class ComponentPane extends VBox {
     costLabel.textFillProperty().bind(textColorBinding);
 
     Button upgradeButton = new Button("Upgrade");
+    upgradeButton.setStyle("-fx-background-color: Aquamarine;");
 
     upgradeButton.setOnAction(
         e -> {
@@ -73,6 +72,6 @@ class ComponentPane extends VBox {
     this.setAlignment(Pos.CENTER);
     this.setPadding(new Insets(10));
     this.setSpacing(5);
-    this.setStyle("-fx-border-color: black;");
+    this.setStyle("-fx-border-color: FFB712; -fx-background-color: FCF4D0;");
   }
 }

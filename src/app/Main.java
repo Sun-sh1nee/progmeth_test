@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 import logic.GameLogic;
 import ui.CardEquipmentScene;
 import ui.CardInventoryScene;
-import ui.EndCreditScene;
 import ui.HomeScene;
 import ui.RandomScene;
 import ui.SceneManager;
@@ -16,7 +15,6 @@ import ui.UpgradeScene;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
-    	System.out.println("GAME START");
     	GameLogic.init();
         SceneManager.setStage(primaryStage);
 

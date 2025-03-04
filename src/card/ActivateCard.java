@@ -1,9 +1,9 @@
 package card;
 
 import javafx.animation.KeyFrame;
+
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.control.ProgressBar;
 import javafx.util.Duration;
 
 public abstract class ActivateCard extends BaseCard implements Activatable {
@@ -40,7 +40,6 @@ public abstract class ActivateCard extends BaseCard implements Activatable {
         Timeline cooldownTimer = new Timeline(
             new KeyFrame(Duration.seconds(0.1), e -> {
                 cooldownTimeLeft.set(cooldownTimeLeft.get() - 0.1);
-//                System.out.println(cooldownTimeLeft.get());
                 if (cooldownTimeLeft.get() <= 0) {
                     isOnCooldown = false;
                     cooldownTimeLeft.set(0);
