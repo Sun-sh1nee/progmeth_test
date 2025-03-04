@@ -1,10 +1,6 @@
 package card;
 
 import java.util.Random;
-
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 import logic.GameLogic;
 
 public class HeavyHiterCard extends ActivateCard implements Activatable{
