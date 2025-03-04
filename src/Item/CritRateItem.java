@@ -54,7 +54,7 @@ public class CritRateItem extends Item {
 
 	@Override
 	public String toString() {
-		return "CritRate";
+		return "Critical Rate";
 	}
 
 }

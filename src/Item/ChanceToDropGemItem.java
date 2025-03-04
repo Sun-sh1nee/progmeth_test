@@ -53,7 +53,7 @@ public class ChanceToDropGemItem extends Item {
 	}
 
 	public String toString() {
-		return "chanceToDropGem";
+		return "Chance To Drop Gem";
 	}
 
 }

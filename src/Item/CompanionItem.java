@@ -53,7 +53,7 @@ public class CompanionItem extends Item {
 	}
 
 	public String toString() {
-		return "CompanionItem";
+		return "Companion Item";
 	}
 	
 }

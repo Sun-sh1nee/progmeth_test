@@ -53,7 +53,7 @@ public class CritDamageItem extends Item {
 	}
 
 	public String toString() {
-		return "CritDamage";
+		return "Critical Damage";
 	}
 
 }
