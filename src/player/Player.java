@@ -10,84 +10,85 @@ import Item.CritRateItem;
 import Item.Item;
 
 public class Player {
-  private int attackPerClick;
-  private double critRate;
-  private double critDamage;
-  private double chanceToDropGem;
-  private int damagePerSec;
-  private List<Item> items;
+	private int attackPerClick;
+	private double critRate;
+	private double critDamage;
+	private double chanceToDropGem;
+	private int damagePerSec;
+	private List<Item> items;
 
-  public Player() {
-    this.items = new ArrayList<>();
-    AttackItem attackItem = new AttackItem("objects/items/attack.jpg");
-    CritRateItem critRateItem = new CritRateItem("objects/items/critrate.jpg");
-    CompanionItem companionItem = new CompanionItem("objects/items/conpanion.jpg");
-    CritDamageItem critDamageItem = new CritDamageItem("objects/items/critdamage.jpg");
-    ChanceToDropGemItem chanceToDropGemItem = new ChanceToDropGemItem("objects/items/changetodrop.jpg");
-    items.add(attackItem);
-    items.add(critRateItem);
-    items.add(critDamageItem);
-    items.add(chanceToDropGemItem);
-    items.add(companionItem);
-    this.setAttackPerClick(attackItem.getAttack());
-    this.setChanceToDropGem(chanceToDropGemItem.getChanceToDropGem());;
-    this.setCritDamage(critDamageItem.getCritDamage());
-    this.setCritRate(critRateItem.getCritChance());
-    this.setDamagePerSec(companionItem.getDamagePerSec());
+	public Player() {
+		this.items = new ArrayList<>();
+		AttackItem attackItem = new AttackItem("objects/items/attack.jpg");
+		CritRateItem critRateItem = new CritRateItem("objects/items/critrate.jpg");
+		CompanionItem companionItem = new CompanionItem("objects/items/conpanion.jpg");
+		CritDamageItem critDamageItem = new CritDamageItem("objects/items/critdamage.jpg");
+		ChanceToDropGemItem chanceToDropGemItem = new ChanceToDropGemItem("objects/items/changetodrop.jpg");
+		items.add(attackItem);
+		items.add(critRateItem);
+		items.add(critDamageItem);
+		items.add(chanceToDropGemItem);
+		items.add(companionItem);
+		this.setAttackPerClick(attackItem.getAttack());
+		this.setChanceToDropGem(chanceToDropGemItem.getChanceToDropGem());
+		;
+		this.setCritDamage(critDamageItem.getCritDamage());
+		this.setCritRate(critRateItem.getCritChance());
+		this.setDamagePerSec(companionItem.getDamagePerSec());
 
-  }
-  
-  public int getDamagePerSec() {
-	return damagePerSec;
-}
+	}
 
-  public void setDamagePerSec(int damagePerSec) {
-	this.damagePerSec = damagePerSec;
-  }
+	public int getDamagePerSec() {
+		return damagePerSec;
+	}
+
+	public void setDamagePerSec(int damagePerSec) {
+		this.damagePerSec = damagePerSec;
+	}
 
 	public int getAttackPerClick() {
-    return attackPerClick;
-  }
+		return attackPerClick;
+	}
 
-  public void setAttackPerClick(int attackPerClick) {
-    this.attackPerClick = attackPerClick;
-  }
+	public void setAttackPerClick(int attackPerClick) {
+		this.attackPerClick = attackPerClick;
+	}
 
-  public double getCritRate() {
-    return critRate;
-  }
+	public double getCritRate() {
+		return critRate;
+	}
 
-  public void setCritRate(double critRate) {
-    this.critRate = critRate;
-  }
+	public void setCritRate(double critRate) {
+		this.critRate = critRate;
+	}
 
-  public double getCritDamage() {
-    return critDamage;
-  }
+	public double getCritDamage() {
+		return critDamage;
+	}
 
-  public void setCritDamage(double critDamage) {
-    this.critDamage = critDamage;
-  }
+	public void setCritDamage(double critDamage) {
+		this.critDamage = critDamage;
+	}
 
-  public double getChanceToDropGem() {
-    return chanceToDropGem;
-  }
+	public double getChanceToDropGem() {
+		return chanceToDropGem;
+	}
 
-  public void setChanceToDropGem(double chanceToDropGem) {
-    this.chanceToDropGem = chanceToDropGem;
-  }
+	public void setChanceToDropGem(double chanceToDropGem) {
+		this.chanceToDropGem = chanceToDropGem;
+	}
 
-  public List<Item> getItems() {
-    return items;
-  }
+	public List<Item> getItems() {
+		return items;
+	}
 
-  public void setItems(List<Item> items) {
-    this.items = items;
-  }
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
 
-  public void updateAllItems() {
-	  for(Item item : items) {
-		  item.updateStat();
-	  }
-  }
+	public void updateAllItems() {
+		for (Item item : items) {
+			item.updateStat();
+		}
+	}
 }

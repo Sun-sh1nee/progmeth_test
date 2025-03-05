@@ -32,12 +32,9 @@ public class GameLogic {
 	private static SimpleIntegerProperty storyState = new SimpleIntegerProperty();
 	private static SimpleDoubleProperty storyTimerProgress = new SimpleDoubleProperty();
 
-	public static boolean isTimeStop;
-
 	private static boolean isStoryBattle;
 	private static ArrayList<Monster> monsterStory;
 	private static Monster monsterHome;
-	private static int stage;
 	private static Timeline dpsHomeThread;
 	private static Timeline dpsStoryThread;
 	private static Player player;
@@ -54,7 +51,7 @@ public class GameLogic {
 	private static ArrayList<BaseCard> ownedCards;
 
 	public static void init() {
-		setStage(1);
+		setstoryState(1);
 		initMonster();
 		player = new Player();
 
@@ -149,7 +146,7 @@ public class GameLogic {
 	}
 
 	public static void startStoryMode() {
-		monsterHpStory.set(monsterStory.get(getStage()).getMonsterHp());
+		monsterHpStory.set(monsterStory.get(getstoryState()).getMonsterHp());
 		for (BaseCard card : equippedCards) {
 			if (card instanceof ActivateCard)
 				((ActivateCard) card).resetCooldown();
@@ -212,7 +209,6 @@ public class GameLogic {
 
 	private static void startTimer() {
 		int totalTime = 30;
-		isTimeStop = false;
 		isStoryBattle = true;
 		new Thread(() -> {
 			double timeNow = totalTime;
@@ -221,9 +217,6 @@ public class GameLogic {
 					if (!SceneManager.getSceneName().equals("STORY")) {
 						isStoryBattle = false;
 						break;
-					}
-					if (isTimeStop) {
-						continue;
 					}
 					double progress = timeNow / totalTime;
 					Platform.runLater(() -> storyTimerProgress.set(progress));
@@ -236,10 +229,6 @@ public class GameLogic {
 				}
 			}
 			isStoryBattle = false;
-			if (stage < 1)
-				Platform.runLater(() -> {
-					SceneManager.switchTo("HOME");
-				});
 		}).start();
 	}
 
@@ -251,7 +240,7 @@ public class GameLogic {
 		for (int i = 1; i <= 30; ++i) {
 			int hpBase = i * 1000;
 			int coinBase = i * 100;
-			double coinScal = 0.5;
+			double coinScal = 0.4;
 			double hpScal = 1.3;
 
 			Random rand = new Random();
@@ -311,17 +300,18 @@ public class GameLogic {
 	}
 
 	public static void monsterStoryIsDead() {
-		if (stage >= 30) {
+		if (storyState.get() >= 30) {
 			SceneManager.addScene("END_CREDIT", new Scene(new EndCreditScene(), 500, 600));
 			SceneManager.switchTo("END_CREDIT");
 			return;
 		}
-		monsterHome = monsterStory.get(stage);
+		monsterHome = monsterStory.get(storyState.get());
 		monsterHpHome.set(monsterHome.getMonsterHp());
 
-		stage++;
+		storyState.set(getstoryState() + 1);
+		;
 		setStoryState();
-		monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
+		monsterHpStory.set(monsterStory.get(storyState.get()).getMonsterHp());
 
 		for (BaseCard card : equippedCards) {
 			if (card instanceof ActivateCard)
@@ -414,16 +404,20 @@ public class GameLogic {
 		return player;
 	}
 
-	public static int getStage() {
-		return stage;
+	public static int getstoryState() {
+		return storyState.get();
 	}
 
-	public static void setStage(int stageNow) {
-		stage = stageNow;
+	public static void setstoryState(int storyStateNow) {
+		storyState.set(storyStateNow);
 	}
 
 	public static void setAttackPerClick() {
 		attackPerClick.set(player.getAttackPerClick());
+	}
+
+	public static void addGemCount(int amount) {
+		gemCount.set(gemCount.get() + amount);
 	}
 
 	public static boolean reduceGemCount(int amount) {
@@ -442,10 +436,10 @@ public class GameLogic {
 	}
 
 	public static Monster getMonsterStory() {
-		return monsterStory.get(stage);
+		return monsterStory.get(storyState.get());
 	}
 
 	public static void setStoryState() {
-		storyState.set(stage);
+		storyState.set(storyState.get());
 	}
 }

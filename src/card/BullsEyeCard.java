@@ -6,56 +6,59 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class BullsEyeCard extends ActivateCard implements Activatable{
+public class BullsEyeCard extends ActivateCard implements Activatable {
 	private double critChanceBoost;
-	public BullsEyeCard(String name , String image , CardTier tier) {
-		super(name, image, tier , 8);
+
+	public BullsEyeCard(String name, String image, CardTier tier) {
+		super(name, image, tier, 8);
 		randomizeAttributes();
 	}
-	
+
 	private void randomizeAttributes() {
-        Random random = new Random();
-        
-        switch (tier) {
-        case COMMON: {  
-        	critChanceBoost = random.nextDouble() * 5 + 10;       
-            break;
-        }case RARE: {     
-        	critChanceBoost = random.nextDouble() * 5 + 20;     
-            break;
-        }case EPIC: {     
-        	critChanceBoost = random.nextDouble() * 15 + 50;     
-            break;
-        }case LEGENDARY: {   
-        	critChanceBoost = 100;      
-            break;
-        }
-        }
-    }
+		Random random = new Random();
+
+		switch (tier) {
+		case COMMON: {
+			critChanceBoost = random.nextDouble() * 5 + 10;
+			break;
+		}
+		case RARE: {
+			critChanceBoost = random.nextDouble() * 5 + 20;
+			break;
+		}
+		case EPIC: {
+			critChanceBoost = random.nextDouble() * 15 + 50;
+			break;
+		}
+		case LEGENDARY: {
+			critChanceBoost = 100;
+			break;
+		}
+		}
+	}
+
 	@Override
 	public void activate() {
-		if (isOnCooldown) return;
-	    
+		if (isOnCooldown)
+			return;
 
-	    
-	    GameLogic.applyCritChanceCardBoost(critChanceBoost);
-	    
-	    Timeline buffTimeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
-	      
-	        GameLogic.cancelCritChanceCardBoost(critChanceBoost);
-	        
+		GameLogic.applyCritChanceCardBoost(critChanceBoost);
 
-	    }));
-	    buffTimeline.setCycleCount(1);
-	    buffTimeline.play();
+		Timeline buffTimeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+
+			GameLogic.cancelCritChanceCardBoost(critChanceBoost);
+
+		}));
+		buffTimeline.setCycleCount(1);
+		buffTimeline.play();
 	}
-	
+
 	@Override
 	public String toString() {
-		
-		return String.format("Card: %s [%s Tier]\n- Increase: %.2f%% critcal chance \n-cooldown: 6sec",
-				name , tier , critChanceBoost);
-		
+
+		return String.format("Card: %s [%s Tier]\n- Increase: %.2f%% critcal chance \n-cooldown: 6sec", name, tier,
+				critChanceBoost);
+
 	}
 
 }

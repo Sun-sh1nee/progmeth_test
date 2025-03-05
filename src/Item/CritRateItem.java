@@ -6,7 +6,7 @@ public class CritRateItem extends Item {
 	private double critChance;
 	private double scalFacCost;
 	private double scalFacStatus;
-	
+
 	public CritRateItem(String itemURL) {
 		super("CritRateItem", 500, itemURL);
 
@@ -22,9 +22,9 @@ public class CritRateItem extends Item {
 
 	@Override
 	public void upgrade() {
-		this.setLevelItem(levelItem.get()+1);
+		this.setLevelItem(levelItem.get() + 1);
 		setcritChance(getCritChance() + getScalFacStatus());
-		setCostItem((int)(getCostItem().get() * (1 + getScalFacCost())));	
+		setCostItem((int) (getCostItem().get() * (1 + getScalFacCost())));
 		updateStat();
 	}
 
@@ -33,7 +33,7 @@ public class CritRateItem extends Item {
 	}
 
 	public void setcritChance(double critChance) {
-		this.critChance= critChance;
+		this.critChance = critChance;
 	}
 
 	public double getScalFacStatus() {

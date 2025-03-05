@@ -12,7 +12,7 @@ public class CompanionItem extends Item {
 
 		setDamagePerSec(75);
 		setScalFacCost(0.18);
-		setScalFacStatus(1.25);
+		setScalFacStatus(1.18);
 	}
 
 	@Override
@@ -55,5 +55,5 @@ public class CompanionItem extends Item {
 	public String toString() {
 		return "Companion Item";
 	}
-	
+
 }

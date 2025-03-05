@@ -9,33 +9,32 @@ import player.Player;
 
 public class UpgradeScene extends BaseScene {
 
-  public UpgradeScene() {
-    super();
+	public UpgradeScene() {
+		super();
 
-    Player player = GameLogic.getPlayer();
+		Player player = GameLogic.getPlayer();
 
-    Item attackItem = player.getItems().get(0);
-    Item critRateItem = player.getItems().get(1);
-    Item critDamageItem = player.getItems().get(2);
-    Item chanceToDropItem = player.getItems().get(3);
-    Item companionItem = player.getItems().get(4);
+		Item attackItem = player.getItems().get(0);
+		Item critRateItem = player.getItems().get(1);
+		Item critDamageItem = player.getItems().get(2);
+		Item chanceToDropItem = player.getItems().get(3);
+		Item companionItem = player.getItems().get(4);
 
-    ComponentPane componentPane1 = new ComponentPane(attackItem);
-    ComponentPane componentPane2 = new ComponentPane(critRateItem);
-    ComponentPane componentPane3 = new ComponentPane(critDamageItem);
-    ComponentPane componentPane4 = new ComponentPane(chanceToDropItem);
-    ComponentPane componentPane5 = new ComponentPane(companionItem);
+		ComponentPane componentPane1 = new ComponentPane(attackItem);
+		ComponentPane componentPane2 = new ComponentPane(critRateItem);
+		ComponentPane componentPane3 = new ComponentPane(critDamageItem);
+		ComponentPane componentPane4 = new ComponentPane(chanceToDropItem);
+		ComponentPane componentPane5 = new ComponentPane(companionItem);
 
-    VBox upgradeLayout =
-        new VBox(
-            10, componentPane1, componentPane2, componentPane3, componentPane4, componentPane5);
-    upgradeLayout.setAlignment(Pos.CENTER);
-    upgradeLayout.setStyle("-fx-background-color: white;");
-    ScrollPane scrollPane = new ScrollPane(upgradeLayout);
-    scrollPane.setFitToWidth(true);
-    scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-    scrollPane.setStyle("-fx-background-color: FCF4D0;");
+		VBox upgradeLayout = new VBox(10, componentPane1, componentPane2, componentPane3, componentPane4,
+				componentPane5);
+		upgradeLayout.setAlignment(Pos.CENTER);
+		upgradeLayout.setStyle("-fx-background-color: white;");
+		ScrollPane scrollPane = new ScrollPane(upgradeLayout);
+		scrollPane.setFitToWidth(true);
+		scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		scrollPane.setStyle("-fx-background-color: FCF4D0;");
 
-    switchBody(scrollPane);
-  }
+		switchBody(scrollPane);
+	}
 }

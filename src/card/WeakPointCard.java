@@ -7,57 +7,59 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class WeakPointCard extends ActivateCard implements Activatable{
+public class WeakPointCard extends ActivateCard implements Activatable {
 	private double extraBoost;
-	public WeakPointCard(String name , String image , CardTier tier) {
-		super(name, image, tier ,12);
+
+	public WeakPointCard(String name, String image, CardTier tier) {
+		super(name, image, tier, 12);
 		randomizeAttributes();
 	}
-	
+
 	private void randomizeAttributes() {
-        Random random = new Random();
-        
-        switch (tier) {
-        case COMMON: {  
-        	extraBoost = random.nextDouble() * 5 + 5;       
-            break;
-        }case RARE: {     
-        	extraBoost = random.nextDouble() * 5 + 10;     
-            break;
-        }case EPIC: {     
-        	extraBoost = random.nextDouble() * 10 + 15;     
-            break;
-        }case LEGENDARY: {   
-        	extraBoost = random.nextDouble() * 20 + 30;      
-            break;
-        }
-        }
-    }
+		Random random = new Random();
+
+		switch (tier) {
+		case COMMON: {
+			extraBoost = random.nextDouble() * 5 + 5;
+			break;
+		}
+		case RARE: {
+			extraBoost = random.nextDouble() * 5 + 10;
+			break;
+		}
+		case EPIC: {
+			extraBoost = random.nextDouble() * 10 + 15;
+			break;
+		}
+		case LEGENDARY: {
+			extraBoost = random.nextDouble() * 20 + 30;
+			break;
+		}
+		}
+	}
+
 	@Override
 	public void activate() {
-		if (isOnCooldown)return;
-	    
+		if (isOnCooldown)
+			return;
 
-	    
-	    GameLogic.applyExtraDamage(extraBoost);
-	    
-	    Timeline buffTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
-	      
-	        GameLogic.cancelExtraDamage(extraBoost);
-	        
+		GameLogic.applyExtraDamage(extraBoost);
 
-	    }));
-	    buffTimeline.setCycleCount(1);
-	    buffTimeline.play();
+		Timeline buffTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+
+			GameLogic.cancelExtraDamage(extraBoost);
+
+		}));
+		buffTimeline.setCycleCount(1);
+		buffTimeline.play();
 	}
-	
+
 	@Override
 	public String toString() {
-		
-		return String.format("Card: %s [%s Tier]\n- Enemy get: %.2f%%  more damage \n-cooldown: 7sec",
-				name , tier , extraBoost);
-		
+
+		return String.format("Card: %s [%s Tier]\n- Enemy get: %.2f%%  more damage \n-cooldown: 7sec", name, tier,
+				extraBoost);
+
 	}
-	
 
 }

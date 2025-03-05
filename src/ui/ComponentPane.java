@@ -25,92 +25,69 @@ class ComponentPane extends VBox {
 
 	public ComponentPane(Item item) {
 
-   
-    Label nameLabel = new Label(item.toString());
-    ImageView itemImage = new ImageView(new Image(item.getItemURL()));
-    itemImage.setFitWidth(50);
-    itemImage.setFitHeight(50);
-    itemImage.setPreserveRatio(true);
+		Label nameLabel = new Label(item.toString());
+		ImageView itemImage = new ImageView(new Image(item.getItemURL()));
+		itemImage.setFitWidth(50);
+		itemImage.setFitHeight(50);
+		itemImage.setPreserveRatio(true);
 
-    Rectangle itemBox = new Rectangle(50, 50);
-    itemBox.setArcWidth(20); 
-    itemBox.setArcHeight(20);
-    itemImage.setClip(itemBox);
-    
-    Rectangle border = new Rectangle(50, 50);
-    border.setArcWidth(20);
-    border.setArcHeight(20);
-    border.setStroke(Color.WHEAT);
-    border.setStrokeWidth(5); 
-    border.setFill(Color.TRANSPARENT); 
-    
-    StackPane stackPane = new StackPane();
-    stackPane.getChildren().addAll(border, itemImage);
-    
-    levelLabel = new Label("Level: " + item.getLevelItem());
-    levelLabel
-        .textProperty()
-        .bind(item.levelProperty().asString("Level: %d"));
+		Rectangle itemBox = new Rectangle(50, 50);
+		itemBox.setArcWidth(20);
+		itemBox.setArcHeight(20);
+		itemImage.setClip(itemBox);
 
-    
-    costLabel = new Label();
-    costLabel
-        .textProperty()
-        .bind(Bindings.format("Cost: %d", item.getCostItem()));
+		Rectangle border = new Rectangle(50, 50);
+		border.setArcWidth(20);
+		border.setArcHeight(20);
+		border.setStroke(Color.WHEAT);
+		border.setStrokeWidth(5);
+		border.setFill(Color.TRANSPARENT);
 
-    
-    ObjectBinding<Color> textColorBinding =
-        Bindings.createObjectBinding(
-            () ->
-                GameLogic.getCroissantCount().get() >= item.getCostItem()
-                        .get()
-                    ? Color.BLACK
-                    : Color.RED,
-            GameLogic.getCroissantCount(),
-            item.getCostItem()); 
+		StackPane stackPane = new StackPane();
+		stackPane.getChildren().addAll(border, itemImage);
 
-    costLabel.textFillProperty().bind(textColorBinding);
+		levelLabel = new Label("Level: " + item.getLevelItem());
+		levelLabel.textProperty().bind(item.levelProperty().asString("Level: %d"));
 
-    Button upgradeButton = new Button("Upgrade");
-    upgradeButton.setStyle(
-	        "-fx-background-color: Aquamarine;" + 
-	        "-fx-border-radius: 10px;" + 
-	        "-fx-background-radius: 10px;"
-    );
+		costLabel = new Label();
+		costLabel.textProperty().bind(Bindings.format("Cost: %d", item.getCostItem()));
 
-    upgradeButton.setOnMousePressed(e -> upgradeButton.setStyle(
-    		"-fx-background-color: LightGreen;" +
-    		"-fx-border-radius: 10px;" + 
-    		"-fx-background-radius: 10px;"
-    ));
+		ObjectBinding<Color> textColorBinding = Bindings.createObjectBinding(
+				() -> GameLogic.getCroissantCount().get() >= item.getCostItem().get() ? Color.BLACK : Color.RED,
+				GameLogic.getCroissantCount(), item.getCostItem());
 
-    upgradeButton.setOnMouseReleased(e -> upgradeButton.setStyle(
-    		"-fx-background-color: Aquamarine;" + 
-    		"-fx-border-radius: 10px;" + 
-            "-fx-background-radius: 10px;"
-    ));
+		costLabel.textFillProperty().bind(textColorBinding);
 
-    upgradeButton.setOnAction(
-        e -> {
-          if (GameLogic.getCroissantCount().get() >= item.getCostItem().get()) {
-            GameLogic.setCroissantCount(GameLogic.getCroissantCount().get() - item.getCostItem().get());
-            item.upgrade();
-          }
-		  if(item instanceof AttackItem) {
-			  GameLogic.setAttackPerClick();
-		  }
-		  if(item instanceof CompanionItem) {
-			  GameLogic.setDamagePerSec();
-		  }
-        });
+		Button upgradeButton = new Button("Upgrade");
+		upgradeButton.setStyle(
+				"-fx-background-color: Aquamarine;" + "-fx-border-radius: 10px;" + "-fx-background-radius: 10px;");
 
-    HBox topLayout = new HBox(10, stackPane, nameLabel);
-    topLayout.setAlignment(Pos.CENTER);
+		upgradeButton.setOnMousePressed(e -> upgradeButton.setStyle(
+				"-fx-background-color: LightGreen;" + "-fx-border-radius: 10px;" + "-fx-background-radius: 10px;"));
 
-    this.getChildren().addAll(topLayout, levelLabel, costLabel, upgradeButton);
-    this.setAlignment(Pos.CENTER);
-    this.setPadding(new Insets(10));
-    this.setSpacing(5);
-    this.setStyle("-fx-border-color: FFB712; -fx-background-color: FCF4D0;");
-  }
+		upgradeButton.setOnMouseReleased(e -> upgradeButton.setStyle(
+				"-fx-background-color: Aquamarine;" + "-fx-border-radius: 10px;" + "-fx-background-radius: 10px;"));
+
+		upgradeButton.setOnAction(e -> {
+			if (GameLogic.getCroissantCount().get() >= item.getCostItem().get()) {
+				GameLogic.setCroissantCount(GameLogic.getCroissantCount().get() - item.getCostItem().get());
+				item.upgrade();
+			}
+			if (item instanceof AttackItem) {
+				GameLogic.setAttackPerClick();
+			}
+			if (item instanceof CompanionItem) {
+				GameLogic.setDamagePerSec();
+			}
+		});
+
+		HBox topLayout = new HBox(10, stackPane, nameLabel);
+		topLayout.setAlignment(Pos.CENTER);
+
+		this.getChildren().addAll(topLayout, levelLabel, costLabel, upgradeButton);
+		this.setAlignment(Pos.CENTER);
+		this.setPadding(new Insets(10));
+		this.setSpacing(5);
+		this.setStyle("-fx-border-color: FFB712; -fx-background-color: FCF4D0;");
+	}
 }

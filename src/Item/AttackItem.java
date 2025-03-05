@@ -11,7 +11,7 @@ public class AttackItem extends Item {
 		super("AttackItem", 100, itemURL);
 
 		setAttack(100);
-		setScalFacCost(0.13);
+		setScalFacCost(0.25);
 		setScalFacStatus(1.15);
 	}
 

@@ -1,8 +1,5 @@
 package card;
 
 public enum CardTier {
-	COMMON,
-	RARE,
-	EPIC,
-	LEGENDARY
+	COMMON, RARE, EPIC, LEGENDARY
 }

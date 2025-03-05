@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
 import logic.GameLogic;
 
@@ -112,6 +113,7 @@ public class BaseScene extends VBox {
 		bodyContainer = new StackPane();
 		bodyContainer.setMinHeight(400);
 		bodyContainer.setMaxHeight(400);
+
 		VBox.setVgrow(bodyContainer, Priority.ALWAYS);
 
 		navBar = new HBox(30);

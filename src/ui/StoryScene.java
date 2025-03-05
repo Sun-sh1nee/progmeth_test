@@ -116,7 +116,7 @@ public class StoryScene extends BaseScene {
 
 	public void updateStoryUI() {
 
-		Label stageLabel = new Label("Stage: " + GameLogic.getStage());
+		Label stageLabel = new Label("Stage: " + GameLogic.getstoryState());
 		Button startButton = new Button("Start");
 		startButton.setOnMouseClicked(e -> {
 			letStart();
